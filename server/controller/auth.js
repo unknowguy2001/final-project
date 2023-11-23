@@ -4,16 +4,9 @@ const cookieConfig = require("../config/cookie");
 
 const login = async (req, res) => {
   const { username, password } = req.body;
-  const accessToken = jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "15m",
-  });
-  const refreshToken = jwt.sign(
-    { username },
-    process.env.REFRESH_TOKEN_SECRET,
-    {
-      expiresIn: "1d",
-    }
-  );
+  const payload = { username };
+  const accessToken = generateToken(payload, "access");
+  const refreshToken = generateToken(payload, "refresh");
   res.cookie("accessToken", accessToken, cookieConfig);
   res.cookie("refreshToken", refreshToken, cookieConfig);
   const response = {
