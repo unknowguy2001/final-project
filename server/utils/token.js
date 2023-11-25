@@ -1,5 +1,14 @@
 const jwt = require("jsonwebtoken");
 
+const verifyToken = (token, tokenType) => {
+  const secret =
+    tokenType === "access"
+      ? process.env.JWT_ACCESS_TOKEN_SECRET
+      : process.env.JWT_REFRESH_TOKEN_SECRET;
+  const payload = jwt.verify(token, secret);
+  return payload;
+};
+
 const generateToken = (payload, tokenType) => {
   const secret =
     tokenType === "access"
@@ -12,5 +21,6 @@ const generateToken = (payload, tokenType) => {
 };
 
 module.exports = {
+  verifyToken,
   generateToken,
 };

@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import axiosInstance from "../axiosInstance";
-import { LoginRequest } from "../interfaces/auth";
 import { BaseResponse } from "../interfaces/api";
+import { LoginRequest } from "../interfaces/auth";
 
 export const useAuth = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
