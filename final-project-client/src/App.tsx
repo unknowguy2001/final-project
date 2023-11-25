@@ -1,3 +1,4 @@
+import { Toaster } from "sonner";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <ChakraProvider theme={theme}>
+      <Toaster richColors />
       <RouterProvider router={router} />
     </ChakraProvider>
   );

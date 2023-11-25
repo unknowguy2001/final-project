@@ -16,11 +16,12 @@ import {
 import { ChangeEvent, useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link as ReactRouterLink } from "react-router-dom";
+
 import { useAuth } from "../hooks/useAuth";
 import { LoginRequest } from "../interfaces/auth";
 
 const Login = () => {
-  const { login } = useAuth();
+  const { isAuthenticating, login } = useAuth();
 
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
     username: "",
@@ -37,8 +38,8 @@ const Login = () => {
   const visibilityIcon =
     passwordType === "password" ? <ViewIcon /> : <ViewOffIcon />;
 
-  const handleLoginClick = async () => {
-    await login(loginRequest);
+  const handleLoginClick = () => {
+    login(loginRequest);
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +74,7 @@ const Login = () => {
                 position="absolute"
                 right={4}
                 top="50%"
+                zIndex={1}
                 transform="translateY(-50%)"
                 cursor="pointer"
                 onClick={switchPasswordType}
@@ -83,7 +85,9 @@ const Login = () => {
             <Box>
               <Checkbox>Remember me</Checkbox>
             </Box>
-            <Button onClick={handleLoginClick}>Log in</Button>
+            <Button isLoading={isAuthenticating} onClick={handleLoginClick}>
+              Log in
+            </Button>
           </Stack>
         </CardBody>
         <CardFooter justifyContent="center">

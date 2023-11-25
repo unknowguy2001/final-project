@@ -9,12 +9,11 @@ export const useAuth = () => {
 
   const login = async (loginRequest: LoginRequest) => {
     setIsAuthenticating(true);
-    const response = await axiosInstance.post<BaseResponse>(
-      "/auth/login",
-      loginRequest
-    );
-    setIsAuthenticating(false);
-    return response;
+    try {
+      await axiosInstance.post<BaseResponse>("/auth/login", loginRequest);
+    } finally {
+      setIsAuthenticating(false);
+    }
   };
 
   return {
