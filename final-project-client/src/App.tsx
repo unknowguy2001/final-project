@@ -6,15 +6,21 @@ import theme from "./theme";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />,
-  },
-  {
     path: "/login",
     element: <Login />,
+  },
+  {
+    element: <ProtectedRoutes />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+    ],
   },
 ]);
 

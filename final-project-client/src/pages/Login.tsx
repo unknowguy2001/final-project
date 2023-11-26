@@ -15,12 +15,13 @@ import {
 } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../hooks/useAuth";
 import { LoginRequest } from "../interfaces/auth";
 
 const Login = () => {
+  const navigate = useNavigate();
   const { isAuthenticating, login } = useAuth();
 
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
@@ -38,8 +39,9 @@ const Login = () => {
   const visibilityIcon =
     passwordType === "password" ? <ViewIcon /> : <ViewOffIcon />;
 
-  const handleLoginClick = () => {
-    login(loginRequest);
+  const handleLoginClick = async () => {
+    await login(loginRequest);
+    navigate("/");
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

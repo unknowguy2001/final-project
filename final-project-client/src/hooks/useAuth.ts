@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 import axiosInstance from "../axiosInstance";
-import { BaseResponse } from "../interfaces/api";
-import { LoginRequest } from "../interfaces/auth";
+import { AuthStatusResponse, LoginRequest } from "../interfaces/auth";
 
 export const useAuth = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -10,14 +9,22 @@ export const useAuth = () => {
   const login = async (loginRequest: LoginRequest) => {
     setIsAuthenticating(true);
     try {
-      await axiosInstance.post<BaseResponse>("/auth/login", loginRequest);
+      await axiosInstance.post("/auth/login", loginRequest);
     } finally {
       setIsAuthenticating(false);
     }
   };
 
+  const checkAuthStatus = async () => {
+    const response = await axiosInstance.get<AuthStatusResponse>(
+      "/auth/status"
+    );
+    return response;
+  };
+
   return {
-    login,
     isAuthenticating,
+    login,
+    checkAuthStatus,
   };
 };

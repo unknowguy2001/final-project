@@ -28,10 +28,9 @@ const login = async (req, res) => {
   );
   const loginData = await loginDataResponse.json();
   if (loginData.status === "Failed") {
-    const response = {
+    return res.status(400).json({
       message: "Invalid username or password",
-    };
-    return res.status(400).json(response);
+    });
   }
 
   // Generate access token and refresh token
@@ -40,28 +39,25 @@ const login = async (req, res) => {
   const refreshToken = generateToken(payload, "refresh");
   res.cookie("accessToken", accessToken, cookieConfig);
   res.cookie("refreshToken", refreshToken, cookieConfig);
-  const response = {
+  res.status(200).json({
     message: "Login successful",
-  };
-  res.status(200).json(response);
+  });
 };
 
 const logout = async (req, res) => {
   res.clearCookie("accessToken");
   res.clearCookie("refreshToken");
-  const response = {
+  res.status(200).json({
     message: "Logout successful",
-  };
-  res.status(200).json(response);
+  });
 };
 
 const refresh = async (req, res) => {
   const refreshToken = req.signedCookies.refreshToken;
   if (!refreshToken) {
-    const response = {
+    return res.status(400).json({
       message: "Refresh token not found",
-    };
-    return res.status(400).json(response);
+    });
   }
 
   // Check if refresh token is valid
@@ -69,10 +65,9 @@ const refresh = async (req, res) => {
   try {
     payload = verifyToken(refreshToken, "refresh");
   } catch (error) {
-    const response = {
+    return res.status(400).json({
       message: "Invalid refresh token",
-    };
-    return res.status(400).json(response);
+    });
   }
 
   // Generate new access token
@@ -81,21 +76,22 @@ const refresh = async (req, res) => {
   const newRefreshToken = generateToken(newPayload, "refresh");
   res.cookie("accessToken", newAccessToken, cookieConfig);
   res.cookie("refreshToken", newRefreshToken, cookieConfig);
-  const response = {
+  res.status(200).json({
     message: "Refresh successful",
-  };
-  res.status(200).json(response);
+  });
 };
 
-const getStatus = async (req, res) => {
+const checkAuthStatus = async (req, res) => {
   const accessToken = req.signedCookies.accessToken;
   try {
-    const response = {
-      isAuthenticated: accessToken && verifyToken(accessToken, "access"),
-    };
-    res.status(200).json(response);
+    verifyToken(accessToken, "access");
+    res.status(200).json({
+      isAuthenticated: true,
+    });
   } catch (error) {
-    console.log(error);
+    res.status(200).json({
+      isAuthenticated: false,
+    });
   }
 };
 
@@ -103,5 +99,5 @@ module.exports = {
   login,
   logout,
   refresh,
-  getStatus,
+  checkAuthStatus,
 };

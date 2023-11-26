@@ -1,6 +1,8 @@
 import axios from "axios";
 import { toast } from "sonner";
 
+import { hasMessageProperty } from "./utils/responseUtils";
+
 const instance = axios.create({
   baseURL: "http://localhost:3001",
   headers: {
@@ -11,7 +13,7 @@ const instance = axios.create({
 
 instance.interceptors.response.use(
   (response) => {
-    if (response.data?.message) {
+    if (hasMessageProperty(response.data) && response.data.message) {
       toast.success(response.data.message);
     }
     return response;
