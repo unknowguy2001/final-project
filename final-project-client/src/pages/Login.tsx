@@ -5,14 +5,13 @@ import {
   Text,
   Input,
   Button,
-  Stack,
   CardBody,
   Center,
   Box,
   CardFooter,
   Link,
 } from "@chakra-ui/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link as ReactRouterLink } from "react-router-dom";
 
@@ -39,7 +38,8 @@ const Login = () => {
   const visibilityIcon =
     passwordType === "password" ? <ViewIcon /> : <ViewOffIcon />;
 
-  const handleLoginClick = async () => {
+  const handleFormSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
     try {
       setIsAuthenticating(true);
       const response = await axiosInstance.post<ILoginResponse>(
@@ -72,8 +72,15 @@ const Login = () => {
           <Text fontSize="sm">Explore internships and part-time jobs</Text>
         </CardHeader>
         <CardBody p={0}>
-          <Stack spacing="4">
+          <Box
+            as="form"
+            onSubmit={handleFormSubmit}
+            display="flex"
+            flexDirection="column"
+            gap={4}
+          >
             <Input
+              id="username"
               onChange={handleInputChange}
               value={loginRequest.username}
               name="username"
@@ -81,6 +88,7 @@ const Login = () => {
             />
             <Box position="relative">
               <Input
+                id="password"
                 onChange={handleInputChange}
                 value={loginRequest.password}
                 name="password"
@@ -99,10 +107,10 @@ const Login = () => {
                 {visibilityIcon}
               </Box>
             </Box>
-            <Button isLoading={isAuthenticating} onClick={handleLoginClick}>
+            <Button type="submit" isLoading={isAuthenticating}>
               Login
             </Button>
-          </Stack>
+          </Box>
         </CardBody>
         <CardFooter p={0} justifyContent="center">
           <Text fontSize="sm">
