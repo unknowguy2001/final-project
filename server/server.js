@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 
-const authRoutes = require("./routes/auth");
+const authRouter = require("./routes/auth");
 
 dotenv.config();
 const app = express();
@@ -17,7 +17,7 @@ app.use(
 );
 app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
 
-app.use("/auth", authRoutes);
+app.use("/auth", authRouter);
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
