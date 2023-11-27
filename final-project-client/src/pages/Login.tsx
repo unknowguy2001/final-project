@@ -47,11 +47,7 @@ const Login = () => {
         "/auth/login",
         loginRequest
       );
-      const { isAuthenticated, user } = response.data;
-      setAuthInfo({
-        isAuthenticated,
-        user,
-      });
+      setAuthInfo(response.data);
     } catch (error) {
       console.log(error);
     } finally {

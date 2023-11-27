@@ -22,11 +22,7 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
       const response = await axiosInstance.get<IAuthInfo>("/auth/info", {
         signal: controller.signal,
       });
-      const { isAuthenticated, user } = response.data;
-      setAuthInfo({
-        isAuthenticated,
-        user,
-      });
+      setAuthInfo(response.data);
       setIsFetchingAuthInfo(false);
     };
     handleGetAuthInfo();

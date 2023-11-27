@@ -8,6 +8,8 @@ const login = async (req, res) => {
   if (!username || !password) {
     return res.status(400).json({
       message: "Invalid username or password",
+      isAuthenticated: false,
+      user: null,
     });
   }
 
@@ -29,6 +31,8 @@ const login = async (req, res) => {
   if (loginData.status === "Failed") {
     return res.status(400).json({
       message: "Invalid username or password",
+      isAuthenticated: false,
+      user: null,
     });
   }
 
@@ -43,6 +47,7 @@ const login = async (req, res) => {
   const verifiedPayload = verifyToken(accessToken, "access");
   res.status(200).json({
     message: "Login successful",
+    isAuthenticated: true,
     user: verifiedPayload,
   });
 };
