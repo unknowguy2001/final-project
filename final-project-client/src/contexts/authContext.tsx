@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
   }, []);
 
   const value: IAuthContext = {
-    ...authInfo,
+    authInfo,
     setAuthInfo,
     isFetchingAuthInfo,
   };

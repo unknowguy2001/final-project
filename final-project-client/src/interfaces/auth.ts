@@ -1,6 +1,5 @@
 export interface IAuthContext {
-  isAuthenticated: boolean;
-  user: IUser | null;
+  authInfo: IAuthInfo;
   setAuthInfo: React.Dispatch<React.SetStateAction<IAuthInfo>>;
   isFetchingAuthInfo: boolean;
 }

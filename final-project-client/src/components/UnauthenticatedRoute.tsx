@@ -5,15 +5,15 @@ import { useAuth } from "../contexts/authContext";
 
 const UnauthenticatedGuard = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
-  const { isFetchingAuthInfo, isAuthenticated } = useAuth();
+  const { isFetchingAuthInfo, authInfo } = useAuth();
 
   useEffect(() => {
-    if (!isFetchingAuthInfo && isAuthenticated) {
+    if (!isFetchingAuthInfo && authInfo.isAuthenticated) {
       navigate("/");
     }
-  }, [isFetchingAuthInfo, isAuthenticated, navigate]);
+  }, [isFetchingAuthInfo, authInfo, navigate]);
 
-  return !isFetchingAuthInfo && !isAuthenticated ? children : null;
+  return !isFetchingAuthInfo && !authInfo.isAuthenticated ? children : null;
 };
 
 export default UnauthenticatedGuard;
