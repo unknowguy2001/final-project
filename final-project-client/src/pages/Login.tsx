@@ -61,13 +61,18 @@ const Login = () => {
   };
 
   return (
-    <Center height="100%">
-      <Card maxWidth="350px" width="100%">
-        <CardHeader textAlign="center">
-          <Heading mb={4}>Log in</Heading>
-          <Text>Explore internships and part-time jobs</Text>
+    <Center
+      background="radial-gradient(50% 50% at 50% 50%, rgba(77, 0, 255, 0.25) 0.01%, rgba(255, 255, 255, 0.25) 100%), #FFF"
+      height="100%"
+    >
+      <Card gap={8} borderRadius={16} padding={8} maxWidth="350px" width="100%">
+        <CardHeader p={0} textAlign="center">
+          <Heading fontSize="4xl" mb={4}>
+            Login
+          </Heading>
+          <Text fontSize="sm">Explore internships and part-time jobs</Text>
         </CardHeader>
-        <CardBody>
+        <CardBody p={0}>
           <Stack spacing="4">
             <Input
               onChange={handleInputChange}
@@ -96,17 +101,21 @@ const Login = () => {
               </Box>
             </Box>
             <Box>
-              <Checkbox>Remember me</Checkbox>
+              <Checkbox size="sm">Remember me</Checkbox>
             </Box>
             <Button isLoading={isAuthenticating} onClick={handleLoginClick}>
-              Log in
+              Login
             </Button>
           </Stack>
         </CardBody>
-        <CardFooter justifyContent="center">
-          <Text>
+        <CardFooter p={0} justifyContent="center">
+          <Text fontSize="sm">
             Log in with{" "}
-            <Link to="https://www.rmutp.ac.th/passport" as={ReactRouterLink}>
+            <Link
+              isExternal
+              to="https://www.rmutp.ac.th/passport"
+              as={ReactRouterLink}
+            >
               RMUTP Passport
             </Link>
           </Text>
