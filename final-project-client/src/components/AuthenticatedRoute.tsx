@@ -8,7 +8,7 @@ const AuthenticatedRoute = ({ children }: { children: ReactNode }) => {
   const { isFetchingAuthInfo, authInfo } = useAuth();
 
   useEffect(() => {
-    if (!isFetchingAuthInfo && !authInfo) {
+    if (!isFetchingAuthInfo && !authInfo.isAuthenticated) {
       navigate("/login");
     }
   }, [isFetchingAuthInfo, authInfo, navigate]);
