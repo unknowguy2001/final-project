@@ -3,32 +3,38 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import theme from "./theme";
-
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import ProtectedRoutes from "./components/ProtectedRoutes";
+import { AuthProvider } from "./contexts/authContext";
+import AuthenticatedRoute from "./components/AuthenticatedRoute";
+import UnauthenticatedGuard from "./components/UnauthenticatedRoute";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <UnauthenticatedGuard>
+        <Login />
+      </UnauthenticatedGuard>
+    ),
   },
   {
-    element: <ProtectedRoutes />,
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-    ],
+    path: "/",
+    element: (
+      <AuthenticatedRoute>
+        <Home />
+      </AuthenticatedRoute>
+    ),
   },
 ]);
 
 const App = () => {
   return (
     <ChakraProvider theme={theme}>
-      <Toaster richColors />
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <Toaster richColors />
+        <RouterProvider router={router} />
+      </AuthProvider>
     </ChakraProvider>
   );
 };

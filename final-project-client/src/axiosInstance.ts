@@ -13,12 +13,15 @@ const instance = axios.create({
 
 instance.interceptors.response.use(
   (response) => {
-    if (hasMessageProperty(response.data) && response.data.message) {
+    if (hasMessageProperty(response.data)) {
       toast.success(response.data.message);
     }
     return response;
   },
   (error) => {
+    if (error.code === "ERR_CANCELED") {
+      return Promise.reject(error);
+    }
     const { status, data } = error.response;
     if (status === 400) {
       toast.error(data.message);

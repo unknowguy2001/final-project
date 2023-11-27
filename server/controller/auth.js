@@ -6,10 +6,9 @@ const login = async (req, res) => {
 
   // Check if username and password are provided
   if (!username || !password) {
-    const response = {
+    return res.status(400).json({
       message: "Invalid username or password",
-    };
-    return res.status(400).json(response);
+    });
   }
 
   // Check if username and password are valid
@@ -33,14 +32,18 @@ const login = async (req, res) => {
     });
   }
 
-  // Generate access token and refresh token
+  // Generate access token and refresh token and send them to client
   const payload = { username };
   const accessToken = generateToken(payload, "access");
   const refreshToken = generateToken(payload, "refresh");
   res.cookie("accessToken", accessToken, cookieConfig);
   res.cookie("refreshToken", refreshToken, cookieConfig);
+
+  // Send user info to client
+  const verifiedPayload = verifyToken(accessToken, "access");
   res.status(200).json({
     message: "Login successful",
+    user: verifiedPayload,
   });
 };
 
@@ -81,16 +84,18 @@ const refresh = async (req, res) => {
   });
 };
 
-const checkAuthStatus = async (req, res) => {
+const getAuthInfo = (req, res) => {
   const accessToken = req.signedCookies.accessToken;
   try {
-    verifyToken(accessToken, "access");
+    const payload = verifyToken(accessToken, "access");
     res.status(200).json({
       isAuthenticated: true,
+      user: payload,
     });
   } catch (error) {
     res.status(200).json({
       isAuthenticated: false,
+      user: null,
     });
   }
 };
@@ -99,5 +104,5 @@ module.exports = {
   login,
   logout,
   refresh,
-  checkAuthStatus,
+  getAuthInfo,
 };

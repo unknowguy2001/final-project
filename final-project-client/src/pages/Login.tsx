@@ -15,16 +15,17 @@ import {
 } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
+import { Link as ReactRouterLink } from "react-router-dom";
 
-import { useAuth } from "../hooks/useAuth";
-import { LoginRequest } from "../interfaces/auth";
+import axiosInstance from "../axiosInstance";
+import { IAuthInfo, ILoginRequest } from "../interfaces/auth";
+import { useAuth } from "../contexts/authContext";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { isAuthenticating, login } = useAuth();
+  const { setAuthInfo } = useAuth();
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
-  const [loginRequest, setLoginRequest] = useState<LoginRequest>({
+  const [loginRequest, setLoginRequest] = useState<ILoginRequest>({
     username: "",
     password: "",
   });
@@ -40,8 +41,22 @@ const Login = () => {
     passwordType === "password" ? <ViewIcon /> : <ViewOffIcon />;
 
   const handleLoginClick = async () => {
-    await login(loginRequest);
-    navigate("/");
+    try {
+      setIsAuthenticating(true);
+      const response = await axiosInstance.post<IAuthInfo>(
+        "/auth/login",
+        loginRequest
+      );
+      const { isAuthenticated, user } = response.data;
+      setAuthInfo({
+        isAuthenticated,
+        user,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsAuthenticating(false);
+    }
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
