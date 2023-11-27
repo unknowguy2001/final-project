@@ -17,7 +17,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link as ReactRouterLink } from "react-router-dom";
 
 import axiosInstance from "../axiosInstance";
-import { IAuthInfo, ILoginRequest } from "../interfaces/auth";
+import { ILoginRequest, ILoginResponse } from "../interfaces/auth";
 import { useAuth } from "../contexts/authContext";
 
 const Login = () => {
@@ -42,11 +42,11 @@ const Login = () => {
   const handleLoginClick = async () => {
     try {
       setIsAuthenticating(true);
-      const response = await axiosInstance.post<IAuthInfo>(
+      const response = await axiosInstance.post<ILoginResponse>(
         "/auth/login",
         loginRequest
       );
-      setAuthInfo(response.data);
+      setAuthInfo(response.data.authInfo);
     } catch (error) {
       console.log(error);
     } finally {

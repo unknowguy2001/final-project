@@ -18,6 +18,10 @@ export interface ILoginRequest {
   password: string;
 }
 
+export interface ILoginResponse {
+  authInfo: IAuthInfo;
+}
+
 export interface IUser {
   username: string;
 }
