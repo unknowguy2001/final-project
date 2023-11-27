@@ -8,7 +8,6 @@ import {
   Stack,
   CardBody,
   Center,
-  Checkbox,
   Box,
   CardFooter,
   Link,
@@ -99,9 +98,6 @@ const Login = () => {
               >
                 {visibilityIcon}
               </Box>
-            </Box>
-            <Box>
-              <Checkbox size="sm">Remember me</Checkbox>
             </Box>
             <Button isLoading={isAuthenticating} onClick={handleLoginClick}>
               Login
