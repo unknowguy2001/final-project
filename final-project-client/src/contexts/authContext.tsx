@@ -19,11 +19,15 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
   useEffect(() => {
     const controller = new AbortController();
     const handleGetAuthInfo = async () => {
-      const response = await axiosInstance.get<IAuthInfo>("/auth/info", {
-        signal: controller.signal,
-      });
-      setAuthInfo(response.data);
-      setIsFetchingAuthInfo(false);
+      try {
+        const response = await axiosInstance.get<IAuthInfo>("/auth/info", {
+          signal: controller.signal,
+        });
+        setAuthInfo(response.data);
+        setIsFetchingAuthInfo(false);
+      } catch (error) {
+        console.log(error);
+      }
     };
     handleGetAuthInfo();
     return () => controller.abort();

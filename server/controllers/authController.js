@@ -90,13 +90,19 @@ const refresh = async (req, res) => {
   const newRefreshToken = generateToken(newPayload, "refresh");
   res.cookie("accessToken", newAccessToken, cookieConfig);
   res.cookie("refreshToken", newRefreshToken, cookieConfig);
-  res.status(200).json({
-    message: "Refresh successful",
-  });
+  res.status(200).json();
 };
 
 const getAuthInfo = (req, res) => {
   const accessToken = req.signedCookies.accessToken;
+
+  if (!accessToken) {
+    return res.status(400).json({
+      isAuthenticated: false,
+      user: null,
+    });
+  }
+
   try {
     const payload = verifyToken(accessToken, "access");
     res.status(200).json({
@@ -104,7 +110,7 @@ const getAuthInfo = (req, res) => {
       user: payload,
     });
   } catch (error) {
-    res.status(200).json({
+    res.status(401).json({
       isAuthenticated: false,
       user: null,
     });

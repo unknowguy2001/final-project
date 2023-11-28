@@ -18,14 +18,20 @@ instance.interceptors.response.use(
     }
     return response;
   },
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+
     if (error.code === "ERR_CANCELED") {
       return Promise.reject(error);
     }
     const { status, data } = error.response;
     if (status === 400) {
       toast.error(data.message);
+    } else if (status === 401) {
+      await instance.post("/auth/refresh");
+      return instance(originalRequest);
     }
+
     return Promise.reject(error);
   }
 );
