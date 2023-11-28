@@ -97,7 +97,7 @@ const getAuthInfo = (req, res) => {
   const accessToken = req.signedCookies.accessToken;
 
   if (!accessToken) {
-    return res.status(400).json({
+    return res.status(200).json({
       isAuthenticated: false,
       user: null,
     });
