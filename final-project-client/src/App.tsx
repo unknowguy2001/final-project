@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import theme from "./theme";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Companies from "./pages/Companies";
 import { AuthProvider } from "./contexts/authContext";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import UnauthenticatedGuard from "./components/UnauthenticatedRoute";
@@ -23,6 +24,14 @@ const router = createBrowserRouter([
     element: (
       <AuthenticatedRoute>
         <Home />
+      </AuthenticatedRoute>
+    ),
+  },
+  {
+    path: "/companies",
+    element: (
+      <AuthenticatedRoute>
+        <Companies />
       </AuthenticatedRoute>
     ),
   },

@@ -115,11 +115,7 @@ const Login = () => {
         <CardFooter p={0} justifyContent="center">
           <Text fontSize="sm">
             Log in with{" "}
-            <Link
-              isExternal
-              to="https://www.rmutp.ac.th/passport"
-              as={ReactRouterLink}
-            >
+            <Link to="https://www.rmutp.ac.th/passport" as={ReactRouterLink}>
               RMUTP Passport
             </Link>
           </Text>
