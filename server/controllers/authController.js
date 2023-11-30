@@ -48,12 +48,14 @@ const login = async (req, res) => {
   res.cookie("refreshToken", refreshToken, cookieConfig);
 
   // Send user info to client
-  const verifiedPayload = verifyToken(accessToken, "access");
   res.status(200).json({
     message: "Login successful",
     authInfo: {
       isAuthenticated: true,
-      user: verifiedPayload,
+      user: {
+        username: loginData.data.STUDENTCODE,
+        fullnameEng: loginData.data.STUDENTFULLNAMEENG,
+      },
     },
   });
 };

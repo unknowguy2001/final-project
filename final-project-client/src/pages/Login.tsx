@@ -11,13 +11,13 @@ import {
   CardFooter,
   Link,
 } from "@chakra-ui/react";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 import { Link as ReactRouterLink } from "react-router-dom";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 
 import axiosInstance from "../axiosInstance";
-import { ILoginRequest, ILoginResponse } from "../interfaces/auth";
 import { useAuth } from "../contexts/authContext";
+import { ILoginRequest, ILoginResponse } from "../interfaces/auth";
 
 const Login = () => {
   const { setAuthInfo } = useAuth();
@@ -35,8 +35,7 @@ const Login = () => {
     setPasswordType((prev) => (prev === "password" ? "text" : "password"));
   };
 
-  const visibilityIcon =
-    passwordType === "password" ? <ViewIcon /> : <ViewOffIcon />;
+  const visibilityIcon = passwordType === "password" ? <LuEye /> : <LuEyeOff />;
 
   const handleFormSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -69,7 +68,7 @@ const Login = () => {
           <Heading fontSize="4xl" mb={4}>
             Login
           </Heading>
-          <Text fontSize="sm">Explore internships and part-time jobs</Text>
+          <Text fontSize="sm">Discover your ideal internship destination</Text>
         </CardHeader>
         <CardBody p={0}>
           <Box
@@ -84,6 +83,7 @@ const Login = () => {
               onChange={handleInputChange}
               value={loginRequest.username}
               name="username"
+              required
               placeholder="Username"
             />
             <Box position="relative">
@@ -92,6 +92,7 @@ const Login = () => {
                 onChange={handleInputChange}
                 value={loginRequest.password}
                 name="password"
+                required
                 type={passwordType}
                 placeholder="Password"
               />
@@ -114,7 +115,7 @@ const Login = () => {
         </CardBody>
         <CardFooter p={0} justifyContent="center">
           <Text fontSize="sm">
-            Log in with{" "}
+            Login with{" "}
             <Link to="https://www.rmutp.ac.th/passport" as={ReactRouterLink}>
               RMUTP Passport
             </Link>

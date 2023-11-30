@@ -1,8 +1,29 @@
+import {
+  Avatar,
+  Container,
+  Flex,
+  Link,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
-import { Button, Container, Flex, Link } from "@chakra-ui/react";
+import { LuLogOut, LuChevronDown } from "react-icons/lu";
 
 import axiosInstance from "../axiosInstance";
 import { useAuth } from "../contexts/authContext";
+
+const menues = [
+  {
+    label: "Home",
+    url: "/",
+  },
+  {
+    label: "Companies",
+    url: "/companies",
+  },
+];
 
 const Navbar = () => {
   const { authInfo, setAuthInfo } = useAuth();
@@ -27,31 +48,34 @@ const Navbar = () => {
       justifyContent="space-between"
     >
       <Flex gap={4}>
-        <Link
-          _activeLink={{
-            color: "black",
-          }}
-          color="gray.500"
-          as={NavLink}
-          to="/"
-        >
-          Home
-        </Link>
-        <Link
-          _activeLink={{
-            color: "black",
-          }}
-          color="gray.500"
-          as={NavLink}
-          to="/companies"
-        >
-          Companies
-        </Link>
+        {menues.map((menu) => (
+          <Link
+            key={menu.label + menu.url}
+            _activeLink={{
+              color: "black",
+            }}
+            color="gray.500"
+            as={NavLink}
+            to={menu.url}
+          >
+            {menu.label}
+          </Link>
+        ))}
       </Flex>
-      <Flex gap={4} alignItems="center">
-        Hi, {authInfo.user?.username}
-        <Button onClick={handleLogoutClick}>Logout</Button>
-      </Flex>
+      <Menu>
+        <MenuButton>
+          <Flex fontWeight="500" fontSize="sm" gap={2} alignItems="center">
+            <Avatar size="sm" name={authInfo.user?.username} />
+            {authInfo.user?.username}
+            <LuChevronDown size={16} />
+          </Flex>
+        </MenuButton>
+        <MenuList>
+          <MenuItem onClick={handleLogoutClick} icon={<LuLogOut size={16} />}>
+            Logout
+          </MenuItem>
+        </MenuList>
+      </Menu>
     </Container>
   );
 };

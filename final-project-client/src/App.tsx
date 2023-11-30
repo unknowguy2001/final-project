@@ -5,35 +5,40 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import theme from "./theme";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Company from "./pages/Company";
 import Companies from "./pages/Companies";
+import AuthLayout from "./layouts/AuthLayout";
+import UserLayout from "./layouts/userLayout";
 import { AuthProvider } from "./contexts/authContext";
-import AuthenticatedRoute from "./components/AuthenticatedRoute";
-import UnauthenticatedGuard from "./components/UnauthenticatedRoute";
 
 const router = createBrowserRouter([
   {
-    path: "/login",
-    element: (
-      <UnauthenticatedGuard>
-        <Login />
-      </UnauthenticatedGuard>
-    ),
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+    ],
   },
   {
     path: "/",
-    element: (
-      <AuthenticatedRoute>
-        <Home />
-      </AuthenticatedRoute>
-    ),
-  },
-  {
-    path: "/companies",
-    element: (
-      <AuthenticatedRoute>
-        <Companies />
-      </AuthenticatedRoute>
-    ),
+    element: <UserLayout />,
+    children: [
+      {
+        path: "",
+        element: <Home />,
+      },
+      {
+        path: "companies",
+        element: <Companies />,
+      },
+      {
+        path: "companies/:companyId",
+        element: <Company />,
+      },
+    ],
   },
 ]);
 
