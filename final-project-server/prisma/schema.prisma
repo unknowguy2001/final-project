@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id            Int      @id @default(autoincrement())
+  name          String
+  typeId        Int?
+  workModelId   Int?
+  address       String
+  road          String
+  village       String
+  district      String
+  province      String
+  zipcode       String
+  telephone     String
+  reviews       Review[]
+  averageRating Float    @default(0)
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  companyId Int
+  company   Company  @relation(fields: [companyId], references: [id])
+  reviewer  String
+  review    String
+  rating    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

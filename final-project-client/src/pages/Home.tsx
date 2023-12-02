@@ -3,8 +3,13 @@ import { Box, Container, Flex, Grid, GridItem, Link } from "@chakra-ui/react";
 
 import Hero from "../components/Hero";
 import CompanyCard from "../components/CompanyCard";
+import usePopularCompanies from "../hooks/usePopularCompanies";
 
 const Home = () => {
+  const { top4PopularCompanies } = usePopularCompanies();
+
+  const [company1, company2, company3, company4] = top4PopularCompanies;
+
   return (
     <>
       <Hero />
@@ -28,16 +33,16 @@ const Home = () => {
             gap={4}
           >
             <GridItem gridArea="1 / 1 / 4 / 4">
-              <CompanyCard company={{ id: 1 }} />
+              <CompanyCard company={company1} />
             </GridItem>
             <GridItem gridArea="1 / 4 / 4 / 6">
-              <CompanyCard company={{ id: 2 }} />
+              <CompanyCard company={company2} />
             </GridItem>
             <GridItem gridArea="4 / 1 / 7 / 3">
-              <CompanyCard company={{ id: 3 }} />
+              <CompanyCard company={company3} />
             </GridItem>
             <GridItem gridArea="4 / 3 / 7 / 6">
-              <CompanyCard company={{ id: 4 }} />
+              <CompanyCard company={company4} />
             </GridItem>
           </Grid>
         </Container>

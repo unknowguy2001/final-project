@@ -10,6 +10,7 @@ import Companies from "./pages/Companies";
 import AuthLayout from "./layouts/AuthLayout";
 import UserLayout from "./layouts/userLayout";
 import { AuthProvider } from "./contexts/authContext";
+import Forum from "./pages/Forum";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "companies/:companyId",
         element: <Company />,
+      },
+      {
+        path: "forum",
+        element: <Forum />,
       },
     ],
   },

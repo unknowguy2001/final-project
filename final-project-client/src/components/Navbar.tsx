@@ -23,6 +23,10 @@ const menues = [
     label: "Companies",
     url: "/companies",
   },
+  {
+    label: "Forum",
+    url: "/forum",
+  },
 ];
 
 const Navbar = () => {

@@ -4,6 +4,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 
 const authRouter = require("./routes/auth");
+const companiesRouter = require("./routes/companies");
 
 dotenv.config();
 const app = express();
@@ -18,8 +19,9 @@ app.use(
 app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
 
 app.use("/auth", authRouter);
+app.use("/companies", companiesRouter);
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });

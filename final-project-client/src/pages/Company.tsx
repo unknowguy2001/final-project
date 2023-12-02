@@ -1,4 +1,4 @@
-import { Box, Container, Image } from "@chakra-ui/react";
+import { Text, Container, Heading, Image } from "@chakra-ui/react";
 
 const Company = () => {
   return (
@@ -14,9 +14,13 @@ const Company = () => {
           }
           borderRadius="md"
         />
-        <Box mt={4} as="h2" fontSize="3xl" fontWeight="bold" marginBottom={4}>
-          Company
-        </Box>
+        <Heading mt={4} as="h1" size="md" marginBottom={2}>
+          MFEC Public Company Limited Limited Limited Limited Limited Limited
+        </Heading>
+        <Text>
+          349 SJ Infinite One Business Complex, Vibhavadi Rangsit Rd, Chompol,
+          Chatuchak, Bangkok 10900
+        </Text>
       </Container>
     </div>
   );
