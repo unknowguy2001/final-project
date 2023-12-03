@@ -182,7 +182,21 @@ const updateCompany = async (req, res) => {
   res.status(200).json({ message: "Updated compnay!" });
 };
 
-const deleteCompany = (req, res) => {};
+const deleteCompany = async (req, res) => {
+  if (isNaN(Number(req.params.id))) {
+    return res.status(400).json({ message: "ID is empty or incorrect ID!" });
+  }
+
+  const result = await prisma.company.delete({
+    where: { id: Number(req.params.id) },
+  });
+
+  if (!result) {
+    return res.status(400).json({ message: "Can't delete company!" });
+  }
+
+  res.status(200).json({ message: "Deleted company!" });
+};
 
 module.exports = {
   getTop4Popular,
@@ -190,4 +204,5 @@ module.exports = {
   addCompany,
   getAllCompany,
   updateCompany,
+  deleteCompany,
 };

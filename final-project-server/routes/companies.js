@@ -6,6 +6,7 @@ const {
   addCompany,
   getAllCompany,
   updateCompany,
+  deleteCompany,
 } = require("../controllers/companiesController");
 
 const router = express.Router();
@@ -15,4 +16,6 @@ router.get("/:id", getCompanyById);
 router.post("", addCompany);
 router.get("", getAllCompany);
 router.patch("/:id", updateCompany);
+router.delete("/:id", deleteCompany);
+
 module.exports = router;
