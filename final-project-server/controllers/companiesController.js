@@ -159,7 +159,7 @@ const updateCompany = async (req, res) => {
 
   const result = await prisma.company.update({
     where: {
-      id: req.params.id,
+      id: parseInt(req.params.id),
     },
     data: {
       name: updatedCompany.name,
@@ -181,6 +181,8 @@ const updateCompany = async (req, res) => {
 
   res.status(200).json({ message: "Updated compnay!" });
 };
+
+const deleteCompany = (req, res) => {};
 
 module.exports = {
   getTop4Popular,
