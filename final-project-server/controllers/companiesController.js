@@ -16,11 +16,25 @@ const getTop4Popular = async (req, res) => {
 
 const getCompanyById = async (req, res) => {
   const { id } = req.params;
+
+  if (isNaN(Number(id))) {
+    return res.status(400).json({
+      error: "id must be a number",
+    });
+  }
+
   const company = await prisma.company.findUnique({
     where: {
       id: Number(id),
     },
   });
+
+  if (!company) {
+    return res.status(404).json({
+      item: null,
+    });
+  }
+
   res.status(200).json({
     item: company,
   });
