@@ -14,23 +14,10 @@ async function main() {
       data.push(row);
     })
     .on("end", async () => {
+      await prisma.company.deleteMany();
       for (const row of data) {
-        await prisma.company.upsert({
-          where: { id: parseInt(row.CompanyID) },
-          update: {
-            name: row.CompanyName,
-            typeId: parseInt(row.CompanyTypeID),
-            workModelId: parseInt(row.CompanyTypeID),
-            address: row.Address === "NULL" ? "" : row.Address,
-            road: row.Road === "NULL" ? "" : row.Road,
-            village: row.Village === "NULL" ? "" : row.Village,
-            district: row.District === "NULL" ? "" : row.District,
-            province: row.Province === "NULL" ? "" : row.Province,
-            zipcode: row.Zipcode === "NULL" ? "" : row.Zipcode,
-            telephone: row.Telephone === "NULL" ? "" : row.Telephone,
-          },
-          create: {
-            id: parseInt(row.CompanyID),
+        await prisma.company.create({
+          data: {
             name: row.CompanyName,
             typeId: parseInt(row.CompanyTypeID),
             workModelId: parseInt(row.CompanyTypeID),
