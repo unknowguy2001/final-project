@@ -6,6 +6,7 @@ const {
   createForum,
   updateForum,
   deleteForum,
+  searchForum,
 } = require("../controllers/forumsController");
 const {
   createReply,
@@ -23,5 +24,6 @@ router.delete("/:id", deleteForum);
 router.post("/:id/replies", createReply);
 router.patch("/:forumId/replies/:id", updateReply);
 router.delete("/:forumId/replies/:id", deleteReply);
+router.post("/search", searchForum);
 
 module.exports = router;
