@@ -91,10 +91,21 @@ const updateForum = async (req, res) => {
   res.status(200).json({ message: "Updated forum!" });
 };
 
+const searchForum = async (req, res) => {
+  const { input } = req.body;
+
+  const forums = await prisma.forum.findMany({
+    where: { OR: [{ title: input }, { description: input }] },
+  });
+
+  res.status(200).json({ items: forums });
+};
+
 module.exports = {
   getAllForum,
   getForumById,
   createForum,
   deleteForum,
   updateForum,
+  searchForum,
 };
