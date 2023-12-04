@@ -13,6 +13,13 @@ const Pagination = ({ totalPages }: PaginationProps) => {
   const isFirstPage = page === 1;
   const isFinalPage = page >= totalPages;
 
+  const handleFirstClick = () => {
+    setSearchParams((params) => {
+      params.set("page", "1");
+      return params;
+    });
+  };
+
   const handlePreviousClick = () => {
     setSearchParams((params) => {
       params.set("page", (page - 1).toString());
@@ -27,8 +34,18 @@ const Pagination = ({ totalPages }: PaginationProps) => {
     });
   };
 
+  const handleLastClick = () => {
+    setSearchParams((params) => {
+      params.set("page", totalPages.toString());
+      return params;
+    });
+  };
+
   return (
     <Flex justifyContent="center" gap={4} alignItems="center">
+      <Button onClick={handleFirstClick} isDisabled={isFirstPage}>
+        First
+      </Button>
       <Button onClick={handlePreviousClick} isDisabled={isFirstPage}>
         Previous
       </Button>
@@ -37,6 +54,9 @@ const Pagination = ({ totalPages }: PaginationProps) => {
       </Text>
       <Button onClick={handleNextClick} isDisabled={isFinalPage}>
         Next
+      </Button>
+      <Button onClick={handleLastClick} isDisabled={isFinalPage}>
+        Last
       </Button>
     </Flex>
   );
