@@ -4,7 +4,8 @@ const Footer = () => {
   return (
     <footer>
       <Container paddingY={8} maxWidth={1024}>
-        Footer
+        {/* final project */}
+        Make with ❤️ by us
       </Container>
     </footer>
   );

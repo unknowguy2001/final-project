@@ -2,15 +2,22 @@ import { Toaster } from "sonner";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+// theme
 import theme from "./theme";
+
+// pages
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Forums from "./pages/Forums";
 import Company from "./pages/Company";
 import Companies from "./pages/Companies";
+
+// layouts
 import AuthLayout from "./layouts/AuthLayout";
-import UserLayout from "./layouts/userLayout";
+import UserLayout from "./layouts/UserLayout";
+
+// contexts
 import { AuthProvider } from "./contexts/authContext";
-import Forum from "./pages/Forum";
 
 const router = createBrowserRouter([
   {
@@ -40,8 +47,8 @@ const router = createBrowserRouter([
         element: <Company />,
       },
       {
-        path: "forum",
-        element: <Forum />,
+        path: "forums",
+        element: <Forums />,
       },
     ],
   },

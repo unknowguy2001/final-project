@@ -24,8 +24,8 @@ const menues = [
     url: "/companies",
   },
   {
-    label: "Forum",
-    url: "/forum",
+    label: "Forums",
+    url: "/forums",
   },
 ];
 

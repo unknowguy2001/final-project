@@ -106,13 +106,72 @@ const addCompany = async (req, res) => {
 };
 
 const getAllCompany = async (req, res) => {
-  const companys = await prisma.company.findMany();
+  const PER_PAGE = 12;
+  const searchTerm = req.query.search || "";
+  const page = Math.max(parseInt(req.query.page) || 1, 1);
 
-  if (!companys) {
-    return res.status(404).json({ message: "NOT FOUND!" });
+  const options = {
+    take: PER_PAGE,
+    skip: (page - 1) * PER_PAGE,
+  };
+  const countOptions = {};
+
+  if (searchTerm) {
+    options.where = {
+      OR: [
+        {
+          name: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        },
+        {
+          address: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        },
+        {
+          road: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        },
+        {
+          village: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        },
+        {
+          district: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        },
+        {
+          province: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        },
+        {
+          zipcode: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        },
+      ],
+    };
+    countOptions.where = options.where;
   }
 
-  res.status(200).json({ data: companys });
+  const [companies, count] = await Promise.all([
+    prisma.company.findMany(options),
+    prisma.company.count(countOptions),
+  ]);
+
+  res.status(200).json({ items: companies, count });
 };
 
 const updateCompany = async (req, res) => {
