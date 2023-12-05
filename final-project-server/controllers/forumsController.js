@@ -92,13 +92,22 @@ const updateForum = async (req, res) => {
 };
 
 const searchForum = async (req, res) => {
-  const { input } = req.body;
+  try {
+    const { input } = req.body;
 
-  const forums = await prisma.forum.findMany({
-    where: { OR: [{ title: input }, { description: input }] },
-  });
+    const forums = await prisma.forum.findMany({
+      where: {
+        OR: [
+          { title: { contains: input } },
+          { description: { contains: input } },
+        ],
+      },
+    });
 
-  res.status(200).json({ items: forums });
+    res.status(200).json({ items: forums });
+  } catch (err) {
+    res.status(500).json({ message: `Error : ${err}` });
+  }
 };
 
 module.exports = {
