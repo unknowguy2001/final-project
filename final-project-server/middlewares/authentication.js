@@ -4,14 +4,14 @@ const authentication = (req, res, next) => {
   if (!req.signedCookies.accessToken) {
     return res.status(401).json({ message: "Unauthorized!" });
   }
-  const isAccessTokenValid = verifyToken(
-    req.signedCookies.accessToken,
-    "access"
-  );
 
-  if (!isAccessTokenValid) {
+  const payload = verifyToken(req.signedCookies.accessToken, "access");
+
+  if (!payload) {
     return res.status(401).json({ message: "Unauthorized!" });
   }
+
+  req.user = payload;
 
   next();
 };
