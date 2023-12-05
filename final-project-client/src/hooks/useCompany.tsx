@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import axiosInstance from "../axiosInstance";
 import { Company } from "./usePopularCompanies";
@@ -6,22 +6,25 @@ import { Company } from "./usePopularCompanies";
 const useCompany = (id: string) => {
   const [company, setCompany] = useState<Company>();
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    const fetchCompany = async () => {
+  const fetchCompany = useCallback(
+    async (signal?: AbortSignal) => {
       const response = await axiosInstance.get(`/companies/${id}`, {
-        signal: abortController.signal,
+        signal,
       });
       setCompany(response.data.item);
-    };
+    },
+    [id]
+  );
 
-    fetchCompany();
-
+  useEffect(() => {
+    const abortController = new AbortController();
+    fetchCompany(abortController.signal);
     return () => abortController.abort();
-  }, [id]);
+  }, [id, fetchCompany]);
 
   return {
     company,
+    fetchCompany,
   };
 };
 export default useCompany;

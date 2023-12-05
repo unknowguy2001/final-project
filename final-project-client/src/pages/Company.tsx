@@ -27,7 +27,7 @@ import useCompany from "../hooks/useCompany";
 
 const Company = () => {
   const { companyId } = useParams<{ companyId: string }>();
-  const { company } = useCompany(companyId!);
+  const { company, fetchCompany } = useCompany(companyId!);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [rating, setRating] = useState(0);
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
@@ -47,6 +47,7 @@ const Company = () => {
     });
     onClose();
     setRating(0);
+    fetchCompany();
   };
 
   return (
