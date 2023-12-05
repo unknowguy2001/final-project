@@ -41,7 +41,7 @@ const login = async (req, res) => {
   }
 
   // Generate access token and refresh token and send them to client
-  const payload = { username };
+  const payload = { username, fullname: loginData.data.STUDENTFULLNAME };
   const accessToken = generateToken(payload, "access");
   const refreshToken = generateToken(payload, "refresh");
   res.cookie("accessToken", accessToken, cookieConfig);
@@ -52,10 +52,7 @@ const login = async (req, res) => {
     message: "Login successful",
     authInfo: {
       isAuthenticated: true,
-      user: {
-        username: loginData.data.STUDENTCODE,
-        fullnameEng: loginData.data.STUDENTFULLNAMEENG,
-      },
+      user: payload,
     },
   });
 };
@@ -87,7 +84,7 @@ const refresh = async (req, res) => {
   }
 
   // Generate new access token
-  const newPayload = { username: payload.username };
+  const newPayload = { username: payload.username, fullname: payload.fullname };
   const newAccessToken = generateToken(newPayload, "access");
   const newRefreshToken = generateToken(newPayload, "refresh");
   res.cookie("accessToken", newAccessToken, cookieConfig);

@@ -17,7 +17,9 @@ const getTop4Popular = async (req, res) => {
 const getCompanyById = async (req, res) => {
   const { id } = req.params;
 
-  if (isNaN(Number(id))) {
+  const companyId = Number(id);
+
+  if (isNaN(companyId)) {
     return res.status(400).json({
       error: "id must be a number",
     });
@@ -25,7 +27,10 @@ const getCompanyById = async (req, res) => {
 
   const company = await prisma.company.findUnique({
     where: {
-      id: Number(id),
+      id: companyId,
+    },
+    include: {
+      reviews: true,
     },
   });
 
@@ -105,7 +110,7 @@ const addCompany = async (req, res) => {
   return res.status(201).json({ message: "Added company!" });
 };
 
-const getAllCompany = async (req, res) => {
+const searchCompanies = async (req, res) => {
   const PER_PAGE = 12;
   const searchTerm = req.query.search || "";
   const page = Math.max(parseInt(req.query.page) || 1, 1);
@@ -257,11 +262,76 @@ const deleteCompany = async (req, res) => {
   res.status(200).json({ message: "Deleted company!" });
 };
 
+const createReview = async (req, res) => {
+  const { rating, description } = req.body;
+  const { companyId } = req.params;
+
+  const parsedCompanyId = parseInt(companyId);
+
+  // Check if companyId is a number
+  if (isNaN(parsedCompanyId)) {
+    return res.status(400).json({
+      message: "companyId must be a number",
+    });
+  }
+
+  // Check if rating is provided
+  if (!rating) {
+    return res.status(400).json({
+      message: "rating is required",
+    });
+  }
+
+  const createdReview = await prisma.review.create({
+    data: {
+      rating,
+      review: description,
+      reviewer: req.user.fullname,
+      companyId: parsedCompanyId,
+    },
+  });
+
+  // Check if review is created
+  if (!createdReview) {
+    return res.status(400).json({
+      message: "Can't create review",
+    });
+  }
+
+  // Calculate average rating
+  const aggregations = await prisma.review.aggregate({
+    _avg: {
+      rating: true,
+    },
+    where: {
+      companyId: parsedCompanyId,
+    },
+  });
+
+  // Round average rating to 1 decimal place
+  const averageRating = Math.round(aggregations._avg.rating * 10) / 10;
+
+  // Update average rating
+  await prisma.company.update({
+    where: {
+      id: parsedCompanyId,
+    },
+    data: {
+      averageRating,
+    },
+  });
+
+  res.status(201).json({
+    message: "Created review",
+  });
+};
+
 module.exports = {
   getTop4Popular,
   getCompanyById,
   addCompany,
-  getAllCompany,
+  searchCompanies,
   updateCompany,
   deleteCompany,
+  createReview,
 };

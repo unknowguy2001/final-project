@@ -45,11 +45,11 @@ const Companies = () => {
               Companies
             </Box>
             <Text>
-              Displaying {companies.length} companie(s) of {count}
+              Displaying {companies.length} item(s) of {count}
             </Text>
           </Flex>
           <Box as="form" position="relative" onSubmit={handleFormSubmit} mt={2}>
-            <Input name="search" placeholder="Search" ref={searchInputRef} />
+            <Input placeholder="Search" ref={searchInputRef} />
             <Box
               position="absolute"
               right={4}

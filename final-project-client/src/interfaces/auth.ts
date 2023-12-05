@@ -24,4 +24,5 @@ export interface ILoginResponse {
 
 export interface IUser {
   username: string;
+  fullname: string;
 }
