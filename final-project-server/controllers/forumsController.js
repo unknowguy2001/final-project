@@ -4,9 +4,35 @@ const prisma = new PrismaClient();
 
 const getAllForum = async (req, res) => {
   try {
-    const forums = await prisma.forum.findMany();
+    const PER_PAGE = 12;
+    const page = Math.max(parseInt(req.query.page) || 1, 1);
+    const searchTerm = req.query.search || "";
+    const options = {
+      take: PER_PAGE,
+      skip: (page - 1) * PER_PAGE,
+    };
+    const countOptions = {};
 
-    res.status(200).json({ items: forums });
+    if (searchTerm) {
+      options.where = {
+        OR: [
+          {
+            title: { contains: searchTerm, mode: "insensitive" },
+          },
+          {
+            description: { contains: searchTerm, mode: "insensitive" },
+          },
+        ],
+      };
+
+      countOptions.where = options.where;
+    }
+    const [forums, count] = await Promise.all([
+      prisma.forum.findMany(options),
+      prisma.forum.count(countOptions),
+    ]);
+
+    res.status(200).json({ items: forums, count });
   } catch (error) {
     res.status(500).json({ message: `Error: ${error.message}` });
   }
@@ -111,30 +137,10 @@ const updateForum = async (req, res) => {
   }
 };
 
-const searchForum = async (req, res) => {
-  try {
-    const { input } = req.body;
-
-    const forums = await prisma.forum.findMany({
-      where: {
-        OR: [
-          { title: { contains: input } },
-          { description: { contains: input } },
-        ],
-      },
-    });
-
-    res.status(200).json({ items: forums });
-  } catch (error) {
-    res.status(500).json({ message: `Error : ${error.message}` });
-  }
-};
-
 module.exports = {
   getAllForum,
   getForumById,
   createForum,
   deleteForum,
   updateForum,
-  searchForum,
 };
