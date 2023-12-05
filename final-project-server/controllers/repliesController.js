@@ -40,7 +40,16 @@ const updateReply = async (req, res) => {
     return res.status(400).json({ message: "Id must be a number" });
   }
 
+  const replyInfo = await prisma.reply.findUnique({
+    where: { id: replyId },
+  });
+
+  if (req.user.username != replyInfo.createdBy) {
+    return res.status(400).json({ message: "This is not your reply!" });
+  }
+
   if (!description) {
+    console.log(description);
     return res.status(400).json({ message: "Fields are must not be empty!" });
   }
 
