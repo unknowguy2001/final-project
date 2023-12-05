@@ -98,6 +98,12 @@ const deleteForum = async (req, res) => {
     }
     const forumInfo = await prisma.forum.findUnique({ where: { id: forumId } });
 
+    if (!forumInfo) {
+      return res
+        .status(400)
+        .json({ message: `This forum doesn't really exist!` });
+    }
+
     if (req.user.username != forumInfo.createdBy) {
       return res.status(400).json({ message: "This is not your forum!" });
     }
