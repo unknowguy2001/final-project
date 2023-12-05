@@ -96,6 +96,11 @@ const deleteForum = async (req, res) => {
     if (isNaN(forumId)) {
       return res.status(400).json({ message: "Id must be a number" });
     }
+    const forumInfo = await prisma.forum.findUnique({ where: { id: forumId } });
+
+    if (req.user.username != forumInfo.createdBy) {
+      return res.status(400).json({ message: "This is not your forum!" });
+    }
 
     const forum = await prisma.forum.delete({ where: { id: forumId } });
 
