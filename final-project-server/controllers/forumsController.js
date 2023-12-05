@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-const getAllForum = async (req, res) => {
+const searchForum = async (req, res) => {
   try {
     const PER_PAGE = 12;
     const page = Math.max(parseInt(req.query.page) || 1, 1);
@@ -151,7 +151,7 @@ const updateForum = async (req, res) => {
 };
 
 module.exports = {
-  getAllForum,
+  getAllForum: searchForum,
   getForumById,
   createForum,
   deleteForum,
