@@ -49,6 +49,12 @@ const updateReply = async (req, res) => {
       where: { id: replyId },
     });
 
+    if (!replyInfo) {
+      return res
+        .status(400)
+        .json({ message: "This reply doesn't really exist!" });
+    }
+
     if (req.user.username != replyInfo.createdBy) {
       return res.status(400).json({ message: "This is not your reply!" });
     }
