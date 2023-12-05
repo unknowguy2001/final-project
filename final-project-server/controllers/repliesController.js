@@ -75,6 +75,18 @@ const deleteReply = async (req, res) => {
     return res.status(400).json({ message: "Id must be a number" });
   }
 
+  const replyInfo = await prisma.reply.findUnique({ where: { id: replyId } });
+
+  if (!replyInfo) {
+    return res
+      .status(400)
+      .json({ message: "This reply doesn't really exist." });
+  }
+
+  if (req.user.username != replyInfo.createdBy) {
+    return res.status(400).json({ message: "This is not your reply!" });
+  }
+
   const reply = await prisma.reply.delete({ where: { id: replyId } });
 
   if (!reply) {
