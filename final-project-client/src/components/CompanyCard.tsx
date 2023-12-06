@@ -11,7 +11,7 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { LuArrowUpRight } from "react-icons/lu";
 
-import { Company } from "../hooks/usePopularCompanies";
+import { Company } from "../interfaces/company";
 
 interface CompanyCardProps {
   company: Company;

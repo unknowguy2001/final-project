@@ -125,7 +125,7 @@ const addCompany = async (req, res) => {
 
 const searchCompanies = async (req, res) => {
   const PER_PAGE = 12;
-  const searchTerm = req.query.search || "";
+  const searchQuery = req.query.searchQuery || "";
   const page = Math.max(parseInt(req.query.page) || 1, 1);
 
   const options = {
@@ -134,48 +134,48 @@ const searchCompanies = async (req, res) => {
   };
   const countOptions = {};
 
-  if (searchTerm) {
+  if (searchQuery) {
     options.where = {
       OR: [
         {
           name: {
-            contains: searchTerm,
+            contains: searchQuery,
             mode: "insensitive",
           },
         },
         {
           address: {
-            contains: searchTerm,
+            contains: searchQuery,
             mode: "insensitive",
           },
         },
         {
           road: {
-            contains: searchTerm,
+            contains: searchQuery,
             mode: "insensitive",
           },
         },
         {
           village: {
-            contains: searchTerm,
+            contains: searchQuery,
             mode: "insensitive",
           },
         },
         {
           district: {
-            contains: searchTerm,
+            contains: searchQuery,
             mode: "insensitive",
           },
         },
         {
           province: {
-            contains: searchTerm,
+            contains: searchQuery,
             mode: "insensitive",
           },
         },
         {
           zipcode: {
-            contains: searchTerm,
+            contains: searchQuery,
             mode: "insensitive",
           },
         },

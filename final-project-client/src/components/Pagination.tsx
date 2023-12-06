@@ -1,14 +1,18 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
+import { Button, Flex, Text } from "@chakra-ui/react";
 
 interface PaginationProps {
-  totalPages: number;
+  count: number;
 }
 
-const Pagination = ({ totalPages }: PaginationProps) => {
+const PER_PAGE = 12;
+
+const Pagination = ({ count }: PaginationProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = parseInt(searchParams.get("page")!) || 1;
+
+  const totalPages = Math.ceil(count / PER_PAGE);
 
   const isFirstPage = page === 1;
   const isFinalPage = page >= totalPages;
@@ -41,21 +45,39 @@ const Pagination = ({ totalPages }: PaginationProps) => {
     });
   };
 
+  if (totalPages <= 1) return null;
+
   return (
     <Flex justifyContent="center" gap={4} alignItems="center">
-      <Button onClick={handleFirstClick} isDisabled={isFirstPage}>
+      <Button
+        variant="outline"
+        onClick={handleFirstClick}
+        isDisabled={isFirstPage}
+      >
         First
       </Button>
-      <Button onClick={handlePreviousClick} isDisabled={isFirstPage}>
+      <Button
+        variant="outline"
+        onClick={handlePreviousClick}
+        isDisabled={isFirstPage}
+      >
         Previous
       </Button>
       <Text>
         {page} of {totalPages}
       </Text>
-      <Button onClick={handleNextClick} isDisabled={isFinalPage}>
+      <Button
+        variant="outline"
+        onClick={handleNextClick}
+        isDisabled={isFinalPage}
+      >
         Next
       </Button>
-      <Button onClick={handleLastClick} isDisabled={isFinalPage}>
+      <Button
+        variant="outline"
+        onClick={handleLastClick}
+        isDisabled={isFinalPage}
+      >
         Last
       </Button>
     </Flex>

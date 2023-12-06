@@ -2,39 +2,30 @@ import {
   Box,
   Flex,
   Text,
+  Input,
+  Image,
   Skeleton,
   Container,
   SimpleGrid,
-  Input,
-  Image,
   AspectRatio,
+  SkeletonText,
 } from "@chakra-ui/react";
-import { SyntheticEvent, useRef } from "react";
 import { LuSearch, LuX } from "react-icons/lu";
 
-import useCompanies from "../hooks/useCompanies";
-import Pagination from "../components/Pagination";
-import CompanyCard from "../components/CompanyCard";
-import decreaseImage from "../assets/images/decrease.png";
+import { useFunctions } from "./useFunctions";
+import Pagination from "../../components/Pagination";
+import CompanyCard from "../../components/CompanyCard";
+import decreaseImage from "../../assets/images/decrease.png";
 
-const PER_PAGE = 12;
-
-const Companies = () => {
-  const searchInputRef = useRef<HTMLInputElement>(null);
-  const { companies, count, isLoading, setSearchTerm } = useCompanies();
-
-  const totalPages = count / PER_PAGE;
-
-  const handleClearSearch = () => {
-    setSearchTerm("");
-    searchInputRef.current!.value = "";
-    searchInputRef.current!.focus();
-  };
-
-  const handleFormSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    setSearchTerm(searchInputRef.current?.value || "");
-  };
+export const Companies = () => {
+  const {
+    companies,
+    count,
+    isLoading,
+    searchInputRef,
+    handleFormSubmit,
+    handleClearSearch,
+  } = useFunctions();
 
   return (
     <main>
@@ -42,14 +33,14 @@ const Companies = () => {
         <Box mb={4}>
           <Flex justifyContent="space-between" alignItems="center">
             <Box as="h2" fontSize="3xl" fontWeight="bold">
-              Companies
+              บริษัททั้งหมด
             </Box>
-            <Text>
-              Displaying {companies.length} item(s) of {count}
-            </Text>
+            <SkeletonText noOfLines={1} isLoaded={!isLoading}>
+              แสดง {companies.length} รายการ จากทั้งหมด {count} รายการ
+            </SkeletonText>
           </Flex>
           <Box as="form" position="relative" onSubmit={handleFormSubmit} mt={2}>
-            <Input placeholder="Search" ref={searchInputRef} />
+            <Input placeholder="ค้นหา" ref={searchInputRef} />
             <Box
               position="absolute"
               right={4}
@@ -79,25 +70,25 @@ const Companies = () => {
               <Image width="100%" height="100%" src={decreaseImage} />
             </AspectRatio>
             <Text textAlign="center" fontWeight="bold">
-              No companies found
+              ไม่พบข้อมูลที่ค้นหา
             </Text>
           </Flex>
         )}
         <SimpleGrid columns={[1, 2, 3]} gap={4} mb={4}>
-          {isLoading && (
+          {isLoading ? (
             <>
               {Array.from({ length: 6 }).map((_, index) => (
                 <Skeleton key={index} borderRadius="md" height="400px" />
               ))}
             </>
+          ) : (
+            companies?.map((company) => (
+              <CompanyCard key={company.id} company={company} />
+            ))
           )}
-          {companies?.map((company) => (
-            <CompanyCard key={company.id} company={company} />
-          ))}
         </SimpleGrid>
-        {totalPages > 1 && <Pagination totalPages={totalPages} />}
+        <Pagination count={count} />
       </Container>
     </main>
   );
 };
-export default Companies;

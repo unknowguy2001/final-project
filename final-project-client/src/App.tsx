@@ -10,7 +10,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Forums from "./pages/Forums";
 import Company from "./pages/Company";
-import Companies from "./pages/Companies";
+import { Companies } from "./pages/companies";
 
 // layouts
 import AuthLayout from "./layouts/AuthLayout";
