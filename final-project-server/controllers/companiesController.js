@@ -331,6 +331,62 @@ const createReview = async (req, res) => {
   });
 };
 
+const updateReview = async (req, res) => {
+  const { rating, description } = req.body;
+  const { reviewId, companyId } = req.params;
+
+  const parsedReviewId = parseInt(reviewId);
+  const parsedCompanyId = parseInt(companyId);
+
+  if (isNaN(parsedReviewId)) {
+    return res.status(400).json({
+      message: "reviewId must be a number",
+    });
+  }
+
+  if (isNaN(parsedCompanyId)) {
+    return res.status(400).json({
+      message: "companyId must be a number",
+    });
+  }
+
+  const updatedReview = await prisma.review.update({
+    where: { id: parsedReviewId },
+    data: { rating, review: description },
+  });
+
+  if (!updatedReview) {
+    return res.status(400).json({
+      message: "Can't edit review",
+    });
+  }
+
+  // Calculate average rating
+  const aggregations = await prisma.review.aggregate({
+    _avg: {
+      rating: true,
+    },
+    where: {
+      companyId: parsedCompanyId,
+    },
+  });
+
+  // Round average rating to 1 decimal place
+  const averageRating = Math.round(aggregations._avg.rating * 10) / 10;
+
+  // Update average rating
+  await prisma.company.update({
+    where: {
+      id: parsedCompanyId,
+    },
+    data: {
+      averageRating,
+    },
+  });
+
+  res.status(200).json({ message: "Review has been updated!" });
+};
+
 module.exports = {
   getTop4Popular,
   getCompanyById,
@@ -339,4 +395,5 @@ module.exports = {
   updateCompany,
   deleteCompany,
   createReview,
+  updateReview,
 };

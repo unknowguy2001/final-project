@@ -8,6 +8,7 @@ const {
   updateCompany,
   deleteCompany,
   createReview,
+  updateReview,
 } = require("../controllers/companiesController");
 
 const router = express.Router();
@@ -21,6 +22,7 @@ router.delete("/:id", deleteCompany);
 router.post("/:companyId/reviews", createReview);
 // get review
 // update review
+router.patch("/:companyId/reviews/:reviewId", updateReview);
 // delete review
 
 module.exports = router;
