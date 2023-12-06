@@ -82,7 +82,7 @@ export const Companies = () => {
               ))}
             </>
           ) : (
-            companies?.map((company) => (
+            companies.map((company) => (
               <CompanyCard key={company.id} company={company} />
             ))
           )}
