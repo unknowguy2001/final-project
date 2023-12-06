@@ -387,6 +387,35 @@ const updateReview = async (req, res) => {
   res.status(200).json({ message: "Review has been updated!" });
 };
 
+const getReview = async (req, res) => {
+  const { reviewId, companyId } = req.params;
+
+  const parsedReviewId = Number(reviewId);
+  const parsedCompanyId = Number(companyId);
+
+  if (isNaN(parsedCompanyId)) {
+    return res.status(400).json({
+      message: "companyId must be a number",
+    });
+  }
+  if (isNaN(parsedReviewId)) {
+    return res.status(400).json({
+      message: "reviewId must be a number",
+    });
+  }
+  const review = await prisma.review.findUnique({
+    where: { id: parsedReviewId },
+  });
+
+  if (!review) {
+    return res.status(400).json({
+      message: "Can't get this review",
+    });
+  }
+
+  res.status(200).json({ item: review });
+};
+
 module.exports = {
   getTop4Popular,
   getCompanyById,
@@ -396,4 +425,5 @@ module.exports = {
   deleteCompany,
   createReview,
   updateReview,
+  getReview,
 };
