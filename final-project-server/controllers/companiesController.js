@@ -30,7 +30,11 @@ const getCompanyById = async (req, res) => {
       id: companyId,
     },
     include: {
-      reviews: true,
+      reviews: {
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
 
@@ -287,6 +291,7 @@ const createReview = async (req, res) => {
       rating,
       review: description,
       reviewer: req.user.fullname,
+      reviewerUsername: req.user.username,
       companyId: parsedCompanyId,
     },
   });

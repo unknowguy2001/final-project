@@ -24,14 +24,15 @@ model Company {
 }
 
 model Review {
-  id        Int      @id @default(autoincrement())
-  companyId Int
-  company   Company  @relation(fields: [companyId], references: [id])
-  reviewer  String
-  review    String
-  rating    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               Int      @id @default(autoincrement())
+  companyId        Int
+  company          Company  @relation(fields: [companyId], references: [id])
+  reviewer         String
+  reviewerUsername String
+  review           String
+  rating           Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
 model Forum {

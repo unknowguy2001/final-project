@@ -6,7 +6,6 @@ import {
   Box,
   Flex,
   Button,
-  Divider,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -16,16 +15,23 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
+  Stack,
+  Card,
+  IconButton,
 } from "@chakra-ui/react";
+import { th } from "date-fns/locale";
 import { useRef, useState } from "react";
+import { formatDistance } from "date-fns";
 import { useParams } from "react-router-dom";
 import { Rating } from "@smastrom/react-rating";
-import { LuMapPin, LuPhone } from "react-icons/lu";
+import { LuMapPin, LuPen, LuPhone, LuTrash } from "react-icons/lu";
 
 import axiosInstance from "../axiosInstance";
 import useCompany from "../hooks/useCompany";
+import { useAuth } from "../contexts/authContext";
 
 const Company = () => {
+  const { authInfo } = useAuth();
   const { companyId } = useParams<{ companyId: string }>();
   const { company, fetchCompany } = useCompany(companyId!);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -127,7 +133,43 @@ const Company = () => {
             </Flex>
           </Flex>
         </Box>
-        <Divider my={8} />
+        <Stack mt={8} gap={8}>
+          {company?.reviews.map((review) => (
+            <Card key={review.id} p={8}>
+              <Flex justifyContent="space-between">
+                <Heading as="h4" size="sm">
+                  {review.reviewer}
+                </Heading>
+                <Text>
+                  {formatDistance(new Date(review.createdAt), new Date(), {
+                    addSuffix: true,
+                    locale: th,
+                  }).replace("ประมาณ", "")}
+                </Text>
+              </Flex>
+              <Box mt={2} maxWidth="100px">
+                <Rating readOnly value={review.rating} />
+              </Box>
+              {review?.review && <Text mt={2}>{review.review}</Text>}
+              {authInfo.user?.username === review.reviewerUsername && (
+                <Flex justifyContent="end" gap={2}>
+                  <IconButton
+                    aria-label="delete"
+                    icon={<LuPen />}
+                    variant="ghost"
+                    size="sm"
+                  />
+                  <IconButton
+                    aria-label="delete"
+                    icon={<LuTrash />}
+                    variant="ghost"
+                    size="sm"
+                  />
+                </Flex>
+              )}
+            </Card>
+          ))}
+        </Stack>
       </Container>
     </div>
   );
