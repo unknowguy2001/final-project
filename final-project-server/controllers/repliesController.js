@@ -5,11 +5,11 @@ const prisma = new PrismaClient();
 const createReply = async (req, res) => {
   try {
     const { description, createdBy } = req.body;
-    const isNotValid = !description || !createdBy;
+    const isInvalid = !description || !createdBy;
     const { id } = req.params;
     const forumId = Number(id);
 
-    if (isNotValid) {
+    if (isInvalid) {
       return res.status(400).json({ message: "Fields are must not be empty!" });
     }
 
