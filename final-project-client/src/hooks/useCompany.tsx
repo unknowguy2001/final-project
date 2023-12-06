@@ -4,6 +4,7 @@ import axiosInstance from "../axiosInstance";
 import { Company } from "./usePopularCompanies";
 
 const useCompany = (id: string) => {
+  const [canReview, setCanReview] = useState(false);
   const [company, setCompany] = useState<Company>();
 
   const fetchCompany = useCallback(
@@ -12,6 +13,7 @@ const useCompany = (id: string) => {
         signal,
       });
       setCompany(response.data.item);
+      setCanReview(response.data.canReview);
     },
     [id]
   );
@@ -24,6 +26,7 @@ const useCompany = (id: string) => {
 
   return {
     company,
+    canReview,
     fetchCompany,
   };
 };

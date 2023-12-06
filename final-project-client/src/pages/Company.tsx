@@ -36,7 +36,7 @@ const Company = () => {
   const { companyId } = useParams<{
     companyId: string;
   }>();
-  const { company, fetchCompany } = useCompany(companyId!);
+  const { company, fetchCompany, canReview } = useCompany(companyId!);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [rating, setRating] = useState(0);
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
@@ -124,9 +124,11 @@ const Company = () => {
             <Heading as="h2" size="lg">
               Reviews
             </Heading>
-            <Button onClick={onOpen} variant="outline">
-              เขียนรีวิว
-            </Button>
+            {canReview && (
+              <Button onClick={onOpen} variant="outline">
+                เขียนรีวิว
+              </Button>
+            )}
             <Modal isOpen={isOpen} onClose={handleClose}>
               <ModalOverlay />
               <ModalContent>

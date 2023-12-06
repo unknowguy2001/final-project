@@ -44,8 +44,17 @@ const getCompanyById = async (req, res) => {
     });
   }
 
+  let canReview = true;
+  for (let i = 0; i < company.reviews.length; i++) {
+    if (company.reviews[i].reviewerUsername === req.user.username) {
+      canReview = false;
+      break;
+    }
+  }
+
   res.status(200).json({
     item: company,
+    canReview,
   });
 };
 
@@ -283,6 +292,29 @@ const createReview = async (req, res) => {
   if (!rating) {
     return res.status(400).json({
       message: "rating is required",
+    });
+  }
+
+  let canReview = true;
+  const company = await prisma.company.findUnique({
+    where: {
+      id: parsedCompanyId,
+    },
+    include: {
+      reviews: true,
+    },
+  });
+
+  for (let i = 0; i < company.reviews.length; i++) {
+    if (company.reviews[i].reviewerUsername === req.user.username) {
+      canReview = false;
+      break;
+    }
+  }
+
+  if (!canReview) {
+    return res.status(403).json({
+      message: "Forbidden",
     });
   }
 
