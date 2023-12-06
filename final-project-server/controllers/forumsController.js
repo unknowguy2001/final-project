@@ -64,9 +64,9 @@ const getForumById = async (req, res) => {
 const createForum = async (req, res) => {
   try {
     const { createdBy, title, description } = req.body;
-    const isNotValid = !createdBy || !title || !description;
+    const isInvalid = !createdBy || !title || !description;
 
-    if (isNotValid) {
+    if (isInvalid) {
       return res.status(400).json({ message: "Fields are must not be empty!" });
     }
 
