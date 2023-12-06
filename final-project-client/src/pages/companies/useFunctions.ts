@@ -8,18 +8,19 @@ export const useFunctions = () => {
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [companies, setCompanies] = useState<Company[]>([]);
-
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [companies, setCompanies] = useState<Company[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleClearSearch = () => {
+  const clearSearch = () => {
     setSearchQuery("");
-    searchInputRef.current!.value = "";
-    searchInputRef.current!.focus();
+    if (searchInputRef.current) {
+      searchInputRef.current.value = "";
+      searchInputRef.current.focus();
+    }
   };
 
-  const handleFormSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     setSearchQuery(searchInputRef.current?.value || "");
   };
@@ -59,7 +60,7 @@ export const useFunctions = () => {
     count,
     isLoading,
     searchInputRef,
-    handleFormSubmit,
-    handleClearSearch,
+    handleSubmit,
+    clearSearch,
   };
 };

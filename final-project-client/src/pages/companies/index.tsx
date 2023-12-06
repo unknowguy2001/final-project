@@ -23,8 +23,8 @@ export const Companies = () => {
     count,
     isLoading,
     searchInputRef,
-    handleFormSubmit,
-    handleClearSearch,
+    handleSubmit,
+    clearSearch,
   } = useFunctions();
 
   return (
@@ -39,7 +39,7 @@ export const Companies = () => {
               แสดง {companies.length} รายการ จากทั้งหมด {count} รายการ
             </SkeletonText>
           </Flex>
-          <Box as="form" position="relative" onSubmit={handleFormSubmit} mt={2}>
+          <Box as="form" position="relative" onSubmit={handleSubmit} mt={2}>
             <Input placeholder="ค้นหา" ref={searchInputRef} />
             <Box
               position="absolute"
@@ -50,10 +50,10 @@ export const Companies = () => {
               display="flex"
               gap={2}
             >
-              <Box as="button" type="button" onClick={handleClearSearch}>
+              <Box as="button" type="button" onClick={clearSearch}>
                 <LuX />
               </Box>
-              <Box as="button" type="submit" onClick={handleFormSubmit}>
+              <Box as="button" type="submit">
                 <LuSearch />
               </Box>
             </Box>
