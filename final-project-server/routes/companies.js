@@ -19,5 +19,8 @@ router.post("", addCompany);
 router.patch("/:id", updateCompany);
 router.delete("/:id", deleteCompany);
 router.post("/:companyId/reviews", createReview);
+// get review
+// update review
+// delete review
 
 module.exports = router;
