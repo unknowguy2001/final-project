@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
 
-import { Company } from "../../hooks/usePopularCompanies";
+import { Company } from "../../interfaces/company";
 import { searchCompanies } from "../../services/companiesService";
 
 export const useFunctions = () => {
