@@ -8,6 +8,7 @@ const {
   updateCompany,
   deleteCompany,
   createReview,
+  deleteReview,
   updateReview,
   getReview,
 } = require("../controllers/companiesController");
@@ -20,10 +21,10 @@ router.get("/:id", getCompanyById);
 router.post("", addCompany);
 router.patch("/:id", updateCompany);
 router.delete("/:id", deleteCompany);
+
 router.post("/:companyId/reviews", createReview);
-// get review
-// update review
-router.patch("/:companyId/reviews/:reviewId", updateReview);
-// delete review
 router.get("/:companyId/reviews/:reviewId", getReview);
+router.patch("/:companyId/reviews/:reviewId", updateReview);
+router.delete("/:companyId/reviews/:reviewId", deleteReview);
+
 module.exports = router;

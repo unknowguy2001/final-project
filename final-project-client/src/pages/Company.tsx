@@ -32,7 +32,9 @@ import { useAuth } from "../contexts/authContext";
 
 const Company = () => {
   const { authInfo } = useAuth();
-  const { companyId } = useParams<{ companyId: string }>();
+  const { companyId } = useParams<{
+    companyId: string;
+  }>();
   const { company, fetchCompany } = useCompany(companyId!);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [rating, setRating] = useState(0);
@@ -53,8 +55,15 @@ const Company = () => {
     });
     onClose();
     setRating(0);
-    fetchCompany();
+    await fetchCompany();
   };
+
+  const handleDeleteReviewClick = async (reviewId: number) => {
+    await axiosInstance.delete(`/companies/${companyId}/reviews/${reviewId}`);
+    await fetchCompany();
+  };
+
+  const handleEditReviewClick = async () => {};
 
   return (
     <div>
@@ -154,12 +163,14 @@ const Company = () => {
               {authInfo.user?.username === review.reviewerUsername && (
                 <Flex justifyContent="end" gap={2}>
                   <IconButton
-                    aria-label="delete"
+                    onClick={handleEditReviewClick}
+                    aria-label="edit"
                     icon={<LuPen />}
                     variant="ghost"
                     size="sm"
                   />
                   <IconButton
+                    onClick={() => handleDeleteReviewClick(review.id)}
                     aria-label="delete"
                     icon={<LuTrash />}
                     variant="ghost"
