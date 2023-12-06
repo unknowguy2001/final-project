@@ -1,4 +1,4 @@
-import axiosInstance from "../axiosInstance";
+import { axiosInstance } from "../axiosInstance";
 import { Company } from "../interfaces/company";
 
 interface SearchCompaniesParams {

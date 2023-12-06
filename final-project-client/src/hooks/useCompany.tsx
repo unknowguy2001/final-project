@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
-import axiosInstance from "../axiosInstance";
-import { Company } from "./usePopularCompanies";
+import { Company } from "../interfaces/company";
+import { axiosInstance } from "../axiosInstance";
 
 const useCompany = (id: string) => {
   const [canReview, setCanReview] = useState(false);

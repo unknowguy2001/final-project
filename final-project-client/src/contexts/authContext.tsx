@@ -5,7 +5,7 @@ import {
   IAuthContext,
   IAuthProviderProps,
 } from "../interfaces/auth";
-import axiosInstance from "../axiosInstance";
+import { axiosInstance } from "../axiosInstance";
 
 const AuthContext = createContext<IAuthContext | null>(null);
 

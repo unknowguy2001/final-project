@@ -15,7 +15,7 @@ import { LuEye, LuEyeOff } from "react-icons/lu";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 
-import axiosInstance from "../axiosInstance";
+import { axiosInstance } from "../axiosInstance";
 import { useAuth } from "../contexts/authContext";
 import { ILoginRequest, ILoginResponse } from "../interfaces/auth";
 

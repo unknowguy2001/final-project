@@ -26,7 +26,7 @@ import { useParams } from "react-router-dom";
 import { Rating } from "@smastrom/react-rating";
 import { LuMapPin, LuPen, LuPhone, LuTrash } from "react-icons/lu";
 
-import axiosInstance from "../axiosInstance";
+import { axiosInstance } from "../axiosInstance";
 import useCompany from "../hooks/useCompany";
 import { useAuth } from "../contexts/authContext";
 

@@ -10,7 +10,7 @@ import {
 import { NavLink } from "react-router-dom";
 import { LuLogOut, LuChevronDown } from "react-icons/lu";
 
-import axiosInstance from "../axiosInstance";
+import { axiosInstance } from "../axiosInstance";
 import { useAuth } from "../contexts/authContext";
 
 const menues = [

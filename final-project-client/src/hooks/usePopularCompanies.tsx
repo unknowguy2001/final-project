@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import axiosInstance from "../axiosInstance";
+import { axiosInstance } from "../axiosInstance";
 import { Company } from "../interfaces/company";
 
 const usePopularCompanies = () => {
