@@ -343,6 +343,67 @@ const deleteReview = async (req, res) => {
       message: "companyId must be a number",
     });
   }
+
+  // Check if reviewId is a number
+  if (isNaN(parsedReviewId)) {
+    return res.status(400).json({
+      message: "reviewId must be a number",
+    });
+  }
+
+  // Check if review exists
+  const review = await prisma.review.findUnique({
+    where: {
+      id: parsedReviewId,
+    },
+  });
+  if (!review) {
+    return res.status(404).json({
+      message: "Review not found",
+    });
+  }
+
+  // Check if user is authorized to delete review
+  if (review.reviewerUsername !== req.user.username) {
+    return res.status(403).json({
+      message: "Forbidden",
+    });
+  }
+
+  // Delete review
+  await prisma.review.delete({
+    where: {
+      id: parsedReviewId,
+    },
+  });
+
+  // Calculate average rating
+  const aggregations = await prisma.review.aggregate({
+    _avg: {
+      rating: true,
+    },
+    where: {
+      companyId: parsedCompanyId,
+    },
+  });
+
+  // Round average rating to 1 decimal place
+  const averageRating = Math.round(aggregations._avg.rating * 10) / 10;
+
+  // Update average rating
+  await prisma.company.update({
+    where: {
+      id: parsedCompanyId,
+    },
+    data: {
+      averageRating,
+    },
+  });
+
+  // Send response
+  res.status(200).json({
+    message: "Deleted review",
+  });
 };
 
 // Check if reviewId is a number
