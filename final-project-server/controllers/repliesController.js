@@ -4,12 +4,11 @@ const prisma = new PrismaClient();
 
 const createReply = async (req, res) => {
   try {
-    const { description, createdBy } = req.body;
-    const isInvalid = !description || !createdBy;
+    const { description } = req.body;
     const { id } = req.params;
     const forumId = Number(id);
 
-    if (isInvalid) {
+    if (!description) {
       return res.status(400).json({ message: "Fields are must not be empty!" });
     }
 
@@ -21,7 +20,7 @@ const createReply = async (req, res) => {
       data: {
         forumId,
         description,
-        createdBy,
+        createdBy: req.user.username,
       },
     });
 
