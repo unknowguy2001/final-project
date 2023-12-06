@@ -31,6 +31,7 @@ import useCompany from "../hooks/useCompany";
 import { useAuth } from "../contexts/authContext";
 
 const Company = () => {
+  const [edittingReviewId, setEdittingReviewId] = useState<number | null>(null);
   const { authInfo } = useAuth();
   const { companyId } = useParams<{
     companyId: string;
@@ -46,13 +47,24 @@ const Company = () => {
   const handleClose = () => {
     onClose();
     setRating(0);
+    setEdittingReviewId(null);
   };
 
   const handleReviewClick = async () => {
-    await axiosInstance.post(`/companies/${companyId}/reviews`, {
-      rating,
-      description: descriptionRef.current!.value,
-    });
+    if (!edittingReviewId) {
+      await axiosInstance.post(`/companies/${companyId}/reviews`, {
+        rating,
+        description: descriptionRef.current!.value,
+      });
+    } else {
+      await axiosInstance.patch(
+        `/companies/${companyId}/reviews/${edittingReviewId}`,
+        {
+          rating,
+          description: descriptionRef.current!.value,
+        }
+      );
+    }
     onClose();
     setRating(0);
     await fetchCompany();
@@ -63,7 +75,16 @@ const Company = () => {
     await fetchCompany();
   };
 
-  const handleEditReviewClick = async () => {};
+  const handleEditReviewClick = async (reviewId: number) => {
+    onOpen();
+    const response = await axiosInstance.get(
+      `/companies/${companyId}/reviews/${reviewId}`
+    );
+    const review = response.data.item;
+    setRating(review.rating);
+    descriptionRef.current!.value = review.review;
+    setEdittingReviewId(reviewId);
+  };
 
   return (
     <div>
@@ -163,7 +184,7 @@ const Company = () => {
               {authInfo.user?.username === review.reviewerUsername && (
                 <Flex justifyContent="end" gap={2}>
                   <IconButton
-                    onClick={handleEditReviewClick}
+                    onClick={() => handleEditReviewClick(review.id)}
                     aria-label="edit"
                     icon={<LuPen />}
                     variant="ghost"
