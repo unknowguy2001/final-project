@@ -343,8 +343,16 @@ const deleteReview = async (req, res) => {
       message: "companyId must be a number",
     });
   }
+};
 
-  // Check if reviewId is a number
+// Check if reviewId is a number
+const updateReview = async (req, res) => {
+  const { rating, description } = req.body;
+  const { reviewId, companyId } = req.params;
+
+  const parsedReviewId = parseInt(reviewId);
+  const parsedCompanyId = parseInt(companyId);
+
   if (isNaN(parsedReviewId)) {
     return res.status(400).json({
       message: "reviewId must be a number",
@@ -377,6 +385,23 @@ const deleteReview = async (req, res) => {
     },
   });
 
+  if (isNaN(parsedCompanyId)) {
+    return res.status(400).json({
+      message: "companyId must be a number",
+    });
+  }
+
+  const updatedReview = await prisma.review.update({
+    where: { id: parsedReviewId },
+    data: { rating, review: description },
+  });
+
+  if (!updatedReview) {
+    return res.status(400).json({
+      message: "Can't edit review",
+    });
+  }
+
   // Calculate average rating
   const aggregations = await prisma.review.aggregate({
     _avg: {
@@ -404,6 +429,36 @@ const deleteReview = async (req, res) => {
   res.status(200).json({
     message: "Deleted review",
   });
+  res.status(200).json({ message: "Review has been updated!" });
+};
+
+const getReview = async (req, res) => {
+  const { reviewId, companyId } = req.params;
+
+  const parsedReviewId = Number(reviewId);
+  const parsedCompanyId = Number(companyId);
+
+  if (isNaN(parsedCompanyId)) {
+    return res.status(400).json({
+      message: "companyId must be a number",
+    });
+  }
+  if (isNaN(parsedReviewId)) {
+    return res.status(400).json({
+      message: "reviewId must be a number",
+    });
+  }
+  const review = await prisma.review.findUnique({
+    where: { id: parsedReviewId },
+  });
+
+  if (!review) {
+    return res.status(400).json({
+      message: "Can't get this review",
+    });
+  }
+
+  res.status(200).json({ item: review });
 };
 
 module.exports = {
@@ -415,4 +470,6 @@ module.exports = {
   deleteCompany,
   createReview,
   deleteReview,
+  updateReview,
+  getReview,
 };
