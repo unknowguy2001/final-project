@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Company } from "../../interfaces/company";
-import { axiosInstance } from "../../axiosInstance";
+import * as companiesService from "../../services/companiesService";
 
 export const useFunctions = () => {
   const [top4PopularCompanies, setTop4PopularCompanies] = useState<Company[]>(
@@ -10,14 +10,15 @@ export const useFunctions = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    const fetchTop4PopularCompanies = async () => {
-      const response = await axiosInstance.get("/companies/top-4-popular", {
+
+    const getTop4PopularCompanies = async () => {
+      const response = await companiesService.getTop4PopularCompanies({
         signal: abortController.signal,
       });
       setTop4PopularCompanies(response.data.items);
     };
 
-    fetchTop4PopularCompanies();
+    getTop4PopularCompanies();
 
     return () => abortController.abort();
   }, []);

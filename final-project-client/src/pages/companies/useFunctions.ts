@@ -6,7 +6,7 @@ import { searchCompanies } from "../../services/companiesService";
 
 export const useFunctions = () => {
   const [count, setCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [companies, setCompanies] = useState<Company[]>([]);

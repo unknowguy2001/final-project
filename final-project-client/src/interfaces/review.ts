@@ -8,3 +8,8 @@ export interface Review {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ReviewData {
+  rating: number;
+  description: string;
+}

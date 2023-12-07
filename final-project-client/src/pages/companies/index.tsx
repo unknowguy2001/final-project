@@ -77,7 +77,7 @@ export const Companies = () => {
         <SimpleGrid columns={[1, 2, 3]} gap={4} mb={4}>
           {isLoading ? (
             <>
-              {Array.from({ length: 6 }).map((_, index) => (
+              {Array.from({ length: 3 }).map((_, index) => (
                 <Skeleton key={index} borderRadius="md" height="400px" />
               ))}
             </>

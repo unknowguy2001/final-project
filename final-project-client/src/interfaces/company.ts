@@ -15,3 +15,8 @@ export interface Company {
   reviews: Review[];
   averageRating: number;
 }
+
+export interface GetCompanyResponse {
+  item: Company;
+  canReview: boolean;
+}

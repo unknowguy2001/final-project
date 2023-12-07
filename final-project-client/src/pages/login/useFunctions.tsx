@@ -1,7 +1,8 @@
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 
+import { LoginData } from "../../interfaces/auth";
+import { login } from "../../services/authService";
 import { useAuth } from "../../contexts/authContext";
-import { LoginData, login } from "../../services/authService";
 
 export const useFunctions = () => {
   const { setAuthInfo } = useAuth();

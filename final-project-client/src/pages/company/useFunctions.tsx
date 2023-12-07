@@ -2,9 +2,16 @@ import { useParams } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import {
+  createReview,
+  deleteReview,
+  getReview,
+  updateReview,
+} from "../../services/reviewsService";
 import { Company } from "../../interfaces/company";
-import { axiosInstance } from "../../axiosInstance";
 import { useAuth } from "../../contexts/authContext";
+import { ReviewData } from "../../interfaces/review";
+import * as companiesService from "../../services/companiesService";
 
 export const useFunctions = () => {
   const [edittingReviewId, setEdittingReviewId] = useState<number | null>(null);
@@ -28,44 +35,53 @@ export const useFunctions = () => {
   };
 
   const handleReviewClick = async () => {
+    if (!descriptionRef.current) return;
+
+    const reviewData: ReviewData = {
+      rating,
+      description: descriptionRef.current.value,
+    };
+
+    if (!companyId) return;
+
     if (!edittingReviewId) {
-      await axiosInstance.post(`/companies/${companyId}/reviews`, {
-        rating,
-        description: descriptionRef.current!.value,
-      });
+      await createReview(companyId, reviewData);
     } else {
-      await axiosInstance.patch(
-        `/companies/${companyId}/reviews/${edittingReviewId}`,
-        {
-          rating,
-          description: descriptionRef.current!.value,
-        }
-      );
+      await updateReview(companyId, edittingReviewId.toString(), reviewData);
     }
+
     onClose();
     setRating(0);
-    await fetchCompany();
+    await getCompany();
   };
 
   const handleDeleteReviewClick = async (reviewId: number) => {
-    await axiosInstance.delete(`/companies/${companyId}/reviews/${reviewId}`);
-    await fetchCompany();
+    if (!companyId) return;
+
+    await deleteReview(companyId, reviewId.toString());
+    await getCompany();
   };
 
   const handleEditReviewClick = async (reviewId: number) => {
     onOpen();
-    const response = await axiosInstance.get(
-      `/companies/${companyId}/reviews/${reviewId}`
-    );
+
+    if (!companyId) return;
+
+    const response = await getReview(companyId, reviewId.toString());
     const review = response.data.item;
     setRating(review.rating);
-    descriptionRef.current!.value = review.review;
+
+    if (!descriptionRef.current) return;
+
+    descriptionRef.current.value = review.review;
     setEdittingReviewId(reviewId);
   };
 
-  const fetchCompany = useCallback(
+  const getCompany = useCallback(
     async (signal?: AbortSignal) => {
-      const response = await axiosInstance.get(`/companies/${companyId}`, {
+      if (!companyId) return;
+
+      const response = await companiesService.getCompany(companyId, {
         signal,
       });
       setCompany(response.data.item);
@@ -76,9 +92,11 @@ export const useFunctions = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    fetchCompany(abortController.signal);
+
+    getCompany(abortController.signal);
+
     return () => abortController.abort();
-  }, [companyId, fetchCompany]);
+  }, [companyId, getCompany]);
 
   return {
     company,

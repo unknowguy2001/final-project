@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { MouseEvent, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Company } from "../../interfaces/company";
