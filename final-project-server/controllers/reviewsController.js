@@ -1,9 +1,8 @@
 const { prisma } = require("../prisma");
 
 const createReview = async (req, res) => {
-  const { rating, description } = req.body;
-
   const parsedCompanyId = req.parsedCompanyId;
+  const { rating, description } = req.body;
 
   // Check if rating is provided
   if (!rating) {
@@ -61,13 +60,14 @@ const deleteReview = async (req, res) => {
   const parsedCompanyId = req.parsedCompanyId;
   const parsedReviewId = req.parsedReviewId;
 
-  // Check if review exists
   const review = await prisma.review.findUnique({
     where: {
       id: parsedReviewId,
+      companyId: parsedCompanyId,
     },
   });
 
+  // Check if review exists
   if (!review) {
     return res.status(404).json({
       message: "Review not found",
@@ -111,28 +111,16 @@ const deleteReview = async (req, res) => {
 };
 
 const updateReview = async (req, res) => {
-  const { rating, description } = req.body;
-
   const parsedCompanyId = req.parsedCompanyId;
   const parsedReviewId = req.parsedReviewId;
-
-  // Check if review exists
-  const review = await prisma.review.findUnique({
-    where: {
-      id: parsedReviewId,
-    },
-  });
-  if (!review) {
-    return res.status(404).json({
-      message: "Review not found",
-    });
-  }
+  const { rating, description } = req.body;
 
   const updatedReview = await prisma.review.update({
-    where: { id: parsedReviewId },
+    where: { id: parsedReviewId, companyId: parsedCompanyId },
     data: { rating, review: description },
   });
 
+  // Check if review is updated
   if (!updatedReview) {
     return res.status(400).json({
       message: "Can't update review",
@@ -166,10 +154,11 @@ const updateReview = async (req, res) => {
 };
 
 const getReview = async (req, res) => {
+  const parsedCompanyId = req.parsedCompanyId;
   const parsedReviewId = req.parsedReviewId;
 
   const review = await prisma.review.findUnique({
-    where: { id: parsedReviewId },
+    where: { id: parsedReviewId, companyId: parsedCompanyId },
   });
 
   if (!review) {
