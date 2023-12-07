@@ -1,16 +1,22 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-import {
-  IAuthInfo,
-  IAuthContext,
-  IAuthProviderProps,
-} from "../interfaces/auth";
-import { axiosInstance } from "../axiosInstance";
+import { AuthInfo } from "../interfaces/auth";
+import { getAuthInfo } from "../services/authService";
 
-const AuthContext = createContext<IAuthContext | null>(null);
+interface AuthContextValue {
+  authInfo: AuthInfo;
+  setAuthInfo: React.Dispatch<React.SetStateAction<AuthInfo>>;
+  isFetchingAuthInfo: boolean;
+}
 
-export const AuthProvider = ({ children }: IAuthProviderProps) => {
-  const [authInfo, setAuthInfo] = useState<IAuthInfo>({
+const AuthContext = createContext<AuthContextValue | null>(null);
+
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [authInfo, setAuthInfo] = useState<AuthInfo>({
     isAuthenticated: false,
     user: null,
   });
@@ -19,21 +25,19 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
   useEffect(() => {
     const controller = new AbortController();
     const handleGetAuthInfo = async () => {
-      try {
-        const response = await axiosInstance.get<IAuthInfo>("/auth/info", {
-          signal: controller.signal,
-        });
-        setAuthInfo(response.data);
-        setIsFetchingAuthInfo(false);
-      } catch (error) {
-        console.log(error);
-      }
+      const response = await getAuthInfo({
+        signal: controller.signal,
+      });
+      setAuthInfo(response.data);
+      setIsFetchingAuthInfo(false);
     };
+
     handleGetAuthInfo();
+
     return () => controller.abort();
   }, []);
 
-  const value: IAuthContext = {
+  const value: AuthContextValue = {
     authInfo,
     setAuthInfo,
     isFetchingAuthInfo,

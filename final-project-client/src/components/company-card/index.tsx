@@ -7,50 +7,34 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import { useRef } from "react";
 import { Icon } from "@iconify/react";
-import { useNavigate } from "react-router-dom";
 
-import { Company } from "../interfaces/company";
+import { useFunctions } from "./useFunctions";
+import { Company } from "../../interfaces/company";
 
 interface CompanyCardProps {
   company: Company;
 }
 
 const CompanyCard = ({ company }: CompanyCardProps) => {
-  const navigate = useNavigate();
-  const cardRef = useRef<HTMLDivElement>(null);
-  const floatingCircleRef = useRef<HTMLDivElement>(null);
-
-  const handleCardClick = () => {
-    navigate(`/companies/${company.id}`);
-  };
+  const {
+    cardRef,
+    floatingCircleRef,
+    handleClick,
+    handleMouseEnter,
+    handleMouseMove,
+    handleMouseLeave,
+  } = useFunctions({
+    company,
+  });
 
   return (
     <Card
       ref={cardRef}
-      onMouseEnter={() => {
-        if (floatingCircleRef.current) {
-          floatingCircleRef.current.style.opacity = "1";
-          floatingCircleRef.current.style.transform =
-            "scale(1.25) translate(-50%, -50%)";
-        }
-      }}
-      onMouseMove={(e) => {
-        const { x, y } = cardRef.current!.getBoundingClientRect();
-        if (floatingCircleRef.current) {
-          floatingCircleRef.current.style.left = `${e.clientX - x}px`;
-          floatingCircleRef.current.style.top = `${e.clientY - y}px`;
-        }
-      }}
-      onMouseLeave={() => {
-        if (floatingCircleRef.current) {
-          floatingCircleRef.current.style.opacity = "0";
-          floatingCircleRef.current.style.transform =
-            "scale(0.5) translate(-50%, -50%)";
-        }
-      }}
-      onClick={() => handleCardClick()}
+      onMouseEnter={handleMouseEnter}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
       variant="filled"
       height="100%"
       borderRadius="md"

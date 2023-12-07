@@ -3,18 +3,18 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // theme
-import theme from "./theme";
+import { theme } from "./theme";
 
 // pages
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Forums from "./pages/Forums";
-import Company from "./pages/Company";
+import { Home } from "./pages/home";
+import { Login } from "./pages/login";
+import { Forums } from "./pages/forums";
+import { Company } from "./pages/company";
 import { Companies } from "./pages/companies";
 
 // layouts
-import AuthLayout from "./layouts/AuthLayout";
-import UserLayout from "./layouts/UserLayout";
+import { AuthLayout } from "./layouts/authLayout";
+import { UserLayout } from "./layouts/userLayout";
 
 // contexts
 import { AuthProvider } from "./contexts/authContext";

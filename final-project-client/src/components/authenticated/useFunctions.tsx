@@ -1,9 +1,9 @@
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "../contexts/authContext";
+import { useAuth } from "../../contexts/authContext";
 
-const AuthenticatedRoute = ({ children }: { children: ReactNode }) => {
+export const useFunctions = () => {
   const navigate = useNavigate();
   const { isFetchingAuthInfo, authInfo } = useAuth();
 
@@ -13,7 +13,8 @@ const AuthenticatedRoute = ({ children }: { children: ReactNode }) => {
     }
   }, [isFetchingAuthInfo, authInfo, navigate]);
 
-  return !isFetchingAuthInfo && authInfo.isAuthenticated ? children : null;
+  return {
+    isFetchingAuthInfo,
+    authInfo,
+  };
 };
-
-export default AuthenticatedRoute;

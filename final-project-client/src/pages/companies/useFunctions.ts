@@ -38,15 +38,15 @@ export const useFunctions = () => {
           });
         }
         const page = searchParams.get("page")!;
-        const data = await searchCompanies({
+        const response = await searchCompanies({
           signal: abortController.signal,
-          searchQuery,
-          page,
+          params: {
+            searchQuery,
+            page,
+          },
         });
-        setCompanies(data.items);
-        setCount(data.count);
-      } catch (error) {
-        console.error(error);
+        setCompanies(response.data.items);
+        setCount(response.data.count);
       } finally {
         setIsLoading(false);
       }

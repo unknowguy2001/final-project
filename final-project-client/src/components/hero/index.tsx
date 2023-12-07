@@ -1,10 +1,10 @@
+import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
-import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Box, Button, Container, Heading, Image } from "@chakra-ui/react";
 
-import blueElephantOnMacbookImage from "../assets/images/blue-elephant-on-macbook.jpg";
+import blueElephantOnMacbookImage from "../../assets/images/blue-elephant-on-macbook.jpg";
 
-const Hero = () => {
+export const Hero = () => {
   return (
     <Box
       width="100%"
@@ -47,7 +47,7 @@ const Hero = () => {
           to="/companies"
           as={Link}
           mt={4}
-          rightIcon={<ChevronRightIcon boxSize={5} />}
+          rightIcon={<Icon icon="lucide:chevron-right" />}
         >
           Explore Opportunities
         </Button>
@@ -55,5 +55,3 @@ const Hero = () => {
     </Box>
   );
 };
-
-export default Hero;

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { axiosInstance } from "../axiosInstance";
-import { Company } from "../interfaces/company";
+import { Company } from "../../interfaces/company";
+import { axiosInstance } from "../../axiosInstance";
 
-const usePopularCompanies = () => {
+export const useFunctions = () => {
   const [top4PopularCompanies, setTop4PopularCompanies] = useState<Company[]>(
     []
   );
@@ -22,8 +22,5 @@ const usePopularCompanies = () => {
     return () => abortController.abort();
   }, []);
 
-  return {
-    top4PopularCompanies,
-  };
+  return { top4PopularCompanies };
 };
-export default usePopularCompanies;

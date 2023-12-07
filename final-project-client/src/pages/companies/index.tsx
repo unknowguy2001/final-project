@@ -13,8 +13,8 @@ import {
 import { Icon } from "@iconify/react";
 
 import { useFunctions } from "./useFunctions";
-import Pagination from "../../components/Pagination";
-import CompanyCard from "../../components/CompanyCard";
+import { Pagination } from "../../components/pagination";
+import CompanyCard from "../../components/company-card";
 import decreaseImage from "../../assets/images/decrease.png";
 
 export const Companies = () => {
@@ -51,10 +51,10 @@ export const Companies = () => {
               gap={2}
             >
               <Box as="button" type="button" onClick={clearSearch}>
-                <Icon icon="lucide/x" />
+                <Icon icon="lucide:x" />
               </Box>
               <Box as="button" type="submit">
-                <Icon icon="lucide/search" />
+                <Icon icon="lucide:search" />
               </Box>
             </Box>
           </Box>

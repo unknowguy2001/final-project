@@ -7,38 +7,13 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
+import { Icon } from "@iconify/react";
 import { NavLink } from "react-router-dom";
-import { LuLogOut, LuChevronDown } from "react-icons/lu";
 
-import { axiosInstance } from "../axiosInstance";
-import { useAuth } from "../contexts/authContext";
+import { useFunctions } from "./useFunctions";
 
-const menues = [
-  {
-    label: "Home",
-    url: "/",
-  },
-  {
-    label: "Companies",
-    url: "/companies",
-  },
-  {
-    label: "Forums",
-    url: "/forums",
-  },
-];
-
-const Navbar = () => {
-  const { authInfo, setAuthInfo } = useAuth();
-
-  const handleLogoutClick = async () => {
-    try {
-      await axiosInstance.post("/auth/logout");
-      setAuthInfo({ isAuthenticated: false, user: null });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+export const Navbar = () => {
+  const { menues, authInfo, handleLogoutClick } = useFunctions();
 
   return (
     <Container
@@ -69,11 +44,14 @@ const Navbar = () => {
         <MenuButton>
           <Flex fontWeight="500" fontSize="sm" gap={2} alignItems="center">
             {authInfo.user?.fullname}
-            <LuChevronDown size={16} />
+            <Icon fontSize={16} icon="akar-icons:chevron-down" />
           </Flex>
         </MenuButton>
         <MenuList>
-          <MenuItem onClick={handleLogoutClick} icon={<LuLogOut size={16} />}>
+          <MenuItem
+            onClick={handleLogoutClick}
+            icon={<Icon fontSize={16} icon="lucide:log-out" />}
+          >
             Logout
           </MenuItem>
         </MenuList>
@@ -81,5 +59,3 @@ const Navbar = () => {
     </Container>
   );
 };
-
-export default Navbar;

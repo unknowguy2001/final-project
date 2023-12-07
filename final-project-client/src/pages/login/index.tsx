@@ -13,48 +13,18 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { Link as ReactRouterLink } from "react-router-dom";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
 
-import { axiosInstance } from "../axiosInstance";
-import { useAuth } from "../contexts/authContext";
-import { ILoginRequest, ILoginResponse } from "../interfaces/auth";
+import { useFunctions } from "./useFunctions";
 
-const Login = () => {
-  const { setAuthInfo } = useAuth();
-  const [isAuthenticating, setIsAuthenticating] = useState(false);
-
-  const [loginRequest, setLoginRequest] = useState<ILoginRequest>({
-    username: "",
-    password: "",
-  });
-  const [passwordType, setPasswordType] = useState<"text" | "password">(
-    "password"
-  );
-
-  const switchPasswordType = () => {
-    setPasswordType((prev) => (prev === "password" ? "text" : "password"));
-  };
-
-  const handleFormSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    try {
-      setIsAuthenticating(true);
-      const response = await axiosInstance.post<ILoginResponse>(
-        "/auth/login",
-        loginRequest
-      );
-      setAuthInfo(response.data.authInfo);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsAuthenticating(false);
-    }
-  };
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setLoginRequest((prev) => ({ ...prev, [name]: value }));
-  };
+export const Login = () => {
+  const {
+    handleFormSubmit,
+    handleInputChange,
+    isAuthenticating,
+    loginRequest,
+    passwordType,
+    switchPasswordType,
+  } = useFunctions();
 
   return (
     <Center
@@ -129,5 +99,3 @@ const Login = () => {
     </Center>
   );
 };
-
-export default Login;

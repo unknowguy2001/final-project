@@ -1,12 +1,12 @@
 import { Link as RouterLink } from "react-router-dom";
 import { Box, Container, Flex, Grid, GridItem, Link } from "@chakra-ui/react";
 
-import Hero from "../components/Hero";
-import CompanyCard from "../components/CompanyCard";
-import usePopularCompanies from "../hooks/usePopularCompanies";
+import { Hero } from "../../components/hero";
+import { useFunctions } from "./useFunctions";
+import CompanyCard from "../../components/company-card";
 
-const Home = () => {
-  const { top4PopularCompanies } = usePopularCompanies();
+export const Home = () => {
+  const { top4PopularCompanies } = useFunctions();
 
   const [company1, company2, company3, company4] = top4PopularCompanies;
 
@@ -50,5 +50,3 @@ const Home = () => {
     </>
   );
 };
-
-export default Home;

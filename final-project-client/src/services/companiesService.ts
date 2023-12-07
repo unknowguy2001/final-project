@@ -1,28 +1,18 @@
-import { axiosInstance } from "../axiosInstance";
-import { Company } from "../interfaces/company";
+import { AxiosRequestConfig } from "axios";
 
-interface SearchCompaniesParams {
-  signal: AbortSignal;
-  searchQuery: string;
-  page: string;
-}
+import { Company } from "../interfaces/company";
+import { axiosInstance } from "../axiosInstance";
 
 interface SearchCompaniesResponse {
   items: Company[];
   count: number;
 }
 
-export const searchCompanies = async ({
-  signal,
-  searchQuery,
-  page,
-}: SearchCompaniesParams): Promise<SearchCompaniesResponse> => {
-  const response = await axiosInstance.get("/companies", {
-    signal,
-    params: {
-      searchQuery,
-      page,
-    },
-  });
-  return response.data;
+export const searchCompanies = async (config: AxiosRequestConfig) => {
+  const url = "/companies";
+  const response = await axiosInstance.get<SearchCompaniesResponse>(
+    url,
+    config
+  );
+  return response;
 };

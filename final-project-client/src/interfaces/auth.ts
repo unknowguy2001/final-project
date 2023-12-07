@@ -1,28 +1,15 @@
-export interface IAuthContext {
-  authInfo: IAuthInfo;
-  setAuthInfo: React.Dispatch<React.SetStateAction<IAuthInfo>>;
-  isFetchingAuthInfo: boolean;
-}
+import { User } from "./user";
 
-export interface IAuthInfo {
-  isAuthenticated: boolean;
-  user: IUser | null;
-}
-
-export interface IAuthProviderProps {
-  children: React.ReactNode;
-}
-
-export interface ILoginRequest {
+export interface LoginData {
   username: string;
   password: string;
 }
 
-export interface ILoginResponse {
-  authInfo: IAuthInfo;
+export interface AuthInfo {
+  isAuthenticated: boolean;
+  user: User | null;
 }
 
-export interface IUser {
-  username: string;
-  fullname: string;
+export interface LoginResponse {
+  authInfo: AuthInfo;
 }
