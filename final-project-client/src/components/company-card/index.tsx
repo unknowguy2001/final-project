@@ -88,8 +88,6 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
         ref={floatingCircleRef}
         opacity={0}
         position="absolute"
-        top={0}
-        left={0}
         transform="scale(0.5) translate(-50%, -50%)"
         padding={2}
         bgColor="white"

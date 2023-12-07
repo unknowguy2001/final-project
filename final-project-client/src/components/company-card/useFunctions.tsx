@@ -18,6 +18,8 @@ export const useFunctions = ({ company }: UseFunctionsProps) => {
 
   const handleMouseEnter = () => {
     if (floatingCircleRef.current) {
+      floatingCircleRef.current!.style.removeProperty("left");
+      floatingCircleRef.current!.style.removeProperty("top");
       floatingCircleRef.current.style.opacity = "1";
       floatingCircleRef.current.style.transform =
         "scale(1.25) translate(-50%, -50%)";
