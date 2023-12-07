@@ -35,9 +35,9 @@ export const Login = () => {
       <Card gap={8} borderRadius={16} padding={8} maxWidth="350px" width="100%">
         <CardHeader p={0} textAlign="center">
           <Heading fontSize="4xl" mb={4}>
-            Login
+            เข้าสู่ระบบ
           </Heading>
-          <Text fontSize="sm">Discover your ideal internship destination</Text>
+          <Text fontSize="sm">ค้นหาบริษัทสหกิจศึกษาที่เหมาะกับคุณ</Text>
         </CardHeader>
         <CardBody p={0}>
           <Box
@@ -53,7 +53,7 @@ export const Login = () => {
               value={loginRequest.username}
               name="username"
               required
-              placeholder="Username"
+              placeholder="ชื่อผู้ใช้"
             />
             <Box position="relative">
               <Input
@@ -63,7 +63,7 @@ export const Login = () => {
                 name="password"
                 required
                 type={passwordType}
-                placeholder="Password"
+                placeholder="รหัสผ่าน"
               />
               <Box
                 position="absolute"
@@ -84,13 +84,13 @@ export const Login = () => {
               </Box>
             </Box>
             <Button type="submit" isLoading={isAuthenticating}>
-              Login
+              เข้าสู่ระบบ
             </Button>
           </Box>
         </CardBody>
         <CardFooter p={0} justifyContent="center">
           <Text fontSize="sm">
-            Login with{" "}
+            เข้าสู่ระบบด้วย{" "}
             <Link to="https://www.rmutp.ac.th/passport" as={ReactRouterLink}>
               RMUTP Passport
             </Link>

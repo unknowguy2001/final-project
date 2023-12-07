@@ -27,14 +27,14 @@ export const Pagination = ({ count }: PaginationProps) => {
         onClick={handleFirstClick}
         isDisabled={isFirstPage}
       >
-        First
+        แรกสุด
       </Button>
       <Button
         variant="outline"
         onClick={handlePreviousClick}
         isDisabled={isFirstPage}
       >
-        Previous
+        ก่อนหน้า
       </Button>
       <Text>
         {page} of {totalPages}
@@ -44,14 +44,14 @@ export const Pagination = ({ count }: PaginationProps) => {
         onClick={handleNextClick}
         isDisabled={isFinalPage}
       >
-        Next
+        ถัดไป
       </Button>
       <Button
         variant="outline"
         onClick={handleLastClick}
         isDisabled={isFinalPage}
       >
-        Last
+        สุดท้าย
       </Button>
     </Flex>
   );

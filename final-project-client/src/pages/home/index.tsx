@@ -20,10 +20,10 @@ export const Home = () => {
           alignItems="center"
         >
           <Box as="h2" fontSize="3xl" fontWeight="bold">
-            Popular Companies
+            บริษัทยอดนิยม
           </Box>
-          <Link as={RouterLink} to="/companies" fontSize="xl">
-            View All
+          <Link as={RouterLink} to="/companies">
+            ดูบริษัททั้งหมด
           </Link>
         </Flex>
         <Grid

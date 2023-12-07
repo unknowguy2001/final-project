@@ -3,15 +3,15 @@ import { useAuth } from "../../contexts/authContext";
 
 const menues = [
   {
-    label: "Home",
+    label: "หน้าแรก",
     url: "/",
   },
   {
-    label: "Companies",
+    label: "บริษัท",
     url: "/companies",
   },
   {
-    label: "Forums",
+    label: "กระทู้",
     url: "/forums",
   },
 ];

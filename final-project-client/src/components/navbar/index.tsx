@@ -52,7 +52,7 @@ export const Navbar = () => {
             onClick={handleLogoutClick}
             icon={<Icon fontSize={16} icon="lucide:log-out" />}
           >
-            Logout
+            ออกจากระบบ
           </MenuItem>
         </MenuList>
       </Menu>

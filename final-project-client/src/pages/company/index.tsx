@@ -78,7 +78,7 @@ export const Company = () => {
       <Box mt={8}>
         <Flex alignItems="center" justifyContent="space-between">
           <Heading as="h2" size="lg">
-            Reviews
+            รีวิวบริษัท
           </Heading>
           {canReview && (
             <Button onClick={onOpen} variant="outline">
@@ -102,9 +102,9 @@ export const Company = () => {
               </ModalBody>
               <ModalFooter>
                 <Button variant="ghost" mr={3} onClick={handleClose}>
-                  Close
+                  ยกเลิก
                 </Button>
-                <Button onClick={handleReviewClick}>Confirm</Button>
+                <Button onClick={handleReviewClick}>ส่งรีวิว</Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
@@ -117,7 +117,7 @@ export const Company = () => {
             <Box maxWidth="150px">
               <Rating readOnly value={averageRating} />
             </Box>
-            <Text pl={1}>{company?.reviews.length} Reviews</Text>
+            <Text pl={1}>{company?.reviews.length} รีวิว</Text>
           </Flex>
         </Flex>
       </Box>

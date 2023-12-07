@@ -49,7 +49,7 @@ export const Hero = () => {
           mt={4}
           rightIcon={<Icon icon="lucide:chevron-right" />}
         >
-          Explore Opportunities
+          ดูบริษัททั้งหมด
         </Button>
       </Container>
     </Box>
