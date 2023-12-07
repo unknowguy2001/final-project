@@ -1,16 +1,18 @@
 const express = require("express");
 
 const {
+  createReview,
+  deleteReview,
+  updateReview,
+  getReview,
+} = require("../controllers/reviewsController");
+const {
   getTop4Popular,
   getCompanyById,
   addCompany,
   searchCompanies,
   updateCompany,
   deleteCompany,
-  createReview,
-  deleteReview,
-  updateReview,
-  getReview,
 } = require("../controllers/companiesController");
 
 const router = express.Router();
