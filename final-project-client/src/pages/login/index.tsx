@@ -28,6 +28,7 @@ export const Login = () => {
 
   return (
     <Center
+      as="main"
       background="radial-gradient(50% 50% at 50% 50%, rgba(77, 0, 255, 0.25) 0.01%, rgba(255, 255, 255, 0.25) 100%), #FFF"
       height="100%"
     >
