@@ -11,7 +11,7 @@ import {
   CardFooter,
   Link,
 } from "@chakra-ui/react";
-import { LuEye, LuEyeOff } from "react-icons/lu";
+import { Icon } from "@iconify/react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 
@@ -34,8 +34,6 @@ const Login = () => {
   const switchPasswordType = () => {
     setPasswordType((prev) => (prev === "password" ? "text" : "password"));
   };
-
-  const visibilityIcon = passwordType === "password" ? <LuEye /> : <LuEyeOff />;
 
   const handleFormSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -105,7 +103,13 @@ const Login = () => {
                 cursor="pointer"
                 onClick={switchPasswordType}
               >
-                {visibilityIcon}
+                <Icon
+                  icon={
+                    passwordType === "password"
+                      ? "lucide:eye"
+                      : "lucide:eye-off"
+                  }
+                />
               </Box>
             </Box>
             <Button type="submit" isLoading={isAuthenticating}>

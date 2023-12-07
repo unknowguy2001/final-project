@@ -20,14 +20,14 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { th } from "date-fns/locale";
+import { Icon } from "@iconify/react";
 import { useRef, useState } from "react";
 import { formatDistance } from "date-fns";
 import { useParams } from "react-router-dom";
 import { Rating } from "@smastrom/react-rating";
-import { LuMapPin, LuPen, LuPhone, LuTrash } from "react-icons/lu";
 
-import { axiosInstance } from "../axiosInstance";
 import useCompany from "../hooks/useCompany";
+import { axiosInstance } from "../axiosInstance";
 import { useAuth } from "../contexts/authContext";
 
 const Company = () => {
@@ -103,7 +103,7 @@ const Company = () => {
           </Heading>
           <Flex alignItems="center" gap={8} mt={4}>
             <Flex alignItems="center" gap={2}>
-              <LuMapPin />
+              <Icon icon="lucide:map-pin" />
               <Text>ที่อยู่</Text>
             </Flex>
             <Text>
@@ -113,7 +113,7 @@ const Company = () => {
           </Flex>
           <Flex alignItems="center" gap={8} mt={4}>
             <Flex alignItems="center" gap={2}>
-              <LuPhone />
+              <Icon icon="lucide:phone" />
               <Text>เบอร์โทรศัพท์</Text>
             </Flex>
             <Text>{company?.telephone || "-"}</Text>
@@ -188,14 +188,14 @@ const Company = () => {
                   <IconButton
                     onClick={() => handleEditReviewClick(review.id)}
                     aria-label="edit"
-                    icon={<LuPen />}
+                    icon={<Icon icon="lucide:pen" />}
                     variant="ghost"
                     size="sm"
                   />
                   <IconButton
                     onClick={() => handleDeleteReviewClick(review.id)}
                     aria-label="delete"
-                    icon={<LuTrash />}
+                    icon={<Icon icon="lucide:trash" />}
                     variant="ghost"
                     size="sm"
                   />

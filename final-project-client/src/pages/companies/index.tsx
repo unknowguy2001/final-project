@@ -10,7 +10,7 @@ import {
   AspectRatio,
   SkeletonText,
 } from "@chakra-ui/react";
-import { LuSearch, LuX } from "react-icons/lu";
+import { Icon } from "@iconify/react";
 
 import { useFunctions } from "./useFunctions";
 import Pagination from "../../components/Pagination";
@@ -51,10 +51,10 @@ export const Companies = () => {
               gap={2}
             >
               <Box as="button" type="button" onClick={clearSearch}>
-                <LuX />
+                <Icon icon="lucide/x" />
               </Box>
               <Box as="button" type="submit">
-                <LuSearch />
+                <Icon icon="lucide/search" />
               </Box>
             </Box>
           </Box>

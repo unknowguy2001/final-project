@@ -8,8 +8,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useRef } from "react";
+import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
-import { LuArrowUpRight } from "react-icons/lu";
 
 import { Company } from "../interfaces/company";
 
@@ -111,7 +111,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
         bgColor="white"
         zIndex={2}
       >
-        <LuArrowUpRight size="24" />
+        <Icon icon="lucide:arrow-up-right" />
       </Circle>
     </Card>
   );
