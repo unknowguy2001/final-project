@@ -11,7 +11,7 @@ import {
 import { Company } from "../../interfaces/company";
 import { useAuth } from "../../contexts/authContext";
 import { ReviewData } from "../../interfaces/review";
-import * as companiesService from "../../services/companiesService";
+import { getCompany } from "../../services/companiesService";
 
 export const useFunctions = () => {
   const [edittingReviewId, setEdittingReviewId] = useState<number | null>(null);
@@ -52,14 +52,14 @@ export const useFunctions = () => {
 
     onClose();
     setRating(0);
-    await getCompany();
+    await handleGetCompany();
   };
 
   const handleDeleteReviewClick = async (reviewId: number) => {
     if (!companyId) return;
 
     await deleteReview(companyId, reviewId.toString());
-    await getCompany();
+    await handleGetCompany();
   };
 
   const handleEditReviewClick = async (reviewId: number) => {
@@ -77,11 +77,11 @@ export const useFunctions = () => {
     setEdittingReviewId(reviewId);
   };
 
-  const getCompany = useCallback(
+  const handleGetCompany = useCallback(
     async (signal?: AbortSignal) => {
       if (!companyId) return;
 
-      const response = await companiesService.getCompany(companyId, {
+      const response = await getCompany(companyId, {
         signal,
       });
       setCompany(response.data.item);
@@ -93,10 +93,10 @@ export const useFunctions = () => {
   useEffect(() => {
     const abortController = new AbortController();
 
-    getCompany(abortController.signal);
+    handleGetCompany(abortController.signal);
 
     return () => abortController.abort();
-  }, [companyId, getCompany]);
+  }, [companyId, handleGetCompany]);
 
   return {
     company,

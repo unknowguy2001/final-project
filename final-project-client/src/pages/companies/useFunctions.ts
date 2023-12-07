@@ -28,7 +28,7 @@ export const useFunctions = () => {
   useEffect(() => {
     const abortController = new AbortController();
 
-    (async () => {
+    const handleSearchCompanies = async (signal: AbortSignal) => {
       try {
         setIsLoading(true);
         if (searchQuery) {
@@ -39,7 +39,7 @@ export const useFunctions = () => {
         }
         const page = searchParams.get("page")!;
         const response = await searchCompanies({
-          signal: abortController.signal,
+          signal,
           params: {
             searchQuery,
             page,
@@ -50,7 +50,9 @@ export const useFunctions = () => {
       } finally {
         setIsLoading(false);
       }
-    })();
+    };
+
+    handleSearchCompanies(abortController.signal);
 
     return () => abortController.abort();
   }, [searchQuery, searchParams, setSearchParams]);
