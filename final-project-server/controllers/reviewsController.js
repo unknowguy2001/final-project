@@ -2,44 +2,13 @@ const { prisma } = require("../prisma");
 
 const createReview = async (req, res) => {
   const { rating, description } = req.body;
-  const { companyId } = req.params;
 
-  const parsedCompanyId = parseInt(companyId);
-
-  // Check if companyId is a number
-  if (isNaN(parsedCompanyId)) {
-    return res.status(400).json({
-      message: "companyId must be a number",
-    });
-  }
+  const parsedCompanyId = req.parsedCompanyId;
 
   // Check if rating is provided
   if (!rating) {
     return res.status(400).json({
       message: "rating is required",
-    });
-  }
-
-  let canReview = true;
-  const company = await prisma.company.findUnique({
-    where: {
-      id: parsedCompanyId,
-    },
-    include: {
-      reviews: true,
-    },
-  });
-
-  for (let i = 0; i < company.reviews.length; i++) {
-    if (company.reviews[i].reviewerUsername === req.user.username) {
-      canReview = false;
-      break;
-    }
-  }
-
-  if (!canReview) {
-    return res.status(403).json({
-      message: "Forbidden",
     });
   }
 
@@ -89,24 +58,8 @@ const createReview = async (req, res) => {
 };
 
 const deleteReview = async (req, res) => {
-  const { companyId, reviewId } = req.params;
-
-  const parsedCompanyId = parseInt(companyId);
-  const parsedReviewId = parseInt(reviewId);
-
-  // Check if companyId is a number
-  if (isNaN(parsedCompanyId)) {
-    return res.status(400).json({
-      message: "companyId must be a number",
-    });
-  }
-
-  // Check if reviewId is a number
-  if (isNaN(parsedReviewId)) {
-    return res.status(400).json({
-      message: "reviewId must be a number",
-    });
-  }
+  const parsedCompanyId = req.parsedCompanyId;
+  const parsedReviewId = req.parsedReviewId;
 
   // Check if review exists
   const review = await prisma.review.findUnique({
@@ -114,16 +67,10 @@ const deleteReview = async (req, res) => {
       id: parsedReviewId,
     },
   });
+
   if (!review) {
     return res.status(404).json({
       message: "Review not found",
-    });
-  }
-
-  // Check if user is authorized to delete review
-  if (review.reviewerUsername !== req.user.username) {
-    return res.status(403).json({
-      message: "Forbidden",
     });
   }
 
@@ -165,24 +112,9 @@ const deleteReview = async (req, res) => {
 
 const updateReview = async (req, res) => {
   const { rating, description } = req.body;
-  const { companyId, reviewId } = req.params;
 
-  const parsedCompanyId = parseInt(companyId);
-  const parsedReviewId = parseInt(reviewId);
-
-  // Check if companyId is a number
-  if (isNaN(parsedCompanyId)) {
-    return res.status(400).json({
-      message: "companyId must be a number",
-    });
-  }
-
-  // Check if reviewId is a number
-  if (isNaN(parsedReviewId)) {
-    return res.status(400).json({
-      message: "reviewId must be a number",
-    });
-  }
+  const parsedCompanyId = req.parsedCompanyId;
+  const parsedReviewId = req.parsedReviewId;
 
   // Check if review exists
   const review = await prisma.review.findUnique({
@@ -234,21 +166,8 @@ const updateReview = async (req, res) => {
 };
 
 const getReview = async (req, res) => {
-  const { reviewId, companyId } = req.params;
+  const parsedReviewId = req.parsedReviewId;
 
-  const parsedReviewId = Number(reviewId);
-  const parsedCompanyId = Number(companyId);
-
-  if (isNaN(parsedCompanyId)) {
-    return res.status(400).json({
-      message: "companyId must be a number",
-    });
-  }
-  if (isNaN(parsedReviewId)) {
-    return res.status(400).json({
-      message: "reviewId must be a number",
-    });
-  }
   const review = await prisma.review.findUnique({
     where: { id: parsedReviewId },
   });
