@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 import { Company } from "../../interfaces/company";
 import { searchCompanies } from "../../services/companiesService";
@@ -20,7 +20,7 @@ export const useFunctions = () => {
     }
   };
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchQuery(searchInputRef.current?.value || "");
   };
@@ -28,21 +28,17 @@ export const useFunctions = () => {
   useEffect(() => {
     const abortController = new AbortController();
 
-    const handleSearchCompanies = async (signal: AbortSignal) => {
+    const handleSearchCompanies = async () => {
       try {
         setIsLoading(true);
-        if (searchQuery) {
-          setSearchParams((params) => {
-            params.delete("page");
-            return params;
-          });
-        }
         const page = searchParams.get("page")!;
+        const perPage = searchParams.get("perPage")!;
         const response = await searchCompanies({
-          signal,
+          signal: abortController.signal,
           params: {
             searchQuery,
             page,
+            perPage,
           },
         });
         setCompanies(response.data.items);
@@ -52,7 +48,7 @@ export const useFunctions = () => {
       }
     };
 
-    handleSearchCompanies(abortController.signal);
+    handleSearchCompanies();
 
     return () => abortController.abort();
   }, [searchQuery, searchParams, setSearchParams]);
