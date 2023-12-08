@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 
-const PER_PAGE = 12;
+const DEFAULT_PER_PAGE = 12;
 
 interface UseFunctionsProps {
   count: number;
@@ -9,8 +9,9 @@ export const useFunctions = ({ count }: UseFunctionsProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = parseInt(searchParams.get("page")!) || 1;
+  const perPage = parseInt(searchParams.get("perPage")!) || DEFAULT_PER_PAGE;
 
-  const totalPages = Math.ceil(count / PER_PAGE);
+  const totalPages = Math.ceil(count / perPage);
 
   const isFirstPage = page === 1;
   const isFinalPage = page >= totalPages;
@@ -43,6 +44,14 @@ export const useFunctions = ({ count }: UseFunctionsProps) => {
     });
   };
 
+  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchParams((params) => {
+      params.set("page", "1");
+      params.set("perPage", event.target.value);
+      return params;
+    });
+  };
+
   return {
     page,
     totalPages,
@@ -52,5 +61,7 @@ export const useFunctions = ({ count }: UseFunctionsProps) => {
     handlePreviousClick,
     handleNextClick,
     handleLastClick,
+    handlePerPageChange,
+    perPage,
   };
 };
