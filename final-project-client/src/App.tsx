@@ -58,7 +58,7 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <AuthProvider>
-        <Toaster richColors />
+        <Toaster richColors position="bottom-center" />
         <RouterProvider router={router} />
       </AuthProvider>
     </ChakraProvider>
