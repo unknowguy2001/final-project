@@ -30,7 +30,11 @@ export const Companies = () => {
   return (
     <Container as="main" paddingY={8} maxWidth={1024}>
       <Box mb={4}>
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex
+          flexDirection={["column", "column", "row"]}
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Box as="h2" fontSize="3xl" fontWeight="bold">
             บริษัททั้งหมด
           </Box>

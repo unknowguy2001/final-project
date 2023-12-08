@@ -27,20 +27,20 @@ export const Home = () => {
           </Link>
         </Flex>
         <Grid
-          templateColumns="repeat(5, 1fr)"
-          templateRows="repeat(6, 1fr);"
+          templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }}
+          templateRows={{ base: "repeat(4, 1fr)", md: "repeat(6, 1fr)" }}
           gap={4}
         >
-          <GridItem gridArea="1 / 1 / 4 / 4">
+          <GridItem gridArea={{ base: "auto", md: "1 / 1 / 4 / 4" }}>
             <CompanyCard company={company1} />
           </GridItem>
-          <GridItem gridArea="1 / 4 / 4 / 6">
+          <GridItem gridArea={{ base: "auto", md: "1 / 4 / 4 / 6" }}>
             <CompanyCard company={company2} />
           </GridItem>
-          <GridItem gridArea="4 / 1 / 7 / 3">
+          <GridItem gridArea={{ base: "auto", md: "4 / 1 / 7 / 3" }}>
             <CompanyCard company={company3} />
           </GridItem>
-          <GridItem gridArea="4 / 3 / 7 / 6">
+          <GridItem gridArea={{ base: "auto", md: "4 / 3 / 7 / 6" }}>
             <CompanyCard company={company4} />
           </GridItem>
         </Grid>

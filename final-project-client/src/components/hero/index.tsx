@@ -34,7 +34,7 @@ export const Hero = () => {
         bg="blackAlpha.300"
       />
       <Container maxWidth={1024}>
-        <Heading fontSize={64} as="h1" color="white">
+        <Heading fontSize={[56, 64]} as="h1" color="white">
           Discover
           <br />
           Your Ideal
