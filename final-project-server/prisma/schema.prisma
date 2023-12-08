@@ -36,21 +36,23 @@ model Review {
 }
 
 model Forum {
-  id          Int      @id @default(autoincrement())
-  createdBy   String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  title       String
-  description String
-  replies     Reply[]
+  id                Int      @id @default(autoincrement())
+  createdByName     String
+  createdByUsername String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  title             String
+  description       String
+  replies           Reply[]
 }
 
 model Reply {
-  id          Int      @id @default(autoincrement())
-  createdBy   String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  description String
-  Forum       Forum?   @relation(fields: [forumId], references: [id])
-  forumId     Int?
+  id                Int      @id @default(autoincrement())
+  createdByName     String
+  createdByUsername String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  description       String
+  Forum             Forum?   @relation(fields: [forumId], references: [id])
+  forumId           Int?
 }
