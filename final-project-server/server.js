@@ -1,7 +1,6 @@
 const cors = require("cors");
 const dotenv = require("dotenv");
 const express = require("express");
-const dotenvExpand = require("dotenv-expand");
 const cookieParser = require("cookie-parser");
 
 // routers
@@ -12,8 +11,7 @@ const companiesRouter = require("./routes/companies");
 // middlewares
 const authentication = require("./middlewares/authentication");
 
-const config = dotenv.config();
-dotenvExpand.expand(config);
+dotenv.config();
 
 const app = express();
 app.use(express.json());
