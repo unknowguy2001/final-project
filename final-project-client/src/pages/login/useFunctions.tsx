@@ -20,11 +20,14 @@ export const useFunctions = () => {
   };
 
   const handleFormSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    setIsAuthenticating(true);
-    const response = await login(loginData);
-    setAuthInfo(response.data.authInfo);
-    setIsAuthenticating(false);
+    try {
+      e.preventDefault();
+      setIsAuthenticating(true);
+      const response = await login(loginData);
+      setAuthInfo(response.data.authInfo);
+    } finally {
+      setIsAuthenticating(false);
+    }
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
