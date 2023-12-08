@@ -1,26 +1,28 @@
 const { prisma } = require("../prisma");
 
-const searchForum = async (req, res) => {
+const DEFAULT_PER_PAGE = 12;
+
+const searchForums = async (req, res) => {
   try {
-    const PER_PAGE = 12;
     const page = Math.max(parseInt(req.query.page) || 1, 1);
-    const searchTerm = req.query.search || "";
+    const perPage = Math.max(
+      parseInt(req.query.perPage) || DEFAULT_PER_PAGE,
+      DEFAULT_PER_PAGE
+    );
+    const searchQuery = req.query.searchQuery || "";
     const options = {
-      take: PER_PAGE,
-      skip: (page - 1) * PER_PAGE,
+      take: perPage,
+      skip: (page - 1) * perPage,
+      orderBy: { createdAt: "desc" },
     };
     const countOptions = {};
 
-    if (searchTerm) {
+    if (searchQuery) {
+      const columns = ["title", "description", "createdByName"];
       options.where = {
-        OR: [
-          {
-            title: { contains: searchTerm, mode: "insensitive" },
-          },
-          {
-            description: { contains: searchTerm, mode: "insensitive" },
-          },
-        ],
+        OR: columns.map((column) => ({
+          [column]: { contains: searchQuery, mode: "insensitive" },
+        })),
       };
 
       countOptions.where = options.where;
@@ -155,7 +157,7 @@ const updateForum = async (req, res) => {
 };
 
 module.exports = {
-  getAllForum: searchForum,
+  searchForums,
   getForumById,
   createForum,
   deleteForum,

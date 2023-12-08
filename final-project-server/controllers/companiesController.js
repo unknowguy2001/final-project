@@ -121,63 +121,38 @@ const addCompany = async (req, res) => {
   return res.status(201).json({ message: "Added company!" });
 };
 
+const DEFAULT_PER_PAGE = 12;
+
 const searchCompanies = async (req, res) => {
-  const PER_PAGE = 12;
   const searchQuery = req.query.searchQuery || "";
   const page = Math.max(parseInt(req.query.page) || 1, 1);
-
+  const perPage = Math.max(
+    parseInt(req.query.perPage) || DEFAULT_PER_PAGE,
+    DEFAULT_PER_PAGE
+  );
   const options = {
-    take: PER_PAGE,
-    skip: (page - 1) * PER_PAGE,
+    take: perPage,
+    skip: (page - 1) * perPage,
   };
   const countOptions = {};
 
   if (searchQuery) {
+    const columns = [
+      "name",
+      "address",
+      "road",
+      "village",
+      "district",
+      "province",
+      "zipcode",
+    ];
     options.where = {
-      OR: [
-        {
-          name: {
-            contains: searchQuery,
-            mode: "insensitive",
-          },
+      OR: columns.map((column) => ({
+        [column]: {
+          contains: searchQuery,
+          mode: "insensitive",
         },
-        {
-          address: {
-            contains: searchQuery,
-            mode: "insensitive",
-          },
-        },
-        {
-          road: {
-            contains: searchQuery,
-            mode: "insensitive",
-          },
-        },
-        {
-          village: {
-            contains: searchQuery,
-            mode: "insensitive",
-          },
-        },
-        {
-          district: {
-            contains: searchQuery,
-            mode: "insensitive",
-          },
-        },
-        {
-          province: {
-            contains: searchQuery,
-            mode: "insensitive",
-          },
-        },
-        {
-          zipcode: {
-            contains: searchQuery,
-            mode: "insensitive",
-          },
-        },
-      ],
+      })),
     };
     countOptions.where = options.where;
   }

@@ -1,7 +1,7 @@
 const express = require("express");
 
 const {
-  getAllForum,
+  searchForums,
   getForumById,
   createForum,
   updateForum,
@@ -15,7 +15,7 @@ const {
 
 const router = express.Router();
 
-router.get("", getAllForum);
+router.get("", searchForums);
 router.post("", createForum);
 router.get("/:id", getForumById);
 router.patch("/:id", updateForum);
