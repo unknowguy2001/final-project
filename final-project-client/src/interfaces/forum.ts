@@ -11,7 +11,16 @@ export interface Forum {
   replies: Reply[];
 }
 
+export interface ForumData {
+  title: string;
+  description: string;
+}
+
 export interface SearchForumsResponse {
   items: Forum[];
   count: number;
+}
+
+export interface GetForumResponse {
+  item: Forum;
 }

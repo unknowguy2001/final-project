@@ -8,6 +8,7 @@ import { theme } from "./theme";
 // pages
 import { Home } from "./pages/home";
 import { Login } from "./pages/login";
+import { Forum } from "./pages/forum";
 import { Forums } from "./pages/forums";
 import { Company } from "./pages/company";
 import { Companies } from "./pages/companies";
@@ -18,6 +19,7 @@ import { UserLayout } from "./layouts/userLayout";
 
 // contexts
 import { AuthProvider } from "./contexts/authContext";
+import { NewForum } from "./pages/new-forum";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +51,14 @@ const router = createBrowserRouter([
       {
         path: "forums",
         element: <Forums />,
+      },
+      {
+        path: "forums/:forumId",
+        element: <Forum />,
+      },
+      {
+        path: "forums/new",
+        element: <NewForum />,
       },
     ],
   },

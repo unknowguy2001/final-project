@@ -1,10 +1,11 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FormEvent, useEffect, useRef, useState } from "react";
 
 import { Forum } from "../../interfaces/forum";
 import { searchForums } from "../../services/forumsService";
 
 export const useFunctions = () => {
+  const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [forums, setForums] = useState<Forum[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,6 +23,10 @@ export const useFunctions = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSearchQuery(searchInputRef.current?.value || "");
+  };
+
+  const handleNewForumClick = () => {
+    navigate("/forums/new");
   };
 
   useEffect(() => {
@@ -49,5 +54,6 @@ export const useFunctions = () => {
     searchInputRef,
     clearSearch,
     count,
+    handleNewForumClick,
   };
 };

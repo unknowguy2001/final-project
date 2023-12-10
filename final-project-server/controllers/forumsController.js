@@ -42,13 +42,14 @@ const getForumById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (isNaN(Number(id))) {
+    const parsedId = parseInt(id);
+
+    if (isNaN(parsedId)) {
       return res.status(400).json({ message: "id must be a number" });
     }
 
     const forum = await prisma.forum.findUnique({
-      where: { id: Number(id) },
-      include: { replies: true },
+      where: { id: parsedId },
     });
 
     if (!forum) {
@@ -63,23 +64,26 @@ const getForumById = async (req, res) => {
 
 const createForum = async (req, res) => {
   try {
-    const { createdBy, title, description } = req.body;
-    const isInvalid = !createdBy || !title || !description;
+    const { title, description } = req.body;
+    const isValid = title && description;
 
-    if (isInvalid) {
-      return res.status(400).json({ message: "Fields are must not be empty!" });
+    if (!isValid) {
+      return res
+        .status(400)
+        .json({ message: "Title and description required" });
     }
 
     const forum = await prisma.forum.create({
       data: {
-        createdBy,
         title,
         description,
+        createdByName: req.user.fullname,
+        createdByUsername: req.user.username,
       },
     });
 
     if (!forum) {
-      return res.status(404).json({ message: "Can't create!" });
+      return res.status(400).json({ message: "Can't create forum!" });
     }
 
     res.status(201).json({ message: "Created forum!" });

@@ -6,8 +6,14 @@ import { ForumCard } from "../../components/forum-card";
 import { Pagination } from "../../components/pagination";
 
 export const Forums = () => {
-  const { forums, handleSubmit, clearSearch, searchInputRef, count } =
-    useFunctions();
+  const {
+    forums,
+    handleSubmit,
+    clearSearch,
+    searchInputRef,
+    count,
+    handleNewForumClick,
+  } = useFunctions();
 
   return (
     <Container as="main" paddingY={8} maxWidth={1024}>
@@ -15,7 +21,9 @@ export const Forums = () => {
         <Heading as="h1" fontSize="3xl">
           กระทู้ทั้งหมด
         </Heading>
-        <Button variant="outline">สร้างกระทู้</Button>
+        <Button onClick={handleNewForumClick} variant="outline">
+          สร้างกระทู้
+        </Button>
       </Flex>
       <Box as="form" onSubmit={handleSubmit} position="relative" mb={4}>
         <Input ref={searchInputRef} placeholder="ค้นหา" />
