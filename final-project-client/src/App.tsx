@@ -1,4 +1,6 @@
 import { Toaster } from "sonner";
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 

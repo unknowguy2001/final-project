@@ -83,6 +83,12 @@ const refresh = async (req, res) => {
     });
   }
 
+  if (!payload) {
+    return res.status(400).json({
+      message: "Invalid refresh token",
+    });
+  }
+
   // Generate new access token
   const newPayload = { username: payload.username, fullname: payload.fullname };
   const newAccessToken = generateToken(newPayload, "access");
@@ -104,6 +110,7 @@ const getAuthInfo = (req, res) => {
 
   try {
     const payload = verifyToken(accessToken, "access");
+
     res.status(200).json({
       isAuthenticated: true,
       user: payload,

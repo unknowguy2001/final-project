@@ -8,6 +8,7 @@ const {
   deleteForum,
 } = require("../controllers/forumsController");
 const {
+  searchReplies,
   createReply,
   updateReply,
   deleteReply,
@@ -20,6 +21,7 @@ router.post("", createForum);
 router.get("/:id", getForumById);
 router.patch("/:id", updateForum);
 router.delete("/:id", deleteForum);
+router.get("/:forumId/replies", searchReplies);
 router.post("/:id/replies", createReply);
 router.patch("/:forumId/replies/:id", updateReply);
 router.delete("/:forumId/replies/:id", deleteReply);

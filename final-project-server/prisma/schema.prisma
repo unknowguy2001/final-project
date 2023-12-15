@@ -55,4 +55,7 @@ model Reply {
   description       String
   Forum             Forum?   @relation(fields: [forumId], references: [id])
   forumId           Int?
+  parentReply       Reply?   @relation("ChildReplies", fields: [replyId], references: [id])
+  replyId           Int?
+  childReplies      Reply[]  @relation("ChildReplies")
 }

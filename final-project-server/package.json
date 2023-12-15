@@ -1,10 +1,10 @@
 {
-  "name": "server",
+  "name": "final-project-server",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon"
+    "dev": "nodemon & docker compose -f docker-compose-dev.yml up"
   },
   "keywords": [],
   "author": "",

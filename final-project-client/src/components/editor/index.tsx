@@ -1,25 +1,32 @@
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import ReactQuill from "react-quill";
 
 interface EditorProps {
   data: string;
-  setData: React.Dispatch<React.SetStateAction<string>>;
+  setData?: React.Dispatch<React.SetStateAction<string>>;
   placeholder?: string;
+  readOnly?: boolean;
+  theme?: "snow" | "bubble";
 }
 
-export const Editor = ({ data, setData, placeholder }: EditorProps) => {
-  const handleDataChange = (event: unknown, editor: ClassicEditor) => {
-    const currentData = editor.getData();
-    setData(currentData);
+export const Editor = ({
+  data,
+  setData,
+  placeholder = "",
+  readOnly = false,
+  theme = "snow",
+}: EditorProps) => {
+  const handleDataChange = (value: string) => {
+    if (setData) {
+      setData(value);
+    }
   };
 
   return (
-    <CKEditor
-      editor={ClassicEditor}
-      config={{
-        placeholder,
-      }}
-      data={data}
+    <ReactQuill
+      placeholder={placeholder}
+      theme={theme}
+      value={data}
+      readOnly={readOnly}
       onChange={handleDataChange}
     />
   );

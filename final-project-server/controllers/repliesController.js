@@ -1,5 +1,39 @@
 const { prisma } = require("../prisma");
 
+const DEFAULT_PER_PAGE = 12;
+
+const searchReplies = async (req, res) => {
+  const page = Math.max(parseInt(req.query.page) || 1, 1);
+  const perPage = Math.max(
+    parseInt(req.query.perPage) || DEFAULT_PER_PAGE,
+    DEFAULT_PER_PAGE
+  );
+  const options = {
+    take: perPage,
+    skip: (page - 1) * perPage,
+    where: {
+      forumId: Number(req.params.forumId),
+      replyId: null, // only get parent replies
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      childReplies: true,
+    },
+  };
+  const countOptions = {
+    where: options.where,
+  };
+
+  const [companies, count] = await Promise.all([
+    prisma.reply.findMany(options),
+    prisma.reply.count(countOptions),
+  ]);
+
+  res.status(200).json({ items: companies, count });
+};
+
 const createReply = async (req, res) => {
   try {
     const { description } = req.body;
@@ -18,7 +52,8 @@ const createReply = async (req, res) => {
       data: {
         forumId,
         description,
-        createdBy: req.user.username,
+        createdByName: req.user.fullname,
+        createdByUsername: req.user.username,
       },
     });
 
@@ -113,4 +148,4 @@ const deleteReply = async (req, res) => {
   }
 };
 
-module.exports = { createReply, updateReply, deleteReply };
+module.exports = { searchReplies, createReply, updateReply, deleteReply };

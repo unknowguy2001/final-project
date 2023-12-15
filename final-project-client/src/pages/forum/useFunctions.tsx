@@ -1,26 +1,105 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { AxiosRequestConfig } from "axios";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 
 import { Forum } from "../../interfaces/forum";
+import { Reply } from "../../interfaces/reply";
 import { getForum } from "../../services/forumsService";
+import { createReply, searchReplies } from "../../services/repliesService";
 
 export const useFunctions = () => {
+  const [subComment, setSubComment] = useState<string>("");
+  const [comment, setComment] = useState<string>("");
   const { forumId } = useParams<{ forumId: string }>();
   const [forum, setForum] = useState<Forum | null>(null);
+  const [replies, setReplies] = useState<Reply[]>([]);
+  const [count, setCount] = useState<number>(0);
+  const [searchParams] = useSearchParams();
+
+  const handleSearchReplies = useCallback(
+    async (config: AxiosRequestConfig = {}) => {
+      if (!forumId) return;
+      const page = searchParams.get("page")!;
+      const perPage = searchParams.get("perPage")!;
+      const response = await searchReplies(forumId, {
+        ...config,
+        params: { page, perPage },
+      });
+      setReplies(response.data.items);
+      setCount(response.data.count);
+    },
+    [forumId, searchParams]
+  );
+
+  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setComment(e.target.value);
+  };
+
+  const handleSubCommentChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setSubComment(e.target.value);
+  };
+
+  const handleSubCommentSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    try {
+      e.preventDefault();
+      if (!forumId) return;
+      console.log("hello world");
+      // await createReply(forumId, { description: comment });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSubComment("");
+      handleSearchReplies();
+    }
+  };
+  const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      if (!forumId) return;
+      await createReply(forumId, { description: comment });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setComment("");
+      handleSearchReplies();
+    }
+  };
 
   useEffect(() => {
-    const abortController = new AbortController();
+    if (!forumId) return;
+
+    const abortGetForumController = new AbortController();
+    const abortSearchRepliesController = new AbortController();
 
     const handleGetForum = async () => {
-      if (!forumId) return;
       const response = await getForum(forumId, {
-        signal: abortController.signal,
+        signal: abortGetForumController.signal,
       });
       setForum(response.data.item);
     };
 
     handleGetForum();
-  }, [forumId]);
+    handleSearchReplies({ signal: abortSearchRepliesController.signal });
 
-  return { forum };
+    return () => {
+      abortGetForumController.abort();
+      abortSearchRepliesController.abort();
+    };
+  }, [forumId, handleSearchReplies]);
+
+  return {
+    forum,
+    replies,
+    handleCommentSubmit,
+    comment,
+    handleCommentChange,
+    count,
+    handleSubCommentChange,
+    subComment,
+    handleSubCommentSubmit,
+  };
 };

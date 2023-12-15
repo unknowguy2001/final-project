@@ -29,6 +29,9 @@ axiosInstance.interceptors.response.use(
 
     if (error.response) {
       if (error.response.status === 400) {
+        if (error.response.data.message === "Invalid refresh token") {
+          return await axiosInstance.post("/auth/logout");
+        }
         toast.error(error.response.data.message);
       } else if (error.response.status === 401) {
         await axiosInstance.post("/auth/refresh");

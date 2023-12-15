@@ -10,7 +10,7 @@ export const useFunctions = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [companies, setCompanies] = useState<Company[]>([]);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const clearSearch = () => {
     setSearchQuery("");
@@ -51,7 +51,7 @@ export const useFunctions = () => {
     handleSearchCompanies();
 
     return () => abortController.abort();
-  }, [searchQuery, searchParams, setSearchParams]);
+  }, [searchQuery, searchParams]);
 
   return {
     companies,
