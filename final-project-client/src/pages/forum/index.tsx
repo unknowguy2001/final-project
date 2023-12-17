@@ -38,7 +38,7 @@ export const Forum = () => {
         border="1px solid"
         borderColor="gray.200"
       >
-        <Heading mb={4} color="brand.500" isTruncated as="h1" size="2xl">
+        <Heading mb={4} color="brand.500" isTruncated as="h1" fontSize="4xl">
           {forum?.title}
         </Heading>
         <Editor data={description} readOnly={true} theme="bubble" />

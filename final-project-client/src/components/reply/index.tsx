@@ -1,7 +1,3 @@
-import { useState } from "react";
-import { th } from "date-fns/locale";
-import { formatDistance } from "date-fns";
-import { useParams } from "react-router-dom";
 import {
   Avatar,
   Box,
@@ -11,9 +7,12 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
+import { th } from "date-fns/locale";
+import { Icon } from "@iconify/react";
+import { formatDistance } from "date-fns";
 
+import { useFunctions } from "./useFunctions";
 import { Reply as IReply } from "../../interfaces/reply";
-import { createReply } from "../../services/repliesService";
 
 interface ReplyProps {
   reply: IReply;
@@ -21,48 +20,16 @@ interface ReplyProps {
 }
 
 export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
-  const { forumId } = useParams<{ forumId: string }>();
-  const [subComment, setSubComment] = useState<string>("");
-  const [showCommentForm, setShowCommentForm] = useState<boolean>(false);
-  const [showChildReplies, setShowChildReplies] = useState<boolean>(false);
-
-  const handleSubCommentChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setSubComment(e.target.value);
-  };
-
-  const handleSubCommentSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    try {
-      e.preventDefault();
-      if (!forumId) return;
-      await createReply(
-        forumId,
-        { description: subComment },
-        {
-          params: {
-            replyId: reply.id,
-          },
-        }
-      );
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSubComment("");
-      handleSearchReplies();
-      setShowChildReplies(true);
-    }
-  };
-
-  const handleReplyClick = () => {
-    setShowCommentForm((prev) => !prev);
-  };
-
-  const handleShowChildReplies = () => {
-    setShowChildReplies((prev) => !prev);
-  };
+  const {
+    comment,
+    handleCommentCancel,
+    handleCommentSubmit,
+    handleReplyClick,
+    handleShowChildReplies,
+    handleSubCommentChange,
+    showChildReplies,
+    showCommentForm,
+  } = useFunctions({ reply, handleSearchReplies });
 
   return (
     <Box>
@@ -72,24 +39,31 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
         borderColor="gray.200"
         padding="20px"
       >
-        <Flex fontSize="sm" gap={2} alignItems="center">
-          <Avatar size="xs" name={reply?.createdByName[0]} />
-          <Text display="inline">{reply?.createdByName}</Text>
-          <Text color="gray.500" display="inline">
-            {reply?.createdAt && (
-              <>
-                {formatDistance(new Date(reply.createdAt), new Date(), {
-                  addSuffix: true,
-                  locale: th,
-                }).replace("ประมาณ", "")}{" "}
-              </>
-            )}
-          </Text>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Flex fontSize="sm" gap={2} alignItems="center">
+            <Avatar size="xs" name={reply?.createdByName[0]} />
+            <Text display="inline">{reply?.createdByName}</Text>
+            <Text color="gray.500" display="inline">
+              {reply?.createdAt && (
+                <>
+                  {formatDistance(new Date(reply.createdAt), new Date(), {
+                    addSuffix: true,
+                    locale: th,
+                  }).replace("ประมาณ", "")}{" "}
+                </>
+              )}
+            </Text>
+          </Flex>
+          <Button
+            onClick={handleReplyClick}
+            leftIcon={<Icon icon="lucide:reply" />}
+            size="sm"
+            variant="link"
+          >
+            ตอบกลับ
+          </Button>
         </Flex>
-        <Text my={3}>{reply.description}</Text>
-        <Button onClick={handleReplyClick} size="sm" variant="link">
-          ตอบกลับ
-        </Button>
+        <Text mt={3}>{reply.description}</Text>
       </Box>
       {reply.childReplies.length > 0 && (
         <Button
@@ -108,6 +82,7 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
         {showChildReplies &&
           reply.childReplies.map((childReply) => (
             <Box
+              backgroundColor="gray.50"
               position="relative"
               borderRadius="md"
               border="1px solid"
@@ -116,23 +91,29 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
               key={childReply.id}
               ml={8}
             >
-              <Flex fontSize="sm" gap={2} alignItems="center">
-                <Avatar size="xs" name={childReply?.createdByName[0]} />
-                <Text display="inline">{childReply?.createdByName}</Text>
-                <Text color="gray.500" display="inline">
-                  {childReply?.createdAt && (
-                    <>
-                      {formatDistance(
-                        new Date(childReply.createdAt),
-                        new Date(),
-                        {
+              <Flex justifyContent="space-between" alignItems="center">
+                <Flex fontSize="sm" gap={2} alignItems="center">
+                  <Avatar size="xs" name={reply?.createdByName[0]} />
+                  <Text display="inline">{reply?.createdByName}</Text>
+                  <Text color="gray.500" display="inline">
+                    {reply?.createdAt && (
+                      <>
+                        {formatDistance(new Date(reply.createdAt), new Date(), {
                           addSuffix: true,
                           locale: th,
-                        }
-                      ).replace("ประมาณ", "")}{" "}
-                    </>
-                  )}
-                </Text>
+                        }).replace("ประมาณ", "")}{" "}
+                      </>
+                    )}
+                  </Text>
+                </Flex>
+                <Button
+                  onClick={handleReplyClick}
+                  leftIcon={<Icon icon="lucide:reply" />}
+                  size="sm"
+                  variant="link"
+                >
+                  ตอบกลับ
+                </Button>
               </Flex>
               <Text mt={3}>{childReply.description}</Text>
             </Box>
@@ -146,19 +127,27 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
         position="relative"
         ml={8}
         as="form"
-        onSubmit={handleSubCommentSubmit}
+        onSubmit={handleCommentSubmit}
       >
         <Box overflow="hidden">
           <Textarea
-            value={subComment}
+            value={comment}
             onChange={handleSubCommentChange}
             required
             resize="none"
             placeholder="ความคิดเห็น"
           />
-          <Button type="submit" mt={4}>
-            ส่งความคิดเห็น
-          </Button>
+          <Flex mt={4} gap={4}>
+            <Button
+              variant="outline"
+              type="button"
+              onClick={handleCommentCancel}
+              colorScheme="red"
+            >
+              ยกเลิก
+            </Button>
+            <Button type="submit">ส่งความคิดเห็น</Button>
+          </Flex>
         </Box>
       </Box>
     </Box>
