@@ -1,0 +1,13 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+.ql-editor[contenteditable="false"] {
+  padding: 0;
+}

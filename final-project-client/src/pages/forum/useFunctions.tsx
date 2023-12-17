@@ -8,7 +8,6 @@ import { getForum } from "../../services/forumsService";
 import { createReply, searchReplies } from "../../services/repliesService";
 
 export const useFunctions = () => {
-  const [subComment, setSubComment] = useState<string>("");
   const [comment, setComment] = useState<string>("");
   const { forumId } = useParams<{ forumId: string }>();
   const [forum, setForum] = useState<Forum | null>(null);
@@ -35,27 +34,6 @@ export const useFunctions = () => {
     setComment(e.target.value);
   };
 
-  const handleSubCommentChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setSubComment(e.target.value);
-  };
-
-  const handleSubCommentSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    try {
-      e.preventDefault();
-      if (!forumId) return;
-      console.log("hello world");
-      // await createReply(forumId, { description: comment });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSubComment("");
-      handleSearchReplies();
-    }
-  };
   const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
@@ -98,8 +76,6 @@ export const useFunctions = () => {
     comment,
     handleCommentChange,
     count,
-    handleSubCommentChange,
-    subComment,
-    handleSubCommentSubmit,
+    handleSearchReplies,
   };
 };

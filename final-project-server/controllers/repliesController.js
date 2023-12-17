@@ -39,6 +39,7 @@ const createReply = async (req, res) => {
     const { description } = req.body;
     const { id } = req.params;
     const forumId = Number(id);
+    const replyId = Number(req.query.replyId);
 
     if (!description) {
       return res.status(400).json({ message: "Fields are must not be empty!" });
@@ -54,6 +55,7 @@ const createReply = async (req, res) => {
         description,
         createdByName: req.user.fullname,
         createdByUsername: req.user.username,
+        replyId: isNaN(replyId) ? null : replyId,
       },
     });
 

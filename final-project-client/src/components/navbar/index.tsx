@@ -6,6 +6,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Avatar,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { NavLink } from "react-router-dom";
@@ -43,6 +44,7 @@ export const Navbar = () => {
       <Menu>
         <MenuButton>
           <Flex fontWeight="500" fontSize="sm" gap={2} alignItems="center">
+            <Avatar size="xs" name={authInfo.user?.fullname[0]} />
             {authInfo.user?.fullname}
             <Icon fontSize={16} icon="akar-icons:chevron-down" />
           </Flex>

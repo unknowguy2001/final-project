@@ -11,8 +11,12 @@ export const searchReplies = async (
   return response;
 };
 
-export const createReply = async (forumId: string, data: ReplyData) => {
+export const createReply = async (
+  forumId: string,
+  data: ReplyData,
+  config: AxiosRequestConfig = {}
+) => {
   const url = `/forums/${forumId}/replies`;
-  const response = await axiosInstance.post(url, data);
+  const response = await axiosInstance.post(url, data, config);
   return response;
 };
