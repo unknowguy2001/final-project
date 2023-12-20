@@ -95,24 +95,15 @@ const createForum = async (req, res) => {
 const deleteForum = async (req, res) => {
   try {
     const { id } = req.params;
-    const forumId = Number(id);
+    const parsedForumId = Number(id);
 
-    if (isNaN(forumId)) {
+    if (isNaN(parsedForumId)) {
       return res.status(400).json({ message: "Id must be a number" });
     }
-    const forumInfo = await prisma.forum.findUnique({ where: { id: forumId } });
 
-    if (!forumInfo) {
-      return res
-        .status(400)
-        .json({ message: `This forum doesn't really exist!` });
-    }
-
-    if (req.user.username != forumInfo.createdBy) {
-      return res.status(400).json({ message: "This is not your forum!" });
-    }
-
-    const forum = await prisma.forum.delete({ where: { id: forumId } });
+    const forum = await prisma.forum.delete({
+      where: { id: parsedForumId, createdByUsername: req.user.username },
+    });
 
     if (!forum) {
       return res.status(400).json({ message: "Can't delete forum!" });
@@ -130,20 +121,12 @@ const updateForum = async (req, res) => {
     const { title, description } = req.body;
     const forumId = Number(id);
 
-    console.log(req.user);
-
     if (isNaN(forumId)) {
       return res.status(400).json({ message: "Id must be a number" });
     }
 
-    const forumInfo = await prisma.forum.findUnique({ where: { id: forumId } });
-
-    if (req.user.username != forumInfo.createdBy) {
-      return res.status(400).json({ message: "This is not your forum!" });
-    }
-
     const forum = await prisma.forum.update({
-      where: { id: forumId },
+      where: { id: forumId, createdByUsername: req.user.username },
       data: {
         title,
         description,

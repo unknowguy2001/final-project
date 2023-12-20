@@ -11,6 +11,7 @@ export const useFunctions = () => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
+
   const handleNewForumClick = async () => {
     const response = await createForum({
       title,

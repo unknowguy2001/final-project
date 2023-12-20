@@ -1,13 +1,16 @@
 import { AxiosRequestConfig } from "axios";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 
 import { Forum } from "../../interfaces/forum";
 import { Reply } from "../../interfaces/reply";
-import { getForum } from "../../services/forumsService";
+import { deleteForum, getForum } from "../../services/forumsService";
 import { createReply, searchReplies } from "../../services/repliesService";
+import { useAuth } from "../../contexts/authContext";
 
 export const useFunctions = () => {
+  const { authInfo } = useAuth();
+  const navigate = useNavigate();
   const [comment, setComment] = useState<string>("");
   const { forumId } = useParams<{ forumId: string }>();
   const [forum, setForum] = useState<Forum | null>(null);
@@ -47,6 +50,21 @@ export const useFunctions = () => {
     }
   };
 
+  const handleDeleteForumClick = async (forumId: number) => {
+    if (!forumId) return;
+    try {
+      await deleteForum(forumId);
+    } catch (error) {
+      console.error(error);
+    }
+    navigate("/forums");
+  };
+
+  const handleEditForumClick = (forumId: number) => {
+    if (!forumId) return;
+    navigate(`/forums/${forumId}/edit`);
+  };
+
   useEffect(() => {
     if (!forumId) return;
 
@@ -70,6 +88,7 @@ export const useFunctions = () => {
   }, [forumId, handleSearchReplies]);
 
   return {
+    authInfo,
     forum,
     replies,
     handleCommentSubmit,
@@ -77,5 +96,7 @@ export const useFunctions = () => {
     handleCommentChange,
     count,
     handleSearchReplies,
+    handleDeleteForumClick,
+    handleEditForumClick,
   };
 };

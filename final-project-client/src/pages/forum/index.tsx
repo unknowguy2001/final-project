@@ -5,6 +5,7 @@ import {
   Container,
   Flex,
   Heading,
+  IconButton,
   Stack,
   Text,
   Textarea,
@@ -16,9 +17,11 @@ import { useFunctions } from "./useFunctions";
 import { Editor } from "../../components/editor";
 import { Pagination } from "../../components/pagination";
 import { Reply } from "../../components/reply";
+import { Icon } from "@iconify/react";
 
 export const Forum = () => {
   const {
+    authInfo,
     forum,
     replies,
     handleCommentSubmit,
@@ -26,6 +29,8 @@ export const Forum = () => {
     handleCommentChange,
     count,
     handleSearchReplies,
+    handleDeleteForumClick,
+    handleEditForumClick,
   } = useFunctions();
 
   const description = forum?.description || "";
@@ -42,19 +47,39 @@ export const Forum = () => {
           {forum?.title}
         </Heading>
         <Editor data={description} readOnly={true} theme="bubble" />
-        <Flex mt={4} fontSize="sm" gap={2} alignItems="center">
-          <Avatar size="xs" name={forum?.createdByName[0]} />
-          <Text display="inline">{forum?.createdByName}</Text>
-          <Text color="gray.500" display="inline">
-            {forum?.createdAt && (
-              <>
-                {formatDistance(new Date(forum.createdAt), new Date(), {
-                  addSuffix: true,
-                  locale: th,
-                }).replace("ประมาณ", "")}{" "}
-              </>
-            )}
-          </Text>
+        <Flex mt={4} justifyContent="space-between" alignItems="center">
+          <Flex fontSize="sm" gap={2} alignItems="center">
+            <Avatar size="xs" name={forum?.createdByName[0]} />
+            <Text display="inline">{forum?.createdByName}</Text>
+            <Text color="gray.500" display="inline">
+              {forum?.createdAt && (
+                <>
+                  {formatDistance(new Date(forum.createdAt), new Date(), {
+                    addSuffix: true,
+                    locale: th,
+                  }).replace("ประมาณ", "")}{" "}
+                </>
+              )}
+            </Text>
+          </Flex>
+          {authInfo.user?.username === forum?.createdByUsername && (
+            <Flex justifyContent="end" gap={2}>
+              <IconButton
+                onClick={() => handleEditForumClick(forum!.id)}
+                aria-label="edit"
+                icon={<Icon icon="lucide:pen" />}
+                variant="ghost"
+                size="sm"
+              />
+              <IconButton
+                onClick={() => handleDeleteForumClick(forum!.id)}
+                aria-label="delete"
+                icon={<Icon icon="lucide:trash" />}
+                variant="ghost"
+                size="sm"
+              />
+            </Flex>
+          )}
         </Flex>
       </Box>
       <Heading mt={8} as="h2" size="md" mb={4}>

@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDisclosure } from "@chakra-ui/react";
 
 import { Reply } from "../../interfaces/reply";
-import { createReply } from "../../services/repliesService";
+import { useAuth } from "../../contexts/authContext";
+import {
+  createReply,
+  deleteReply,
+  updateReply,
+} from "../../services/repliesService";
 
 interface UseFunctionsProps {
   reply: Reply;
@@ -13,14 +19,27 @@ export const useFunctions = ({
   reply,
   handleSearchReplies,
 }: UseFunctionsProps) => {
-  const { forumId } = useParams<{ forumId: string }>();
+  const { authInfo } = useAuth();
+  const [edittingReplyId, setEdittingReplyId] = useState<number | null>(null);
+  const [edittingComment, setEdittingComment] = useState<string>("");
   const [comment, setComment] = useState<string>("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { forumId } = useParams<{ forumId: string }>();
   const [showCommentForm, setShowCommentForm] = useState<boolean>(false);
   const [showChildReplies, setShowChildReplies] = useState<boolean>(false);
 
-  const handleSubCommentChange = (
+  const handleClose = () => {
+    onClose();
+    setComment("");
+  };
+
+  const handleEdittingCommentChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
+    setEdittingComment(e.target.value);
+  };
+
+  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   };
 
@@ -60,14 +79,52 @@ export const useFunctions = ({
     setShowChildReplies((prev) => !prev);
   };
 
+  const handleDeleteReplyClick = async (forumId: number, replyId: number) => {
+    try {
+      await deleteReply(forumId, replyId);
+      handleSearchReplies();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEditReplyClick = (reply: Reply) => {
+    onOpen();
+    setEdittingComment(reply.description);
+    setEdittingReplyId(reply.id);
+  };
+
+  const handleSaveClick = async () => {
+    if (!edittingReplyId) return;
+    try {
+      const data = { description: edittingComment };
+      await updateReply(reply.forumId, edittingReplyId, data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setEdittingComment("");
+      setEdittingReplyId(null);
+      handleSearchReplies();
+      onClose();
+    }
+  };
+
   return {
+    authInfo,
     comment,
     showCommentForm,
     showChildReplies,
-    handleSubCommentChange,
+    handleCommentChange,
     handleCommentSubmit,
     handleReplyClick,
     handleCommentCancel,
     handleShowChildReplies,
+    handleDeleteReplyClick,
+    handleEditReplyClick,
+    handleClose,
+    isOpen,
+    edittingComment,
+    handleEdittingCommentChange,
+    handleSaveClick,
   };
 };

@@ -19,7 +19,11 @@ const searchReplies = async (req, res) => {
       createdAt: "desc",
     },
     include: {
-      childReplies: true,
+      childReplies: {
+        orderBy: {
+          createdAt: "asc",
+        },
+      },
     },
   };
   const countOptions = {
@@ -72,42 +76,19 @@ const createReply = async (req, res) => {
 const updateReply = async (req, res) => {
   try {
     const { id, forumId } = req.params;
-    const { description } = req.body;
-    const replyId = Number(id);
+    const parsedReplyId = Number(id);
+    const parsedForumId = Number(forumId);
 
-    if (isNaN(replyId) && isNaN(Number(forumId))) {
-      return res.status(400).json({ message: "Id must be a number" });
-    }
-
-    const replyInfo = await prisma.reply.findUnique({
-      where: { id: replyId },
-    });
-
-    if (!replyInfo) {
-      return res
-        .status(400)
-        .json({ message: "This reply doesn't really exist!" });
-    }
-
-    if (req.user.username != replyInfo.createdBy) {
-      return res.status(400).json({ message: "This is not your reply!" });
-    }
-
-    if (!description) {
-      console.log(description);
-      return res.status(400).json({ message: "Fields are must not be empty!" });
-    }
-
-    const reply = await prisma.reply.update({
-      where: { id: replyId },
+    await prisma.reply.update({
+      where: {
+        id: parsedReplyId,
+        forumId: parsedForumId,
+        createdByUsername: req.user.username,
+      },
       data: {
-        description,
+        description: req.body.description,
       },
     });
-
-    if (!reply) {
-      return res.status(400).json({ message: "Can't update reply forum!" });
-    }
 
     res.status(200).json({ message: "Updated reply!" });
   } catch (error) {
@@ -134,7 +115,7 @@ const deleteReply = async (req, res) => {
         .json({ message: "This reply doesn't really exist." });
     }
 
-    if (req.user.username != replyInfo.createdBy) {
+    if (req.user.username != replyInfo.createdByUsername) {
       return res.status(400).json({ message: "This is not your reply!" });
     }
 
@@ -142,6 +123,14 @@ const deleteReply = async (req, res) => {
 
     if (!reply) {
       return res.status(400).json({ message: "Can't delete reply forum!" });
+    }
+
+    const childReplies = await prisma.reply.deleteMany({
+      where: { replyId },
+    });
+
+    if (!childReplies) {
+      return res.status(400).json({ message: "Can't delete child replies!" });
     }
 
     res.status(200).json({ message: "Deleted reply!" });

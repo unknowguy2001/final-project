@@ -20,3 +20,19 @@ export const createReply = async (
   const response = await axiosInstance.post(url, data, config);
   return response;
 };
+
+export const deleteReply = async (forumId: number, replyId: number) => {
+  const url = `/forums/${forumId}/replies/${replyId}`;
+  const response = await axiosInstance.delete(url);
+  return response;
+};
+
+export const updateReply = async (
+  forumId: number,
+  replyId: number,
+  data: ReplyData
+) => {
+  const url = `/forums/${forumId}/replies/${replyId}`;
+  const response = await axiosInstance.patch(url, data);
+  return response;
+};

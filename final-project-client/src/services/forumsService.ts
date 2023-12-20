@@ -24,3 +24,15 @@ export const createForum = async (data: ForumData) => {
   const response = await axiosInstance.post(url, data);
   return response;
 };
+
+export const deleteForum = async (forumId: number) => {
+  const url = `/forums/${forumId}`;
+  const response = await axiosInstance.delete(url);
+  return response;
+};
+
+export const updateForum = async (forumId: string, data: ForumData) => {
+  const url = `/forums/${forumId}`;
+  const response = await axiosInstance.patch(url, data);
+  return response;
+};

@@ -3,6 +3,14 @@ import {
   Box,
   Button,
   Flex,
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Stack,
   Text,
   Textarea,
@@ -21,18 +29,48 @@ interface ReplyProps {
 
 export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
   const {
+    authInfo,
     comment,
     handleCommentCancel,
     handleCommentSubmit,
     handleReplyClick,
     handleShowChildReplies,
-    handleSubCommentChange,
+    handleCommentChange,
     showChildReplies,
     showCommentForm,
+    handleDeleteReplyClick,
+    handleEditReplyClick,
+    isOpen,
+    handleClose,
+    edittingComment,
+    handleEdittingCommentChange,
+    handleSaveClick,
   } = useFunctions({ reply, handleSearchReplies });
 
   return (
     <Box>
+      <Modal isOpen={isOpen} onClose={handleClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>แก้ไขความคิดเห็น</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Textarea
+              value={edittingComment}
+              onChange={handleEdittingCommentChange}
+              required
+              resize="none"
+              placeholder="ความคิดเห็น"
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" mr={3} onClick={handleClose}>
+              ยกเลิก
+            </Button>
+            <Button onClick={handleSaveClick}>บันทึก</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Box
         borderRadius="md"
         border="1px solid"
@@ -64,6 +102,24 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
           </Button>
         </Flex>
         <Text mt={3}>{reply.description}</Text>
+        {authInfo.user?.username === reply.createdByUsername && (
+          <Flex justifyContent="end" gap={2}>
+            <IconButton
+              onClick={() => handleEditReplyClick(reply)}
+              aria-label="edit"
+              icon={<Icon icon="lucide:pen" />}
+              variant="ghost"
+              size="sm"
+            />
+            <IconButton
+              onClick={() => handleDeleteReplyClick(reply.forumId, reply.id)}
+              aria-label="delete"
+              icon={<Icon icon="lucide:trash" />}
+              variant="ghost"
+              size="sm"
+            />
+          </Flex>
+        )}
       </Box>
       {reply.childReplies.length > 0 && (
         <Button
@@ -116,6 +172,26 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
                 </Button>
               </Flex>
               <Text mt={3}>{childReply.description}</Text>
+              {authInfo.user?.username === childReply.createdByUsername && (
+                <Flex justifyContent="end" gap={2}>
+                  <IconButton
+                    onClick={() => handleEditReplyClick(childReply)}
+                    aria-label="edit"
+                    icon={<Icon icon="lucide:pen" />}
+                    variant="ghost"
+                    size="sm"
+                  />
+                  <IconButton
+                    onClick={() =>
+                      handleDeleteReplyClick(childReply.forumId, childReply.id)
+                    }
+                    aria-label="delete"
+                    icon={<Icon icon="lucide:trash" />}
+                    variant="ghost"
+                    size="sm"
+                  />
+                </Flex>
+              )}
             </Box>
           ))}
       </Stack>
@@ -132,7 +208,7 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
         <Box overflow="hidden">
           <Textarea
             value={comment}
-            onChange={handleSubCommentChange}
+            onChange={handleCommentChange}
             required
             resize="none"
             placeholder="ความคิดเห็น"
