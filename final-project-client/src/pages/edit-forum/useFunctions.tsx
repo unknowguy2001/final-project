@@ -48,7 +48,7 @@ export const useFunctions = () => {
     return () => {
       abortGetForumController.abort();
     };
-  }, [forumId]);
+  }, [forumId, navigate, authInfo.user?.username]);
 
   return {
     title,
