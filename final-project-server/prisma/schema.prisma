@@ -7,6 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  username String @id
+  password String
+  fullname String
+  roleId   Int
+  role     Role   @relation(fields: [roleId], references: [id])
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String
+  User User[]
+}
+
 model Company {
   id            Int      @id @default(autoincrement())
   name          String

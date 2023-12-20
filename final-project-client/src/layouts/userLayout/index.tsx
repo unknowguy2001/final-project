@@ -6,7 +6,7 @@ import { Authenticated } from "../../components/authenticated";
 
 export const UserLayout = () => {
   return (
-    <Authenticated>
+    <Authenticated shouldBeAdmin={false}>
       <Navbar />
       <Outlet />
       <Footer />

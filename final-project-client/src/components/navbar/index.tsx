@@ -14,7 +14,8 @@ import { NavLink } from "react-router-dom";
 import { useFunctions } from "./useFunctions";
 
 export const Navbar = () => {
-  const { menues, authInfo, handleLogoutClick } = useFunctions();
+  const { menues, authInfo, handleLogoutClick, handleAdminClick } =
+    useFunctions();
 
   return (
     <Container
@@ -50,6 +51,14 @@ export const Navbar = () => {
           </Flex>
         </MenuButton>
         <MenuList>
+          {authInfo.isAdmin && (
+            <MenuItem
+              onClick={handleAdminClick}
+              icon={<Icon fontSize={16} icon="lucide:lock" />}
+            >
+              ระบบจัดการ
+            </MenuItem>
+          )}
           <MenuItem
             onClick={handleLogoutClick}
             icon={<Icon fontSize={16} icon="lucide:log-out" />}

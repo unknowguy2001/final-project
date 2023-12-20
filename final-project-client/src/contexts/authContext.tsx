@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [authInfo, setAuthInfo] = useState<AuthInfo>({
     isAuthenticated: false,
     user: null,
+    isAdmin: false,
   });
   const [isFetchingAuthInfo, setIsFetchingAuthInfo] = useState(true);
 

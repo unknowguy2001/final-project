@@ -8,6 +8,7 @@ export interface LoginData {
 export interface AuthInfo {
   isAuthenticated: boolean;
   user: User | null;
+  isAdmin: boolean;
 }
 
 export interface LoginResponse {

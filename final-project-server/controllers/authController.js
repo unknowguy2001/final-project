@@ -1,3 +1,4 @@
+const { prisma } = require("../prisma");
 const cookieConfig = require("../config/cookie");
 const { verifyToken, generateToken } = require("../utils/token");
 
@@ -11,37 +12,31 @@ const login = async (req, res) => {
       authInfo: {
         isAuthenticated: false,
         user: null,
+        isAdmin: false,
       },
     });
   }
 
-  // Check if username and password are valid
-  const loginDataResponse = await fetch(
-    "http://app.rmutp.ac.th/mobilews/login/getLogindata",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    }
-  );
-  const loginData = await loginDataResponse.json();
-  if (loginData.status === "Failed") {
+  const user = await prisma.user.findFirst({
+    where: {
+      username,
+      password,
+    },
+  });
+
+  if (!user) {
     return res.status(400).json({
       message: "Invalid username or password",
       authInfo: {
         isAuthenticated: false,
         user: null,
+        isAdmin: false,
       },
     });
   }
 
   // Generate access token and refresh token and send them to client
-  const payload = { username, fullname: loginData.data.STUDENTFULLNAME };
+  const payload = { username, fullname: user.fullname };
   const accessToken = generateToken(payload, "access");
   const refreshToken = generateToken(payload, "refresh");
   res.cookie("accessToken", accessToken, cookieConfig);
@@ -53,6 +48,7 @@ const login = async (req, res) => {
     authInfo: {
       isAuthenticated: true,
       user: payload,
+      isAdmin: user.roleId === 2,
     },
   });
 };
@@ -98,27 +94,36 @@ const refresh = async (req, res) => {
   res.status(200).json();
 };
 
-const getAuthInfo = (req, res) => {
+const getAuthInfo = async (req, res) => {
   const accessToken = req.signedCookies.accessToken;
 
   if (!accessToken) {
     return res.status(200).json({
       isAuthenticated: false,
       user: null,
+      isAdmin: false,
     });
   }
 
   try {
     const payload = verifyToken(accessToken, "access");
 
+    const user = await prisma.user.findFirst({
+      where: {
+        username: payload.username,
+      },
+    });
+
     res.status(200).json({
       isAuthenticated: true,
       user: payload,
+      isAdmin: user.roleId === 2,
     });
   } catch (error) {
-    res.status(401).json({
+    res.status(200).json({
       isAuthenticated: false,
       user: null,
+      isAdmin: false,
     });
   }
 };

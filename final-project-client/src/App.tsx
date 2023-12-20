@@ -9,6 +9,7 @@ import { theme } from "./theme";
 
 // pages
 import { Home } from "./pages/home";
+import { Admin } from "./pages/admin";
 import { Login } from "./pages/login";
 import { Forum } from "./pages/forum";
 import { Forums } from "./pages/forums";
@@ -20,6 +21,7 @@ import { EditForum } from "./pages/edit-forum";
 // layouts
 import { AuthLayout } from "./layouts/authLayout";
 import { UserLayout } from "./layouts/userLayout";
+import { AdminLayout } from "./layouts/adminLayout";
 
 // contexts
 import { AuthProvider } from "./contexts/authContext";
@@ -66,6 +68,16 @@ const router = createBrowserRouter([
       {
         path: "forums/:forumId/edit",
         element: <EditForum />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        path: "",
+        element: <Admin />,
       },
     ],
   },
