@@ -12,10 +12,10 @@ import { Icon } from "@iconify/react";
 import { NavLink } from "react-router-dom";
 
 import { useFunctions } from "./useFunctions";
+import { Fragment } from "react";
 
 export const Navbar = () => {
-  const { menues, authInfo, handleLogoutClick, handleAdminClick } =
-    useFunctions();
+  const { menues, authInfo, handleLogoutClick } = useFunctions();
 
   return (
     <Container
@@ -29,17 +29,20 @@ export const Navbar = () => {
     >
       <Flex gap={4}>
         {menues.map((menu) => (
-          <Link
-            key={menu.label + menu.url}
-            _activeLink={{
-              color: "black",
-            }}
-            color="gray.500"
-            as={NavLink}
-            to={menu.url}
-          >
-            {menu.label}
-          </Link>
+          <Fragment key={menu.label + menu.url}>
+            {menu.canAccess && (
+              <Link
+                _activeLink={{
+                  color: "black",
+                }}
+                color="gray.500"
+                as={NavLink}
+                to={menu.url}
+              >
+                {menu.label}
+              </Link>
+            )}
+          </Fragment>
         ))}
       </Flex>
       <Menu>
@@ -51,14 +54,6 @@ export const Navbar = () => {
           </Flex>
         </MenuButton>
         <MenuList>
-          {authInfo.isAdmin && (
-            <MenuItem
-              onClick={handleAdminClick}
-              icon={<Icon fontSize={16} icon="lucide:lock" />}
-            >
-              ระบบจัดการ
-            </MenuItem>
-          )}
           <MenuItem
             onClick={handleLogoutClick}
             icon={<Icon fontSize={16} icon="lucide:log-out" />}

@@ -59,8 +59,6 @@ const getCompanyById = async (req, res) => {
 const addCompany = async (req, res) => {
   const {
     name,
-    typeId,
-    workModelId,
     address,
     road,
     village,
@@ -71,8 +69,6 @@ const addCompany = async (req, res) => {
   } = req.body;
   const isNotValid =
     !name ||
-    !typeId ||
-    !workModelId ||
     !address ||
     !road ||
     !village ||
@@ -88,8 +84,6 @@ const addCompany = async (req, res) => {
 
   const newCompany = {
     name,
-    typeId,
-    workModelId,
     address,
     road,
     village,
@@ -102,8 +96,6 @@ const addCompany = async (req, res) => {
   const result = await prisma.company.create({
     data: {
       name: newCompany.name,
-      typeId: newCompany.typeId,
-      workModelId: newCompany.workModelId,
       address: newCompany.address,
       road: newCompany.road,
       village: newCompany.village,
@@ -168,8 +160,6 @@ const searchCompanies = async (req, res) => {
 const updateCompany = async (req, res) => {
   const {
     name,
-    typeId,
-    workModelId,
     address,
     road,
     village,
@@ -180,8 +170,6 @@ const updateCompany = async (req, res) => {
   } = req.body;
   const isNotValid =
     !name ||
-    !typeId ||
-    !workModelId ||
     !address ||
     !road ||
     !village ||
@@ -196,8 +184,6 @@ const updateCompany = async (req, res) => {
 
   const updatedCompany = {
     name,
-    typeId,
-    workModelId,
     address,
     road,
     village,
@@ -213,8 +199,6 @@ const updateCompany = async (req, res) => {
     },
     data: {
       name: updatedCompany.name,
-      typeId: updatedCompany.typeId,
-      workModelId: updatedCompany.workModelId,
       address: updatedCompany.address,
       road: updatedCompany.road,
       village: updatedCompany.village,

@@ -25,10 +25,6 @@ export const useFunctions = () => {
     setSearchQuery(searchInputRef.current?.value || "");
   };
 
-  const handleNewForumClick = () => {
-    navigate("/forums/new");
-  };
-
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -54,6 +50,5 @@ export const useFunctions = () => {
     searchInputRef,
     clearSearch,
     count,
-    handleNewForumClick,
   };
 };

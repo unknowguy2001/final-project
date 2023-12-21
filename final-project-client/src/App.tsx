@@ -9,7 +9,7 @@ import { theme } from "./theme";
 
 // pages
 import { Home } from "./pages/home";
-import { Admin } from "./pages/admin";
+import { AdminCompanies } from "./pages/admin/companies";
 import { Login } from "./pages/login";
 import { Forum } from "./pages/forum";
 import { Forums } from "./pages/forums";
@@ -25,6 +25,9 @@ import { AdminLayout } from "./layouts/adminLayout";
 
 // contexts
 import { AuthProvider } from "./contexts/authContext";
+import { Admin } from "./pages/admin";
+import { NewCompany } from "./pages/admin/new-company";
+import { EditCompany } from "./pages/admin/edit-company";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +81,18 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Admin />,
+      },
+      {
+        path: "companies",
+        element: <AdminCompanies />,
+      },
+      {
+        path: "companies/new",
+        element: <NewCompany />,
+      },
+      {
+        path: "companies/:companyId/edit",
+        element: <EditCompany />,
       },
     ],
   },

@@ -1,7 +1,11 @@
 import { AxiosRequestConfig } from "axios";
 
 import { axiosInstance } from "../axiosInstance";
-import { Company, GetCompanyResponse } from "../interfaces/company";
+import {
+  Company,
+  CompanyData,
+  GetCompanyResponse,
+} from "../interfaces/company";
 
 interface SearchCompaniesResponse {
   items: Company[];
@@ -29,5 +33,26 @@ export const getCompany = async (
 export const getTop4PopularCompanies = async (config: AxiosRequestConfig) => {
   const url = "/companies/top-4-popular";
   const response = await axiosInstance.get(url, config);
+  return response;
+};
+
+export const addCompany = async (companyData: CompanyData) => {
+  const url = "/companies";
+  const response = await axiosInstance.post(url, companyData);
+  return response;
+};
+
+export const deleteCompany = async (companyId: number) => {
+  const url = `/companies/${companyId}`;
+  const response = await axiosInstance.delete(url);
+  return response;
+};
+
+export const updateCompany = async (
+  companyId: string,
+  companyData: CompanyData
+) => {
+  const url = `/companies/${companyId}`;
+  const response = await axiosInstance.patch(url, companyData);
   return response;
 };

@@ -4,16 +4,11 @@ import { Box, Button, Container, Flex, Heading, Input } from "@chakra-ui/react";
 import { useFunctions } from "./useFunctions";
 import { ForumCard } from "../../components/forum-card";
 import { Pagination } from "../../components/pagination";
+import { Link } from "react-router-dom";
 
 export const Forums = () => {
-  const {
-    forums,
-    handleSubmit,
-    clearSearch,
-    searchInputRef,
-    count,
-    handleNewForumClick,
-  } = useFunctions();
+  const { forums, handleSubmit, clearSearch, searchInputRef, count } =
+    useFunctions();
 
   return (
     <Container as="main" paddingY={8} maxWidth={1024}>
@@ -21,7 +16,7 @@ export const Forums = () => {
         <Heading as="h1" fontSize="3xl">
           กระทู้ทั้งหมด
         </Heading>
-        <Button onClick={handleNewForumClick} variant="outline">
+        <Button as={Link} to="/forums/new" variant="outline">
           สร้างกระทู้
         </Button>
       </Flex>

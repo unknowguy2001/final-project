@@ -1,35 +1,41 @@
-import { useNavigate } from "react-router-dom";
-
 import { logout } from "../../services/authService";
 import { useAuth } from "../../contexts/authContext";
 
-const menues = [
-  {
-    label: "หน้าแรก",
-    url: "/",
-  },
-  {
-    label: "บริษัท",
-    url: "/companies",
-  },
-  {
-    label: "กระทู้",
-    url: "/forums",
-  },
-];
-
 export const useFunctions = () => {
-  const navigate = useNavigate();
   const { authInfo, setAuthInfo } = useAuth();
 
-  const handleAdminClick = () => {
-    navigate("/admin");
-  };
+  const userMenues = [
+    {
+      label: "หน้าแรก",
+      url: "/",
+      canAccess: authInfo.isAuthenticated,
+    },
+    {
+      label: "บริษัท",
+      url: "/companies",
+      canAccess: authInfo.isAuthenticated,
+    },
+    {
+      label: "กระทู้",
+      url: "/forums",
+      canAccess: authInfo.isAuthenticated,
+    },
+  ];
+
+  const adminMenues = [
+    {
+      label: "แอดมิน",
+      url: "/admin",
+      canAccess: authInfo.isAdmin,
+    },
+  ];
+
+  const menues = [...userMenues, ...adminMenues];
 
   const handleLogoutClick = async () => {
     await logout();
     setAuthInfo({ isAuthenticated: false, user: null, isAdmin: false });
   };
 
-  return { menues, authInfo, handleLogoutClick, handleAdminClick };
+  return { menues, authInfo, handleLogoutClick };
 };

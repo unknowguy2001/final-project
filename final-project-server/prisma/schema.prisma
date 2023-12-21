@@ -24,8 +24,6 @@ model Role {
 model Company {
   id            Int      @id @default(autoincrement())
   name          String
-  typeId        Int?
-  workModelId   Int?
   address       String
   road          String
   village       String

@@ -14,13 +14,12 @@ async function main() {
       data.push(row);
     })
     .on("end", async () => {
-      await prisma.company.deleteMany();
+      await prisma.review.deleteMany({});
+      await prisma.company.deleteMany({});
       for (const row of data) {
         await prisma.company.create({
           data: {
             name: row.CompanyName,
-            typeId: parseInt(row.CompanyTypeID),
-            workModelId: parseInt(row.CompanyTypeID),
             address: row.Address === "NULL" ? "" : row.Address,
             road: row.Road === "NULL" ? "" : row.Road,
             village: row.Village === "NULL" ? "" : row.Village,
