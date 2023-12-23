@@ -1,6 +1,6 @@
 const { prisma } = require("../prisma");
 
-const DEFAULT_PER_PAGE = 12;
+const { DEFAULT_PER_PAGE } = require("../constants/pagination");
 
 const searchForums = async (req, res) => {
   try {

@@ -4,7 +4,7 @@ const { prisma } = require("../prisma");
 const cookieConfig = require("../config/cookie");
 const { verifyToken, generateToken } = require("../utils/token");
 
-const login = async (req, res) => {
+module.exports.login = async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -56,7 +56,7 @@ const login = async (req, res) => {
   }
 };
 
-const logout = async (req, res) => {
+module.exports.logout = async (req, res) => {
   res.clearCookie("accessToken");
   res.clearCookie("refreshToken");
   res.status(200).json({
@@ -64,7 +64,7 @@ const logout = async (req, res) => {
   });
 };
 
-const refresh = async (req, res) => {
+module.exports.refresh = async (req, res) => {
   try {
     const refreshToken = req.signedCookies.refreshToken;
 
@@ -96,7 +96,7 @@ const refresh = async (req, res) => {
   }
 };
 
-const getAuthInfo = async (req, res) => {
+module.exports.getAuthInfo = async (req, res) => {
   try {
     const accessToken = req.signedCookies.accessToken;
 
@@ -137,11 +137,4 @@ const getAuthInfo = async (req, res) => {
       isAdmin: false,
     });
   }
-};
-
-module.exports = {
-  login,
-  logout,
-  refresh,
-  getAuthInfo,
 };

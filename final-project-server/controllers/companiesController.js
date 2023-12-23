@@ -1,6 +1,8 @@
 const { prisma } = require("../prisma");
 
-const getTop4Popular = async (req, res) => {
+const { DEFAULT_PER_PAGE } = require("../constants/pagination");
+
+module.exports.getTop4Popular = async (req, res) => {
   const popularCompanies = await prisma.company.findMany({
     take: 4,
     orderBy: {
@@ -12,7 +14,7 @@ const getTop4Popular = async (req, res) => {
   });
 };
 
-const getCompanyById = async (req, res) => {
+module.exports.getCompanyById = async (req, res) => {
   const { id } = req.params;
 
   const companyId = Number(id);
@@ -56,7 +58,7 @@ const getCompanyById = async (req, res) => {
   });
 };
 
-const addCompany = async (req, res) => {
+module.exports.addCompany = async (req, res) => {
   const {
     name,
     address,
@@ -113,9 +115,7 @@ const addCompany = async (req, res) => {
   return res.status(201).json({ message: "Added company!" });
 };
 
-const DEFAULT_PER_PAGE = 12;
-
-const searchCompanies = async (req, res) => {
+module.exports.searchCompanies = async (req, res) => {
   const searchQuery = req.query.searchQuery || "";
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const perPage = Math.max(
@@ -157,7 +157,7 @@ const searchCompanies = async (req, res) => {
   res.status(200).json({ items: companies, count });
 };
 
-const updateCompany = async (req, res) => {
+module.exports.updateCompany = async (req, res) => {
   const {
     name,
     address,
@@ -216,7 +216,7 @@ const updateCompany = async (req, res) => {
   res.status(200).json({ message: "Updated compnay!" });
 };
 
-const deleteCompany = async (req, res) => {
+module.exports.deleteCompany = async (req, res) => {
   if (isNaN(Number(req.params.id))) {
     return res.status(400).json({ message: "ID is empty or incorrect ID!" });
   }
@@ -230,13 +230,4 @@ const deleteCompany = async (req, res) => {
   }
 
   res.status(200).json({ message: "Deleted company!" });
-};
-
-module.exports = {
-  getTop4Popular,
-  getCompanyById,
-  addCompany,
-  searchCompanies,
-  updateCompany,
-  deleteCompany,
 };

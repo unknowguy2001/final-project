@@ -1,6 +1,5 @@
 const { prisma } = require("../prisma");
-
-const DEFAULT_PER_PAGE = 12;
+const { DEFAULT_PER_PAGE } = require("../constants/pagination");
 
 const searchReplies = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1);

@@ -1,6 +1,6 @@
 const { prisma } = require("../prisma");
 
-const createReview = async (req, res) => {
+module.exports.createReview = async (req, res) => {
   const parsedCompanyId = req.parsedCompanyId;
   const { rating, description } = req.body;
 
@@ -56,7 +56,7 @@ const createReview = async (req, res) => {
   });
 };
 
-const deleteReview = async (req, res) => {
+module.exports.deleteReview = async (req, res) => {
   const parsedCompanyId = req.parsedCompanyId;
   const parsedReviewId = req.parsedReviewId;
 
@@ -110,7 +110,7 @@ const deleteReview = async (req, res) => {
   });
 };
 
-const updateReview = async (req, res) => {
+module.exports.updateReview = async (req, res) => {
   const parsedCompanyId = req.parsedCompanyId;
   const parsedReviewId = req.parsedReviewId;
   const { rating, description } = req.body;
@@ -153,7 +153,7 @@ const updateReview = async (req, res) => {
   res.status(200).json({ message: "Updated review!" });
 };
 
-const getReview = async (req, res) => {
+module.exports.getReview = async (req, res) => {
   const parsedCompanyId = req.parsedCompanyId;
   const parsedReviewId = req.parsedReviewId;
 
@@ -168,11 +168,4 @@ const getReview = async (req, res) => {
   }
 
   res.status(200).json({ item: review });
-};
-
-module.exports = {
-  createReview,
-  deleteReview,
-  updateReview,
-  getReview,
 };
