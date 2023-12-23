@@ -1,6 +1,6 @@
 const { verifyToken } = require("../utils/token");
 
-const authentication = (req, res, next) => {
+module.exports.authentication = (req, res, next) => {
   if (!req.signedCookies.accessToken) {
     return res.status(401).json({ message: "Unauthorized!" });
   }
@@ -15,5 +15,3 @@ const authentication = (req, res, next) => {
 
   next();
 };
-
-module.exports = authentication;

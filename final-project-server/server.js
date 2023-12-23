@@ -11,7 +11,7 @@ const forumsRouter = require("./routes/forums");
 const companiesRouter = require("./routes/companies");
 
 // middlewares
-const authentication = require("./middlewares/authentication");
+const { authentication } = require("./middlewares/authentication");
 
 dotenv.config();
 
@@ -25,8 +25,8 @@ app.use(
 );
 app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
 app.use("/auth", authRouter);
-app.use("/common", commonRouter);
-app.use("/users", usersRouter);
+app.use("/common", authentication, commonRouter);
+app.use("/users", authentication, usersRouter);
 app.use("/forums", authentication, forumsRouter);
 app.use("/companies", authentication, companiesRouter);
 
