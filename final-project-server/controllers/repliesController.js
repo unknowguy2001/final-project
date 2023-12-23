@@ -1,7 +1,7 @@
 const { prisma } = require("../prisma");
 const { DEFAULT_PER_PAGE } = require("../constants/pagination");
 
-const searchReplies = async (req, res) => {
+module.exports.searchReplies = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const perPage = Math.max(
     parseInt(req.query.perPage) || DEFAULT_PER_PAGE,
@@ -37,7 +37,7 @@ const searchReplies = async (req, res) => {
   res.status(200).json({ items: companies, count });
 };
 
-const createReply = async (req, res) => {
+module.exports.createReply = async (req, res) => {
   try {
     const { description } = req.body;
     const { id } = req.params;
@@ -72,7 +72,7 @@ const createReply = async (req, res) => {
   }
 };
 
-const updateReply = async (req, res) => {
+module.exports.updateReply = async (req, res) => {
   try {
     const { id, forumId } = req.params;
     const parsedReplyId = Number(id);
@@ -95,7 +95,7 @@ const updateReply = async (req, res) => {
   }
 };
 
-const deleteReply = async (req, res) => {
+module.exports.deleteReply = async (req, res) => {
   try {
     const { id, forumId } = req.params;
     const replyId = Number(id);
@@ -137,5 +137,3 @@ const deleteReply = async (req, res) => {
     res.status(500).json({ message: `Error: ${error.message}` });
   }
 };
-
-module.exports = { searchReplies, createReply, updateReply, deleteReply };

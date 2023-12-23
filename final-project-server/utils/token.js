@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const verifyToken = (token, tokenType) => {
+module.exports.verifyToken = (token, tokenType) => {
   try {
     const secret =
       tokenType === "access"
@@ -13,7 +13,7 @@ const verifyToken = (token, tokenType) => {
   }
 };
 
-const generateToken = (payload, tokenType) => {
+module.exports.generateToken = (payload, tokenType) => {
   const secret =
     tokenType === "access"
       ? process.env.JWT_ACCESS_TOKEN_SECRET
@@ -22,9 +22,4 @@ const generateToken = (payload, tokenType) => {
     expiresIn: tokenType === "access" ? "15m" : "1d",
   });
   return token;
-};
-
-module.exports = {
-  verifyToken,
-  generateToken,
 };

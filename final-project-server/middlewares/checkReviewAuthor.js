@@ -1,6 +1,6 @@
 const { prisma } = require("../prisma");
 
-const checkReviewAuthor = async (req, res, next) => {
+module.exports.checkReviewAuthor = async (req, res, next) => {
   const { reviewId } = req.params;
 
   const parsedReviewId = parseInt(reviewId);
@@ -26,8 +26,4 @@ const checkReviewAuthor = async (req, res, next) => {
   }
 
   next();
-};
-
-module.exports = {
-  checkReviewAuthor,
 };

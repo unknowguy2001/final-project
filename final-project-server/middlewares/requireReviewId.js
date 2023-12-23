@@ -1,4 +1,4 @@
-const requireReviewId = async (req, res, next) => {
+module.exports.requireReviewId = async (req, res, next) => {
   const { reviewId } = req.params;
 
   const parsedReviewId = parseInt(reviewId);
@@ -13,5 +13,3 @@ const requireReviewId = async (req, res, next) => {
 
   next();
 };
-
-module.exports = { requireReviewId };
