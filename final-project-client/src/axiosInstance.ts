@@ -23,17 +23,19 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.code === "ERR_CANCELED") {
+    if (axios.isCancel(error)) {
       return Promise.reject(error);
     }
 
     if (error.response) {
-      if (error.response.status === 400) {
-        if (error.response.data.message === "Invalid refresh token") {
-          return await axiosInstance.post("/auth/logout");
+      const { status, data } = error.response;
+
+      if (status === 400 || status === 500) {
+        if (data.message === "Invalid refresh token") {
+          await axiosInstance.post("/auth/logout");
         }
         toast.error(error.response.data.message);
-      } else if (error.response.status === 401) {
+      } else if (status === 401) {
         await axiosInstance.post("/auth/refresh");
         return axiosInstance(originalRequest);
       }

@@ -30,6 +30,7 @@ export const useFunctions = () => {
   };
 
   return {
+    companyData,
     handleChange,
     handleAddCompanyClick,
   };

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Button, Container, Heading } from "@chakra-ui/react";
+import { Button, Container, Flex, Heading } from "@chakra-ui/react";
 
 export const Admin = () => {
   return (
@@ -7,9 +7,14 @@ export const Admin = () => {
       <Heading as="h1" fontSize="3xl">
         หน้าแอดมิน
       </Heading>
-      <Button variant="outline" to="/admin/companies" as={Link} mt={4}>
-        จัดการบริษัท
-      </Button>
+      <Flex alignItems="center" gap={4} mt={4}>
+        <Button variant="outline" to="/admin/users" as={Link}>
+          จัดการผู้ใช้
+        </Button>
+        <Button variant="outline" to="/admin/companies" as={Link}>
+          จัดการบริษัท
+        </Button>
+      </Flex>
     </Container>
   );
 };

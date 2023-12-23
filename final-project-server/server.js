@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 
 // routers
 const authRouter = require("./routes/auth");
+const commonRouter = require("./routes/common");
+const usersRouter = require("./routes/users");
 const forumsRouter = require("./routes/forums");
 const companiesRouter = require("./routes/companies");
 
@@ -23,8 +25,10 @@ app.use(
 );
 app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
 app.use("/auth", authRouter);
-app.use("/companies", authentication, companiesRouter);
+app.use("/common", commonRouter);
+app.use("/users", usersRouter);
 app.use("/forums", authentication, forumsRouter);
+app.use("/companies", authentication, companiesRouter);
 
 const port = process.env.PORT;
 app.listen(port, () => {

@@ -17,6 +17,12 @@ import { Company } from "./pages/company";
 import { NewForum } from "./pages/new-forum";
 import { Companies } from "./pages/companies";
 import { EditForum } from "./pages/edit-forum";
+import { Admin } from "./pages/admin";
+import { NewCompany } from "./pages/admin/new-company";
+import { EditCompany } from "./pages/admin/edit-company";
+import { AdminUsers } from "./pages/admin/users";
+import { AdminAddUser } from "./pages/admin/add-user";
+import { AdminEditUser } from "./pages/admin/edit-user";
 
 // layouts
 import { AuthLayout } from "./layouts/authLayout";
@@ -25,9 +31,6 @@ import { AdminLayout } from "./layouts/adminLayout";
 
 // contexts
 import { AuthProvider } from "./contexts/authContext";
-import { Admin } from "./pages/admin";
-import { NewCompany } from "./pages/admin/new-company";
-import { EditCompany } from "./pages/admin/edit-company";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +96,18 @@ const router = createBrowserRouter([
       {
         path: "companies/:companyId/edit",
         element: <EditCompany />,
+      },
+      {
+        path: "users",
+        element: <AdminUsers />,
+      },
+      {
+        path: "users/new",
+        element: <AdminAddUser />,
+      },
+      {
+        path: "users/:userId/edit",
+        element: <AdminEditUser />,
       },
     ],
   },

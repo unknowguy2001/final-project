@@ -10,7 +10,7 @@ import {
 import { useFunctions } from "./useFunctions";
 
 export const NewCompany = () => {
-  const { handleChange, handleAddCompanyClick } = useFunctions();
+  const { companyData, handleChange, handleAddCompanyClick } = useFunctions();
 
   return (
     <Container as="main" paddingY={8} maxWidth={1024}>
@@ -20,18 +20,34 @@ export const NewCompany = () => {
         </Heading>
         <FormControl>
           <FormLabel>ชื่อบริษัท</FormLabel>
-          <Input name="name" onChange={handleChange} placeholder="ชื่อบริษัท" />
+          <Input
+            name="name"
+            value={companyData.name}
+            onChange={handleChange}
+            placeholder="ชื่อบริษัท"
+          />
         </FormControl>
         <FormControl>
           <FormLabel>ที่อยู่</FormLabel>
-          <Input name="address" onChange={handleChange} placeholder="ที่อยู่" />
+          <Input
+            name="address"
+            value={companyData.address}
+            onChange={handleChange}
+            placeholder="ที่อยู่"
+          />
         </FormControl>
         <FormControl>
-          <Input name="road" onChange={handleChange} placeholder="ถนน" />
+          <Input
+            name="road"
+            value={companyData.road}
+            onChange={handleChange}
+            placeholder="ถนน"
+          />
         </FormControl>
         <FormControl>
           <Input
             name="village"
+            value={companyData.village}
             onChange={handleChange}
             placeholder="แขวง/ตำบล"
           />
@@ -39,6 +55,7 @@ export const NewCompany = () => {
         <FormControl>
           <Input
             name="district"
+            value={companyData.district}
             onChange={handleChange}
             placeholder="เขต/อำเภอ"
           />
@@ -46,6 +63,7 @@ export const NewCompany = () => {
         <FormControl>
           <Input
             name="province"
+            value={companyData.province}
             onChange={handleChange}
             placeholder="จังหวัด"
           />
@@ -53,6 +71,7 @@ export const NewCompany = () => {
         <FormControl>
           <Input
             name="zipcode"
+            value={companyData.zipcode}
             onChange={handleChange}
             placeholder="รหัสไปรษณีย์"
           />
@@ -60,6 +79,7 @@ export const NewCompany = () => {
         <FormControl>
           <FormLabel>เบอร์โทรศัพท์</FormLabel>
           <Input
+            value={companyData.telephone}
             name="telephone"
             onChange={handleChange}
             placeholder="เบอร์โทรศัพท์"

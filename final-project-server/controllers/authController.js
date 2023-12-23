@@ -1,3 +1,5 @@
+const argon2 = require("argon2");
+
 const { prisma } = require("../prisma");
 const cookieConfig = require("../config/cookie");
 const { verifyToken, generateToken } = require("../utils/token");
@@ -17,14 +19,26 @@ const login = async (req, res) => {
     });
   }
 
-  const user = await prisma.user.findFirst({
+  const user = await prisma.user.findUnique({
     where: {
       username,
-      password,
     },
   });
 
   if (!user) {
+    return res.status(400).json({
+      message: "Invalid username or password",
+      authInfo: {
+        isAuthenticated: false,
+        user: null,
+        isAdmin: false,
+      },
+    });
+  }
+
+  // Check if password is correct
+  const isPasswordCorrect = await argon2.verify(user.password, password);
+  if (!isPasswordCorrect) {
     return res.status(400).json({
       message: "Invalid username or password",
       authInfo: {
