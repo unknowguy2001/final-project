@@ -15,6 +15,12 @@ export const logout = async () => {
   return response;
 };
 
+export const refresh = async () => {
+  const url = "/auth/refresh";
+  const response = await axiosInstance.post<LoginResponse>(url);
+  return response;
+};
+
 export const getAuthInfo = async (config: AxiosRequestConfig) => {
   const url = "/auth/info";
   const response = await axiosInstance.get<AuthInfo>(url, config);

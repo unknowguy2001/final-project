@@ -122,6 +122,10 @@ const getAuthInfo = async (req, res) => {
   try {
     const payload = verifyToken(accessToken, "access");
 
+    if (!payload) {
+      return res.status(401).json({ message: "Unauthorized!" });
+    }
+
     const user = await prisma.user.findFirst({
       where: {
         username: payload.username,

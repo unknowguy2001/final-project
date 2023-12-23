@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "sonner";
+import { logout, refresh } from "./services/authService";
 
 export const axiosInstance = axios.create({
   baseURL: "http://localhost:3000",
@@ -32,11 +33,11 @@ axiosInstance.interceptors.response.use(
 
       if (status === 400 || status === 500) {
         if (data.message === "Invalid refresh token") {
-          await axiosInstance.post("/auth/logout");
+          await logout();
         }
         toast.error(error.response.data.message);
       } else if (status === 401) {
-        await axiosInstance.post("/auth/refresh");
+        await refresh();
         return axiosInstance(originalRequest);
       }
     }
