@@ -90,9 +90,7 @@ module.exports.refresh = async (req, res) => {
       message: "Refresh token successful",
     });
   } catch (error) {
-    return res.status(400).json({
-      message: error.message,
-    });
+    res.status(400).json();
   }
 };
 
