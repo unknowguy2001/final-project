@@ -138,26 +138,30 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
         {showChildReplies &&
           reply.childReplies.map((childReply) => (
             <Box
+              key={childReply.id}
               backgroundColor="gray.50"
               position="relative"
               borderRadius="md"
               border="1px solid"
               borderColor="gray.200"
               padding="20px"
-              key={childReply.id}
               ml={8}
             >
               <Flex justifyContent="space-between" alignItems="center">
                 <Flex fontSize="sm" gap={2} alignItems="center">
-                  <Avatar size="xs" name={reply?.createdByName[0]} />
-                  <Text display="inline">{reply?.createdByName}</Text>
+                  <Avatar size="xs" name={childReply?.createdByName[0]} />
+                  <Text display="inline">{childReply?.createdByName}</Text>
                   <Text color="gray.500" display="inline">
-                    {reply?.createdAt && (
+                    {childReply?.createdAt && (
                       <>
-                        {formatDistance(new Date(reply.createdAt), new Date(), {
-                          addSuffix: true,
-                          locale: th,
-                        }).replace("ประมาณ", "")}{" "}
+                        {formatDistance(
+                          new Date(childReply.createdAt),
+                          new Date(),
+                          {
+                            addSuffix: true,
+                            locale: th,
+                          }
+                        ).replace("ประมาณ", "")}{" "}
                       </>
                     )}
                   </Text>
