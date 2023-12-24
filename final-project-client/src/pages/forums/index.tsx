@@ -1,10 +1,10 @@
 import { Icon } from "@iconify/react";
+import { Link } from "react-router-dom";
 import { Box, Button, Container, Flex, Heading, Input } from "@chakra-ui/react";
 
 import { useFunctions } from "./useFunctions";
 import { ForumCard } from "../../components/forum-card";
 import { Pagination } from "../../components/pagination";
-import { Link } from "react-router-dom";
 
 export const Forums = () => {
   const { forums, handleSubmit, clearSearch, searchInputRef, count } =

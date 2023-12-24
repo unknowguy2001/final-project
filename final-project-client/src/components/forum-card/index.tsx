@@ -6,11 +6,10 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
-import { th } from "date-fns/locale";
-import { formatDistance } from "date-fns";
 
 import { Forum } from "../../interfaces/forum";
 import { useFunctions } from "./useFunctions";
+import { formatDistanceToNow } from "../../utils/dateUtils";
 
 interface ForumCardProps {
   forum: Forum;
@@ -46,11 +45,7 @@ export const ForumCard = ({ forum }: ForumCardProps) => {
       <CardBody pt={2}>
         <Box>
           <Text color="gray.500" display="inline">
-            {formatDistance(new Date(forum.createdAt), new Date(), {
-              addSuffix: true,
-              locale: th,
-            }).replace("ประมาณ", "")}{" "}
-            โดย
+            {formatDistanceToNow(forum.createdAt)} โดย
           </Text>{" "}
           <Text display="inline">{forum.createdByName}</Text>
         </Box>

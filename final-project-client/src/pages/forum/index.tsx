@@ -10,14 +10,13 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import { th } from "date-fns/locale";
-import { formatDistance } from "date-fns";
+import { Icon } from "@iconify/react";
 
 import { useFunctions } from "./useFunctions";
+import { Reply } from "../../components/reply";
 import { Editor } from "../../components/editor";
 import { Pagination } from "../../components/pagination";
-import { Reply } from "../../components/reply";
-import { Icon } from "@iconify/react";
+import { formatDistanceToNow } from "../../utils/dateUtils";
 
 export const Forum = () => {
   const {
@@ -52,14 +51,7 @@ export const Forum = () => {
             <Avatar size="xs" name={forum?.createdByName[0]} />
             <Text display="inline">{forum?.createdByName}</Text>
             <Text color="gray.500" display="inline">
-              {forum?.createdAt && (
-                <>
-                  {formatDistance(new Date(forum.createdAt), new Date(), {
-                    addSuffix: true,
-                    locale: th,
-                  }).replace("ประมาณ", "")}{" "}
-                </>
-              )}
+              {formatDistanceToNow(forum?.createdAt)}
             </Text>
           </Flex>
           {authInfo.user?.username === forum?.createdByUsername && (

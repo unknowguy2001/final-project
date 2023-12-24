@@ -4,9 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Forum } from "../../interfaces/forum";
 import { Reply } from "../../interfaces/reply";
+import { useAuth } from "../../contexts/authContext";
 import { deleteForum, getForum } from "../../services/forumsService";
 import { createReply, searchReplies } from "../../services/repliesService";
-import { useAuth } from "../../contexts/authContext";
 
 export const useFunctions = () => {
   const { authInfo } = useAuth();

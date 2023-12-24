@@ -15,12 +15,11 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import { th } from "date-fns/locale";
 import { Icon } from "@iconify/react";
-import { formatDistance } from "date-fns";
 
 import { useFunctions } from "./useFunctions";
 import { Reply as IReply } from "../../interfaces/reply";
+import { formatDistanceToNow } from "../../utils/dateUtils";
 
 interface ReplyProps {
   reply: IReply;
@@ -82,14 +81,7 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
             <Avatar size="xs" name={reply?.createdByName[0]} />
             <Text display="inline">{reply?.createdByName}</Text>
             <Text color="gray.500" display="inline">
-              {reply?.createdAt && (
-                <>
-                  {formatDistance(new Date(reply.createdAt), new Date(), {
-                    addSuffix: true,
-                    locale: th,
-                  }).replace("ประมาณ", "")}{" "}
-                </>
-              )}
+              {formatDistanceToNow(reply.createdAt)}
             </Text>
           </Flex>
           <Button
@@ -152,18 +144,7 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
                   <Avatar size="xs" name={childReply?.createdByName[0]} />
                   <Text display="inline">{childReply?.createdByName}</Text>
                   <Text color="gray.500" display="inline">
-                    {childReply?.createdAt && (
-                      <>
-                        {formatDistance(
-                          new Date(childReply.createdAt),
-                          new Date(),
-                          {
-                            addSuffix: true,
-                            locale: th,
-                          }
-                        ).replace("ประมาณ", "")}{" "}
-                      </>
-                    )}
+                    {formatDistanceToNow(childReply.createdAt)}
                   </Text>
                 </Flex>
                 <Button

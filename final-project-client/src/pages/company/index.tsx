@@ -18,12 +18,11 @@ import {
   Card,
   IconButton,
 } from "@chakra-ui/react";
-import { th } from "date-fns/locale";
 import { Icon } from "@iconify/react";
-import { formatDistance } from "date-fns";
 import { Rating } from "@smastrom/react-rating";
 
 import { useFunctions } from "./useFunctions";
+import { formatDistanceToNow } from "../../utils/dateUtils";
 
 export const Company = () => {
   const {
@@ -128,12 +127,7 @@ export const Company = () => {
               <Heading as="h4" size="sm">
                 {review.reviewer}
               </Heading>
-              <Text>
-                {formatDistance(new Date(review.createdAt), new Date(), {
-                  addSuffix: true,
-                  locale: th,
-                }).replace("ประมาณ", "")}
-              </Text>
+              <Text>{formatDistanceToNow(review.createdAt)}</Text>
             </Flex>
             <Box mt={2} maxWidth="100px">
               <Rating readOnly value={review.rating} />

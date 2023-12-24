@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { getForum, updateForum } from "../../services/forumsService";
 import { useAuth } from "../../contexts/authContext";
+import { getForum, updateForum } from "../../services/forumsService";
 
 export const useFunctions = () => {
   const navigate = useNavigate();
