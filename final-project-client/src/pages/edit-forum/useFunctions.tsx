@@ -21,7 +21,6 @@ export const useFunctions = () => {
       title,
       description,
     });
-    console.log(response.statusText);
     if (response.statusText === "OK") {
       navigate(`/forums/${forumId}`);
     }

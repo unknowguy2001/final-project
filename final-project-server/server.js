@@ -12,6 +12,7 @@ const companiesRouter = require("./routes/companies");
 
 // middlewares
 const { authentication } = require("./middlewares/authentication");
+const { authorization } = require("./middlewares/authorization");
 
 dotenv.config();
 
@@ -25,8 +26,8 @@ app.use(
 );
 app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
 app.use("/auth", authRouter);
-app.use("/common", authentication, commonRouter);
-app.use("/users", authentication, usersRouter);
+app.use("/common", authentication, authorization(2), commonRouter);
+app.use("/users", authentication, authorization(2), usersRouter);
 app.use("/forums", authentication, forumsRouter);
 app.use("/companies", authentication, companiesRouter);
 

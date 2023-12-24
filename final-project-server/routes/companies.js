@@ -14,6 +14,7 @@ const {
   updateCompany,
   deleteCompany,
 } = require("../controllers/companiesController");
+const { authorization } = require("../middlewares/authorization");
 const { requireReviewId } = require("../middlewares/requireReviewId");
 const { requireCompanyId } = require("../middlewares/requireCompanyId");
 const { checkNeverReview } = require("../middlewares/checkNeverReview");
@@ -24,10 +25,9 @@ const router = express.Router();
 router.get("/top-4-popular", getTop4Popular);
 router.get("", searchCompanies);
 router.get("/:id", getCompanyById);
-router.post("", addCompany);
-router.patch("/:id", updateCompany);
-router.delete("/:id", deleteCompany);
-
+router.post("", authorization(2), addCompany);
+router.patch("/:id", authorization(2), updateCompany);
+router.delete("/:id", authorization(2), deleteCompany);
 router.post(
   "/:companyId/reviews",
   requireCompanyId,
