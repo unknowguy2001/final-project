@@ -14,3 +14,9 @@ export interface AuthInfo {
 export interface LoginResponse {
   authInfo: AuthInfo;
 }
+
+export interface AuthContextValue {
+  authInfo: AuthInfo;
+  setAuthInfo: React.Dispatch<React.SetStateAction<AuthInfo>>;
+  isFetchingAuthInfo: boolean;
+}

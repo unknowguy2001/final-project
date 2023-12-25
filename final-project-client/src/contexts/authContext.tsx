@@ -1,18 +1,12 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 
-import { AuthInfo } from "../interfaces/auth";
 import { getAuthInfo } from "../services/authService";
+import { AuthContextValue, AuthInfo } from "../interfaces/auth";
 
-interface AuthContextValue {
-  authInfo: AuthInfo;
-  setAuthInfo: React.Dispatch<React.SetStateAction<AuthInfo>>;
-  isFetchingAuthInfo: boolean;
-}
-
-const AuthContext = createContext<AuthContextValue | null>(null);
+export const AuthContext = createContext<AuthContextValue | null>(null);
 
 interface AuthProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
@@ -45,12 +39,4 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
 };
