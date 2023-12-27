@@ -1,9 +1,11 @@
 import axios from "axios";
 import { toast } from "sonner";
+
+import { BASE_URL } from "./constants/api";
 import { logout, refresh } from "./services/authService";
 
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },

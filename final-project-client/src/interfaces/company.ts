@@ -29,3 +29,8 @@ export interface GetCompanyResponse {
   item: Company;
   canReview: boolean;
 }
+
+export interface SearchCompaniesResponse {
+  items: Company[];
+  count: number;
+}
