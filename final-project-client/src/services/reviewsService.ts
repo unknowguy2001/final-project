@@ -1,14 +1,15 @@
 import { RESOURCES } from "../constants/api";
-import { axiosInstance } from "../axiosInstance";
 import { ReviewData } from "../interfaces/review";
+import { create, get, remove, update } from "./baseService";
 
 export const createReview = async (
   companyId: string,
   reviewData: ReviewData
 ) => {
-  const url = `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}`;
-  const response = await axiosInstance.post(url, reviewData);
-  return response;
+  return await create<ReviewData>(
+    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}`,
+    reviewData
+  );
 };
 
 export const updateReview = async (
@@ -16,22 +17,22 @@ export const updateReview = async (
   edittingReviewId: string,
   reviewData: ReviewData
 ) => {
-  const response = await axiosInstance.patch(
-    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}/${edittingReviewId}`,
+  return await update(
+    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}`,
+    edittingReviewId,
     reviewData
   );
-  return response;
 };
 
 export const deleteReview = async (companyId: string, reviewId: string) => {
-  const url = `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}/${reviewId}`;
-  const response = await axiosInstance.delete(url);
-  return response;
+  return await remove(
+    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}`,
+    reviewId
+  );
 };
 
 export const getReview = async (companyId: string, reviewId: string) => {
-  const response = await axiosInstance.get(
+  return await get(
     `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}/${reviewId}`
   );
-  return response;
 };
