@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
 
-import { Reply } from "../../interfaces/reply";
-import { useAuth } from "../../contexts/authContext";
 import {
   createReply,
   deleteReply,
   updateReply,
 } from "../../services/repliesService";
+import { useAuth } from "../../hooks/useAuth";
+import { Reply } from "../../interfaces/reply";
 
 interface UseFunctionsProps {
   reply: Reply;

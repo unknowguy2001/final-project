@@ -8,17 +8,24 @@ import {
   Select,
   Stack,
 } from "@chakra-ui/react";
-import { useFunctions } from "./useFunctions";
+import { FC } from "react";
 
-export const AdminEditUser = () => {
-  const { userData, roles, handleChange, handleSaveUserClick } = useFunctions();
+import { useFunctions } from "./useFunctions";
+import { UserData } from "../../../interfaces/user";
+
+interface AdminUserFormProps {
+  mode: "new" | "edit";
+}
+
+export const AdminUserForm: FC<AdminUserFormProps> = ({ mode }) => {
+  const { userData, roles, handleChange, handleActionClick, isNewMode } =
+    useFunctions(mode);
 
   return (
     <Container as="main" paddingY={8} maxWidth={1024}>
       <Stack spacing={4}>
-        {JSON.stringify(userData)}
         <Heading as="h1" fontSize="3xl">
-          แก้ไขผู้ใช้
+          {isNewMode ? "เพิ่มผู้ใช้ใหม่" : "แก้ไขผู้ใช้"}
         </Heading>
         <FormControl>
           <FormLabel>ชื่อผู้ใช้</FormLabel>
@@ -29,6 +36,17 @@ export const AdminEditUser = () => {
             placeholder="ชื่อผู้ใช้"
           />
         </FormControl>
+        {isNewMode && (
+          <FormControl>
+            <FormLabel>Password</FormLabel>
+            <Input
+              name="password"
+              value={(userData as UserData).password}
+              onChange={handleChange}
+              placeholder="รหัสผ่าน"
+            />
+          </FormControl>
+        )}
         <FormControl>
           <FormLabel>ชื่อจริง</FormLabel>
           <Input
@@ -49,8 +67,8 @@ export const AdminEditUser = () => {
           </Select>
         </FormControl>
       </Stack>
-      <Button onClick={handleSaveUserClick} mt={4}>
-        บันทึก
+      <Button onClick={handleActionClick} mt={4}>
+        {isNewMode ? "เพิ่มผู้ใช้" : "บันทึก"}
       </Button>
     </Container>
   );

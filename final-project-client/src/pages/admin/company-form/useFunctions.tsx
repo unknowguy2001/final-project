@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import {
+  addCompany,
+  getCompany,
+  updateCompany,
+} from "../../../services/companiesService";
 import { CompanyData } from "../../../interfaces/company";
-import { getCompany, updateCompany } from "../../../services/companiesService";
 
-export const useFunctions = () => {
+export const useFunctions = (mode: "new" | "edit") => {
   const navigate = useNavigate();
   const { companyId } = useParams<{
     companyId: string;
@@ -19,8 +23,11 @@ export const useFunctions = () => {
     zipcode: "",
     telephone: "",
   });
+  const isNewMode = mode === "new";
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setCompanyData((prev) => ({
       ...prev,
@@ -28,9 +35,13 @@ export const useFunctions = () => {
     }));
   };
 
-  const handleSaveCompanyClick = async () => {
-    if (!companyId) return;
-    await updateCompany(companyId, companyData);
+  const handleActionClick = async () => {
+    if (isNewMode) {
+      await addCompany(companyData);
+    } else {
+      if (!companyId) return;
+      await updateCompany(companyId, companyData);
+    }
     navigate("/admin/companies");
   };
 
@@ -52,11 +63,12 @@ export const useFunctions = () => {
     handleGetCompany(abortController.signal);
 
     return () => abortController.abort();
-  }, [companyId, handleGetCompany]);
+  }, [handleGetCompany]);
 
   return {
     companyData,
     handleChange,
-    handleSaveCompanyClick,
+    handleActionClick,
+    isNewMode,
   };
 };

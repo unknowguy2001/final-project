@@ -1,5 +1,5 @@
+import { useAuth } from "../../hooks/useAuth";
 import { logout } from "../../services/authService";
-import { useAuth } from "../../contexts/authContext";
 
 export const useFunctions = () => {
   const { authInfo, setAuthInfo } = useAuth();

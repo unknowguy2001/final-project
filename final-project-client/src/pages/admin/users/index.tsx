@@ -6,8 +6,6 @@ import {
   IconButton,
   Input,
   SkeletonText,
-} from "@chakra-ui/react";
-import {
   Table,
   Thead,
   Tbody,

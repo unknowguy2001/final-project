@@ -24,3 +24,7 @@ export interface SearchForumsResponse {
 export interface GetForumResponse {
   item: Forum;
 }
+
+export interface CreateForumResponse {
+  forumId: number;
+}

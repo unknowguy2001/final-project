@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useAuth } from "../../contexts/authContext";
-import { getForum, updateForum } from "../../services/forumsService";
+import { useAuth } from "../../hooks/useAuth";
+import { getForum } from "../../services/forumsService";
+import { create, update } from "../../services/baseService";
+import { CreateForumResponse, ForumData } from "../../interfaces/forum";
 
-export const useFunctions = () => {
+export const useFunctions = (mode: "new" | "edit") => {
+  const isNewMode = mode === "new";
   const navigate = useNavigate();
   const { authInfo } = useAuth();
   const [title, setTitle] = useState("");
@@ -15,13 +18,20 @@ export const useFunctions = () => {
     setTitle(e.target.value);
   };
 
-  const handleSaveForumClick = async () => {
-    if (!forumId) return;
-    const response = await updateForum(forumId, {
+  const handleActionClick = async () => {
+    const forumData = {
       title,
       description,
-    });
-    if (response.statusText === "OK") {
+    };
+    if (isNewMode) {
+      const response = await create<ForumData, CreateForumResponse>(
+        "forums",
+        forumData
+      );
+      navigate(`/forums/${response.data.forumId}`);
+    } else {
+      if (!forumId) return;
+      await update<ForumData>("forums", forumId, forumData);
       navigate(`/forums/${forumId}`);
     }
   };
@@ -44,9 +54,7 @@ export const useFunctions = () => {
 
     handleGetForum();
 
-    return () => {
-      abortGetForumController.abort();
-    };
+    return () => abortGetForumController.abort();
   }, [forumId, navigate, authInfo.user?.username]);
 
   return {
@@ -54,6 +62,6 @@ export const useFunctions = () => {
     handleTitleChange,
     description,
     setDesciption,
-    handleSaveForumClick,
+    handleActionClick,
   };
 };

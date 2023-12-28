@@ -7,16 +7,23 @@ import {
   Input,
   Stack,
 } from "@chakra-ui/react";
+import { FC } from "react";
+
 import { useFunctions } from "./useFunctions";
 
-export const EditCompany = () => {
-  const { companyData, handleChange, handleSaveCompanyClick } = useFunctions();
+interface AdminCompanyFormProps {
+  mode: "new" | "edit";
+}
+
+export const AdminCompanyForm: FC<AdminCompanyFormProps> = ({ mode }) => {
+  const { companyData, handleChange, handleActionClick, isNewMode } =
+    useFunctions(mode);
 
   return (
     <Container as="main" paddingY={8} maxWidth={1024}>
       <Stack spacing={4}>
         <Heading as="h1" fontSize="3xl">
-          แก้ไขบริษัท
+          {isNewMode ? "เพิ่มบริษัทใหม่" : "แก้ไขบริษัท"}
         </Heading>
         <FormControl>
           <FormLabel>ชื่อบริษัท</FormLabel>
@@ -79,15 +86,15 @@ export const EditCompany = () => {
         <FormControl>
           <FormLabel>เบอร์โทรศัพท์</FormLabel>
           <Input
-            name="telephone"
             value={companyData.telephone}
+            name="telephone"
             onChange={handleChange}
             placeholder="เบอร์โทรศัพท์"
           />
         </FormControl>
       </Stack>
-      <Button onClick={handleSaveCompanyClick} mt={4}>
-        บันทึก
+      <Button onClick={handleActionClick} mt={4}>
+        {isNewMode ? "เพิ่มบริษัท" : "บันทึก"}
       </Button>
     </Container>
   );

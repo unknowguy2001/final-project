@@ -2,15 +2,15 @@ import { useSearchParams } from "react-router-dom";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 
 import { User } from "../../../interfaces/user";
-import { searchUsers, deleteUser } from "../../../services/usersService";
+import { deleteUser, searchUsers } from "../../../services/usersService";
 
 export const useFunctions = () => {
   const [count, setCount] = useState(0);
+  const [searchParams] = useSearchParams();
+  const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const [users, setUsers] = useState<User[]>([]);
-  const [searchParams] = useSearchParams();
 
   const clearSearch = () => {
     setSearchQuery("");

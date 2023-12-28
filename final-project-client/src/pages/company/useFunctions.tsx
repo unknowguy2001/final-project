@@ -2,16 +2,10 @@ import { useParams } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import {
-  createReview,
-  deleteReview,
-  getReview,
-  updateReview,
-} from "../../services/reviewsService";
-import { Company } from "../../interfaces/company";
-import { useAuth } from "../../contexts/authContext";
-import { ReviewData } from "../../interfaces/review";
-import { getCompany } from "../../services/companiesService";
+import { useAuth } from "../../hooks/useAuth";
+import { Company, GetCompanyResponse } from "../../interfaces/company";
+import { GetReviewResponse, ReviewData } from "../../interfaces/review";
+import { create, get, remove, update } from "../../services/baseService";
 
 export const useFunctions = () => {
   const [edittingReviewId, setEdittingReviewId] = useState<number | null>(null);
@@ -45,9 +39,13 @@ export const useFunctions = () => {
     if (!companyId) return;
 
     if (!edittingReviewId) {
-      await createReview(companyId, reviewData);
+      await create<ReviewData>(`companies/${companyId}/reviews`, reviewData);
     } else {
-      await updateReview(companyId, edittingReviewId.toString(), reviewData);
+      await update<ReviewData>(
+        `companies/${companyId}/reviews`,
+        edittingReviewId.toString(),
+        reviewData
+      );
     }
 
     onClose();
@@ -58,7 +56,7 @@ export const useFunctions = () => {
   const handleDeleteReviewClick = async (reviewId: number) => {
     if (!companyId) return;
 
-    await deleteReview(companyId, reviewId.toString());
+    await remove(`companies/${companyId}/reviews`, reviewId);
     await handleGetCompany();
   };
 
@@ -67,13 +65,16 @@ export const useFunctions = () => {
 
     if (!companyId) return;
 
-    const response = await getReview(companyId, reviewId.toString());
+    const response = await get<GetReviewResponse>(
+      `companies/${companyId}/reviews/${reviewId}`
+    );
+
     const review = response.data.item;
     setRating(review.rating);
 
     if (!descriptionRef.current) return;
-
     descriptionRef.current.value = review.review;
+
     setEdittingReviewId(reviewId);
   };
 
@@ -81,7 +82,7 @@ export const useFunctions = () => {
     async (signal?: AbortSignal) => {
       if (!companyId) return;
 
-      const response = await getCompany(companyId, {
+      const response = await get<GetCompanyResponse>(`companies/${companyId}`, {
         signal,
       });
       setCompany(response.data.item);

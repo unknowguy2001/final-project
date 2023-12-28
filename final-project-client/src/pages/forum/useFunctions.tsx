@@ -1,10 +1,10 @@
 import { AxiosRequestConfig } from "axios";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
+import { useAuth } from "../../hooks/useAuth";
 import { Forum } from "../../interfaces/forum";
 import { Reply } from "../../interfaces/reply";
-import { useAuth } from "../../contexts/authContext";
 import { deleteForum, getForum } from "../../services/forumsService";
 import { createReply, searchReplies } from "../../services/repliesService";
 

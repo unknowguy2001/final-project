@@ -1,19 +1,19 @@
 import { useSearchParams } from "react-router-dom";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 
-import { Company } from "../../../interfaces/company";
 import {
   deleteCompany,
   searchCompanies,
 } from "../../../services/companiesService";
+import { Company } from "../../../interfaces/company";
 
 export const useFunctions = () => {
   const [count, setCount] = useState(0);
+  const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [companies, setCompanies] = useState<Company[]>([]);
-  const [searchParams] = useSearchParams();
 
   const clearSearch = () => {
     setSearchQuery("");

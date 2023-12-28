@@ -4,51 +4,43 @@ import {
   CompanyData,
   GetCompanyResponse,
   SearchCompaniesResponse,
+  GetTop4PopularCompaniesResponse,
 } from "../interfaces/company";
 import { RESOURCES } from "../constants/api";
-import { axiosInstance } from "../axiosInstance";
+import { create, get, remove, update } from "./baseService";
 
 export const searchCompanies = async (config: AxiosRequestConfig) => {
-  const url = RESOURCES.COMPANIES;
-  const response = await axiosInstance.get<SearchCompaniesResponse>(
-    url,
-    config
-  );
-  return response;
+  return await get<SearchCompaniesResponse>(RESOURCES.COMPANIES, config);
 };
 
 export const getCompany = async (
   companyId: string,
   config: AxiosRequestConfig
 ) => {
-  const url = `${RESOURCES.COMPANIES}/${companyId}`;
-  const response = await axiosInstance.get<GetCompanyResponse>(url, config);
-  return response;
+  return await get<GetCompanyResponse>(
+    `${RESOURCES.COMPANIES}/${companyId}`,
+    config
+  );
 };
 
 export const getTop4PopularCompanies = async (config: AxiosRequestConfig) => {
-  const url = `${RESOURCES.COMPANIES}/top-4-popular`;
-  const response = await axiosInstance.get(url, config);
-  return response;
+  return await get<GetTop4PopularCompaniesResponse>(
+    `${RESOURCES.COMPANIES}/top-4-popular`,
+    config
+  );
 };
 
 export const addCompany = async (companyData: CompanyData) => {
-  const url = RESOURCES.COMPANIES;
-  const response = await axiosInstance.post(url, companyData);
-  return response;
+  return await create(RESOURCES.COMPANIES, companyData);
 };
 
 export const deleteCompany = async (companyId: number) => {
-  const url = `${RESOURCES.COMPANIES}/${companyId}`;
-  const response = await axiosInstance.delete(url);
-  return response;
+  return await remove(RESOURCES.COMPANIES, companyId);
 };
 
 export const updateCompany = async (
   companyId: string,
   companyData: CompanyData
 ) => {
-  const url = `${RESOURCES.COMPANIES}/${companyId}`;
-  const response = await axiosInstance.patch(url, companyData);
-  return response;
+  return await update(RESOURCES.COMPANIES, companyId, companyData);
 };

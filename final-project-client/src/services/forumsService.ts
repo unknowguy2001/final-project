@@ -6,34 +6,24 @@ import {
   SearchForumsResponse,
 } from "../interfaces/forum";
 import { RESOURCES } from "../constants/api";
-import { axiosInstance } from "../axiosInstance";
+import { create, get, remove, update } from "./baseService";
 
 export const searchForums = async (config: AxiosRequestConfig) => {
-  const url = RESOURCES.FORUMS;
-  const response = await axiosInstance.get<SearchForumsResponse>(url, config);
-  return response;
+  return await get<SearchForumsResponse>(RESOURCES.FORUMS, config);
 };
 
 export const getForum = async (forumId: string, config: AxiosRequestConfig) => {
-  const url = `${RESOURCES.FORUMS}/${forumId}`;
-  const response = await axiosInstance.get<GetForumResponse>(url, config);
-  return response;
+  return await get<GetForumResponse>(`${RESOURCES.FORUMS}/${forumId}`, config);
 };
 
 export const createForum = async (data: ForumData) => {
-  const url = RESOURCES.FORUMS;
-  const response = await axiosInstance.post(url, data);
-  return response;
+  return await create(RESOURCES.FORUMS, data);
 };
 
 export const deleteForum = async (forumId: number) => {
-  const url = `${RESOURCES.FORUMS}/${forumId}`;
-  const response = await axiosInstance.delete(url);
-  return response;
+  return await remove(RESOURCES.FORUMS, forumId);
 };
 
 export const updateForum = async (forumId: string, data: ForumData) => {
-  const url = `${RESOURCES.FORUMS}/${forumId}`;
-  const response = await axiosInstance.patch(url, data);
-  return response;
+  return await update(RESOURCES.FORUMS, forumId, data);
 };

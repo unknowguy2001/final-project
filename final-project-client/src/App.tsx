@@ -7,30 +7,28 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // theme
 import { theme } from "./theme";
 
-// pages
+// user pages
 import { Home } from "./pages/home";
-import { AdminCompanies } from "./pages/admin/companies";
 import { Login } from "./pages/login";
-import { Forum } from "./pages/forum";
 import { Forums } from "./pages/forums";
-import { Company } from "./pages/company";
-import { NewForum } from "./pages/new-forum";
+import { Forum } from "./pages/forum";
 import { Companies } from "./pages/companies";
-import { EditForum } from "./pages/edit-forum";
+import { Company } from "./pages/company";
+
+// admin pages
 import { Admin } from "./pages/admin";
-import { NewCompany } from "./pages/admin/new-company";
-import { EditCompany } from "./pages/admin/edit-company";
 import { AdminUsers } from "./pages/admin/users";
-import { AdminAddUser } from "./pages/admin/add-user";
-import { AdminEditUser } from "./pages/admin/edit-user";
+import { AdminUserForm } from "./pages/admin/user-form";
+import { AdminCompanies } from "./pages/admin/companies";
+import { AdminCompanyForm } from "./pages/admin/company-form";
 
 // layouts
 import { AuthLayout } from "./layouts/authLayout";
-import { UserLayout } from "./layouts/userLayout";
-import { AdminLayout } from "./layouts/adminLayout";
 
 // contexts
 import { AuthProvider } from "./contexts/authContext";
+import { ForumForm } from "./pages/forum-form";
+import { MainLayout } from "./layouts/mainLayout";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +43,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <UserLayout />,
+    element: <MainLayout />,
     children: [
       {
         path: "",
@@ -69,17 +67,17 @@ const router = createBrowserRouter([
       },
       {
         path: "forums/new",
-        element: <NewForum />,
+        element: <ForumForm mode="new" />,
       },
       {
         path: "forums/:forumId/edit",
-        element: <EditForum />,
+        element: <ForumForm mode="edit" />,
       },
     ],
   },
   {
     path: "/admin",
-    element: <AdminLayout />,
+    element: <MainLayout shouldBeAdmin />,
     children: [
       {
         path: "",
@@ -91,11 +89,11 @@ const router = createBrowserRouter([
       },
       {
         path: "companies/new",
-        element: <NewCompany />,
+        element: <AdminCompanyForm mode="new" />,
       },
       {
         path: "companies/:companyId/edit",
-        element: <EditCompany />,
+        element: <AdminCompanyForm mode="edit" />,
       },
       {
         path: "users",
@@ -103,11 +101,11 @@ const router = createBrowserRouter([
       },
       {
         path: "users/new",
-        element: <AdminAddUser />,
+        element: <AdminUserForm mode="new" />,
       },
       {
         path: "users/:userId/edit",
-        element: <AdminEditUser />,
+        element: <AdminUserForm mode="edit" />,
       },
     ],
   },

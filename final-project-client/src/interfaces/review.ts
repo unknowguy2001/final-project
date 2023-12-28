@@ -13,3 +13,7 @@ export interface ReviewData {
   rating: number;
   description: string;
 }
+
+export interface GetReviewResponse {
+  item: Review;
+}

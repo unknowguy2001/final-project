@@ -24,10 +24,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       try {
         const response = await getAuthInfo({ signal: controller.signal });
         setAuthInfo(response.data);
+        setIsFetchingAuthInfo(false);
       } catch (error) {
         console.error("Error fetching authentication info:", error);
-      } finally {
-        setIsFetchingAuthInfo(false);
       }
     };
 

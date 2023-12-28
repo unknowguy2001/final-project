@@ -86,9 +86,7 @@ module.exports.refresh = async (req, res) => {
     const newRefreshToken = generateToken(newPayload, "refresh");
     res.cookie("accessToken", newAccessToken, cookieConfig);
     res.cookie("refreshToken", newRefreshToken, cookieConfig);
-    res.status(200).json({
-      message: "Refresh token successful",
-    });
+    res.status(200).json();
   } catch (error) {
     res.status(400).json();
   }

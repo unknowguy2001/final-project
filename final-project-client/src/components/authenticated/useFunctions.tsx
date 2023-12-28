@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "../../contexts/authContext";
+import { useAuth } from "../../hooks/useAuth";
 
 export const useFunctions = (shouldBeAdmin: boolean) => {
   const navigate = useNavigate();

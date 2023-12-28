@@ -34,3 +34,7 @@ export interface SearchCompaniesResponse {
   items: Company[];
   count: number;
 }
+
+export interface GetTop4PopularCompaniesResponse {
+  items: Company[];
+}

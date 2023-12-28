@@ -6,23 +6,28 @@ import {
   Heading,
   Input,
 } from "@chakra-ui/react";
+import { FC } from "react";
 
 import { useFunctions } from "./useFunctions";
 import { Editor } from "../../components/editor";
 
-export const EditForum = () => {
+interface ForumFormProps {
+  mode: "new" | "edit";
+}
+
+export const ForumForm: FC<ForumFormProps> = ({ mode }) => {
   const {
     title,
     handleTitleChange,
     description,
     setDesciption,
-    handleSaveForumClick,
-  } = useFunctions();
+    handleActionClick,
+  } = useFunctions(mode);
 
   return (
     <Container as="main" paddingY={8} maxWidth={1024}>
       <Heading as="h1" mb={4} fontSize="3xl">
-        แก้ไขกระทู้
+        {mode === "new" ? "สร้างกระทู้" : "แก้ไขกระทู้"}
       </Heading>
       <FormControl mb={4}>
         <FormLabel>หัวข้อ</FormLabel>
@@ -40,7 +45,7 @@ export const EditForum = () => {
           setData={setDesciption}
         />
       </FormControl>
-      <Button onClick={handleSaveForumClick}>บันทึก</Button>
+      <Button onClick={handleActionClick}>บันทึก</Button>
     </Container>
   );
 };

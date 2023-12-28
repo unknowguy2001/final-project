@@ -11,14 +11,14 @@ export const useFunctions = () => {
   useEffect(() => {
     const abortController = new AbortController();
 
-    const handleGetTop4PopularCompanies = async () => {
+    const handleGetTop4PopularCompanies = async (signal: AbortSignal) => {
       const response = await getTop4PopularCompanies({
-        signal: abortController.signal,
+        signal,
       });
       setTop4PopularCompanies(response.data.items);
     };
 
-    handleGetTop4PopularCompanies();
+    handleGetTop4PopularCompanies(abortController.signal);
 
     return () => abortController.abort();
   }, []);

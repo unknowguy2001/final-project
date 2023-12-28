@@ -17,10 +17,10 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
+import { Link } from "react-router-dom";
 
 import { useFunctions } from "./useFunctions";
 import { Pagination } from "../../../components/pagination";
-import { Link } from "react-router-dom";
 
 export const AdminCompanies = () => {
   const {
