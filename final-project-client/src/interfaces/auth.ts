@@ -13,10 +13,16 @@ export interface AuthInfo {
 
 export interface LoginResponse {
   authInfo: AuthInfo;
+  tokens?: Tokens;
 }
 
 export interface AuthContextValue {
   authInfo: AuthInfo;
   setAuthInfo: React.Dispatch<React.SetStateAction<AuthInfo>>;
   isFetchingAuthInfo: boolean;
+}
+
+export interface Tokens {
+  accessToken: string;
+  refreshToken: string;
 }

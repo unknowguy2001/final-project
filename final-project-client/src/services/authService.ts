@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from "axios";
 
 import { RESOURCES } from "../constants/api";
 import { axiosInstance } from "../axiosInstance";
-import { AuthInfo, LoginData, LoginResponse } from "../interfaces/auth";
+import { AuthInfo, LoginData, LoginResponse, Tokens } from "../interfaces/auth";
 
 export const login = async (data: LoginData) => {
   const url = `${RESOURCES.AUTH}/login`;
@@ -18,7 +18,9 @@ export const logout = async () => {
 
 export const refresh = async () => {
   const url = `${RESOURCES.AUTH}/refresh`;
-  const response = await axiosInstance.post<LoginResponse>(url);
+  const response = await axiosInstance.post<{ tokens: Tokens }>(url, {
+    refreshToken: localStorage.getItem("refreshToken"),
+  });
   return response;
 };
 

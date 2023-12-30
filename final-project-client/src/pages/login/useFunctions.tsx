@@ -25,6 +25,10 @@ export const useFunctions = () => {
       setIsAuthenticating(true);
       const response = await login(loginData);
       setAuthInfo(response.data.authInfo);
+      if (response.data.tokens) {
+        localStorage.setItem("accessToken", response.data.tokens.accessToken);
+        localStorage.setItem("refreshToken", response.data.tokens.refreshToken);
+      }
     } finally {
       setIsAuthenticating(false);
     }

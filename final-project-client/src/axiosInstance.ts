@@ -9,8 +9,18 @@ export const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
 });
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem("accessToken");
+    config.headers.Authorization = `Bearer ${accessToken}`;
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 axiosInstance.interceptors.response.use(
   (response) => {
@@ -39,7 +49,10 @@ axiosInstance.interceptors.response.use(
         }
         toast.error(error.response.data.message);
       } else if (status === 401) {
-        await refresh();
+        const response = await refresh();
+        const { accessToken, refreshToken } = response.data.tokens;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
         return axiosInstance(originalRequest);
       }
     }

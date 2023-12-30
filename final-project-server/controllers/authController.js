@@ -1,7 +1,6 @@
 const argon2 = require("argon2");
 
 const { prisma } = require("../prisma");
-const cookieConfig = require("../config/cookie");
 const { verifyToken, generateToken } = require("../utils/token");
 
 module.exports.login = async (req, res) => {
@@ -30,9 +29,6 @@ module.exports.login = async (req, res) => {
     const accessToken = generateToken(payload, "access");
     const refreshToken = generateToken(payload, "refresh");
 
-    res.cookie("accessToken", accessToken, cookieConfig);
-    res.cookie("refreshToken", refreshToken, cookieConfig);
-
     const isAdmin = user.roleId === 2;
 
     // Send user info to client
@@ -42,6 +38,10 @@ module.exports.login = async (req, res) => {
         isAuthenticated: true,
         user: payload,
         isAdmin,
+      },
+      tokens: {
+        accessToken,
+        refreshToken,
       },
     });
   } catch (error) {
@@ -66,7 +66,7 @@ module.exports.logout = async (req, res) => {
 
 module.exports.refresh = async (req, res) => {
   try {
-    const refreshToken = req.signedCookies.refreshToken;
+    const refreshToken = req.body.refreshToken;
 
     if (!refreshToken) {
       throw new Error("Refresh token not found");
@@ -84,9 +84,12 @@ module.exports.refresh = async (req, res) => {
     };
     const newAccessToken = generateToken(newPayload, "access");
     const newRefreshToken = generateToken(newPayload, "refresh");
-    res.cookie("accessToken", newAccessToken, cookieConfig);
-    res.cookie("refreshToken", newRefreshToken, cookieConfig);
-    res.status(200).json();
+    res.status(200).json({
+      tokens: {
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+      },
+    });
   } catch (error) {
     res.status(400).json();
   }
@@ -94,7 +97,7 @@ module.exports.refresh = async (req, res) => {
 
 module.exports.getAuthInfo = async (req, res) => {
   try {
-    const accessToken = req.signedCookies.accessToken;
+    const accessToken = req.headers.authorization.split(" ")[1];
 
     if (!accessToken) {
       return res.status(200).json({

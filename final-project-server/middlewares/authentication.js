@@ -1,11 +1,12 @@
 const { verifyToken } = require("../utils/token");
 
 module.exports.authentication = (req, res, next) => {
-  if (!req.signedCookies.accessToken) {
+  const accessToken = req.headers.authorization.split(" ")[1];
+  if (!accessToken) {
     return res.status(401).json({ message: "Unauthorized!" });
   }
 
-  const payload = verifyToken(req.signedCookies.accessToken, "access");
+  const payload = verifyToken(accessToken, "access");
 
   if (!payload) {
     return res.status(401).json({ message: "Unauthorized!" });
