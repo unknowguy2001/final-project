@@ -1,4 +1,4 @@
-export const BASE_URL = "http://167.71.207.135";
+export const BASE_URL = "http://localhost:3000/api/v1";
 
 export const RESOURCES = {
   AUTH: "/auth",
