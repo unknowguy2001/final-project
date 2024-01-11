@@ -1,5 +1,4 @@
 import { useAuth } from "../../hooks/useAuth";
-import { logout } from "../../services/authService";
 
 export const useFunctions = () => {
   const { authInfo, setAuthInfo } = useAuth();
@@ -33,7 +32,8 @@ export const useFunctions = () => {
   const menues = [...userMenues, ...adminMenues];
 
   const handleLogoutClick = async () => {
-    await logout();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     setAuthInfo({ isAuthenticated: false, user: null, isAdmin: false });
   };
 

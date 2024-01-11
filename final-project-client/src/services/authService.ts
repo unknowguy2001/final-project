@@ -10,12 +10,6 @@ export const login = async (data: LoginData) => {
   return response;
 };
 
-export const logout = async () => {
-  const url = `${RESOURCES.AUTH}/logout`;
-  const response = await axiosInstance.post(url);
-  return response;
-};
-
 export const refresh = async () => {
   const url = `${RESOURCES.AUTH}/refresh`;
   const response = await axiosInstance.post<{ tokens: Tokens }>(url, {

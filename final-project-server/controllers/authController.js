@@ -56,14 +56,6 @@ module.exports.login = async (req, res) => {
   }
 };
 
-module.exports.logout = async (req, res) => {
-  res.clearCookie("accessToken");
-  res.clearCookie("refreshToken");
-  res.status(200).json({
-    message: "Logout successful",
-  });
-};
-
 module.exports.refresh = async (req, res) => {
   try {
     const refreshToken = req.body.refreshToken;

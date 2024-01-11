@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "sonner";
 
 import { BASE_URL } from "./constants/api";
-import { logout, refresh } from "./services/authService";
+import { refresh } from "./services/authService";
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -45,7 +45,8 @@ axiosInstance.interceptors.response.use(
 
       if (status === 400 || status === 500) {
         if (data.message === "Invalid refresh token") {
-          await logout();
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
         }
         toast.error(error.response.data.message);
       } else if (status === 401) {
