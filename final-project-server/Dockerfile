@@ -12,6 +12,6 @@ RUN npx prisma generate
 
 RUN npm i pm2 -g
 
-CMD ["sh", "-c", "sleep 10 && npx prisma migrate deploy && pm2-runtime server.js"]
+CMD ["pm2-runtime", "start", "server.js"]
 
 EXPOSE 3000
