@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const csv = require("csv-parser");
 const { PrismaClient } = require("@prisma/client");
+const argon2 = require("argon2");
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
 
 const prisma = new PrismaClient();
 
@@ -16,6 +18,8 @@ async function main() {
     .on("end", async () => {
       await prisma.review.deleteMany({});
       await prisma.company.deleteMany({});
+      await prisma.user.deleteMany({});
+      await prisma.role.deleteMany({});
       for (const row of data) {
         await prisma.company.create({
           data: {
@@ -30,6 +34,29 @@ async function main() {
           },
         });
       }
+      await prisma.role.create({
+        data: {
+          id: 1,
+          name: "user",
+        },
+      });
+      await prisma.role.create({
+        data: {
+          id: 2,
+          name: "admin",
+        },
+      });
+      const hashedPassword = await argon2.hash(
+        process.env.ADMIN_PASSWORD || "admin"
+      );
+      await prisma.user.create({
+        data: {
+          username: process.env.ADMIN_USERNAME || "admin",
+          password: hashedPassword,
+          roleId: 2,
+          fullname: "Administrator",
+        },
+      });
       await prisma.$disconnect();
     });
 }

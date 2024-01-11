@@ -110,7 +110,11 @@ module.exports.getAuthInfo = async (req, res) => {
     const payload = verifyToken(accessToken, "access");
 
     if (!payload) {
-      return res.status(401).json({ message: "Unauthorized!" });
+      return res.status(200).json({
+        isAuthenticated: false,
+        user: null,
+        isAdmin: false,
+      });
     }
 
     const user = await prisma.user.findFirst({
