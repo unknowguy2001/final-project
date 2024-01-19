@@ -1,16 +1,20 @@
 version: "3.9"
 
 services:
-  nginx:
-    image: nginx
-    container_name: nginx
+  caddy:
+    container_name: caddy
+    image: caddy:2.7-alpine
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
     ports:
       - "80:80"
+      - "443:443"
+      - "443:443/udp"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - client
-      - server
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
 
   client:
     container_name: client
@@ -57,5 +61,7 @@ services:
       - postgres
 
 volumes:
+  caddy_data:
+  caddy_config:
   postgres_data:
   pgadmin:

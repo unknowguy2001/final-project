@@ -1,0 +1,4 @@
+:80 {
+	reverse_proxy client:5173
+	reverse_proxy /api/* server:3000
+}
