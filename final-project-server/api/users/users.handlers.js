@@ -1,7 +1,7 @@
 const argon2 = require("argon2");
 
-const { prisma } = require("../prisma");
-const { DEFAULT_PER_PAGE } = require("../constants/pagination");
+const { prisma } = require("../../utils/prisma");
+const { DEFAULT_PER_PAGE } = require("../../constants/pagination");
 
 module.exports.searchUsers = async (req, res) => {
   const searchQuery = req.query.searchQuery || "";

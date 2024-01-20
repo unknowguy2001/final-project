@@ -1,4 +1,4 @@
-const { prisma } = require("../prisma");
+const { prisma } = require("../utils/prisma");
 
 module.exports.checkReviewAuthor = async (req, res, next) => {
   const { reviewId } = req.params;

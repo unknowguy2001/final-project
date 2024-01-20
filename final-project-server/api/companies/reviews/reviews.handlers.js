@@ -1,4 +1,4 @@
-const { prisma } = require("../prisma");
+const { prisma } = require("../../../utils/prisma");
 
 module.exports.createReview = async (req, res) => {
   const parsedCompanyId = req.parsedCompanyId;

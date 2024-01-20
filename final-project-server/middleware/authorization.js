@@ -1,4 +1,4 @@
-const { prisma } = require("../prisma");
+const { prisma } = require("../utils/prisma");
 
 module.exports.authorization = (roleId) => {
   return async (req, res, next) => {

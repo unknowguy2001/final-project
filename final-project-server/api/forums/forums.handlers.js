@@ -1,6 +1,6 @@
-const { prisma } = require("../prisma");
+const { prisma } = require("../../utils/prisma");
 
-const { DEFAULT_PER_PAGE } = require("../constants/pagination");
+const { DEFAULT_PER_PAGE } = require("../../constants/pagination");
 
 module.exports.searchForums = async (req, res) => {
   try {

@@ -1,5 +1,5 @@
-const { prisma } = require("../prisma");
-const { DEFAULT_PER_PAGE } = require("../constants/pagination");
+const { prisma } = require("../../../utils/prisma");
+const { DEFAULT_PER_PAGE } = require("../../../constants/pagination");
 
 module.exports.searchReplies = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1);
@@ -40,21 +40,22 @@ module.exports.searchReplies = async (req, res) => {
 module.exports.createReply = async (req, res) => {
   try {
     const { description } = req.body;
-    const { id } = req.params;
-    const forumId = Number(id);
+    const { forumId } = req.params;
+    console.log(forumId);
+    const parsedForumId = Number(forumId);
     const replyId = Number(req.query.replyId);
 
     if (!description) {
       return res.status(400).json({ message: "Fields are must not be empty!" });
     }
 
-    if (isNaN(forumId)) {
+    if (isNaN(parsedForumId)) {
       return res.status(400).json({ message: "Id must be a number" });
     }
 
     const reply = await prisma.reply.create({
       data: {
-        forumId,
+        forumId: parsedForumId,
         description,
         createdByName: req.user.fullname,
         createdByUsername: req.user.username,

@@ -1,4 +1,4 @@
-const { prisma } = require("../prisma");
+const { prisma } = require("../utils/prisma");
 
 module.exports.checkNeverReview = async (req, res, next) => {
   const { companyId } = req.params;
