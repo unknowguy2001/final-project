@@ -1,7 +1,7 @@
 const argon2 = require("argon2");
 
 const { prisma } = require("../../utils/prisma");
-const { verifyToken, generateToken } = require("./auth.helpers");
+const { verifyToken, generateToken } = require("../../utils/token");
 
 module.exports.login = async (req, res) => {
   const { username, password } = req.body;
