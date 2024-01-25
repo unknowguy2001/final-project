@@ -1,20 +1,19 @@
 import {
-  Card,
-  CardHeader,
   Heading,
   Text,
   Input,
   Button,
-  CardBody,
-  Center,
   Box,
-  CardFooter,
-  Link,
+  Flex,
+  Image,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
-import { Link as ReactRouterLink } from "react-router-dom";
 
 import { useFunctions } from "./useFunctions";
+import rmutpLogo from "../../assets/images/rmutp-logo.png";
+import rmutpPlace from "../../assets/images/rmutp-place.jpg";
 
 export const Login = () => {
   const {
@@ -27,34 +26,43 @@ export const Login = () => {
   } = useFunctions();
 
   return (
-    <Center
-      as="main"
-      background="radial-gradient(50% 50% at 50% 50%, rgba(77, 0, 255, 0.25) 0.01%, rgba(255, 255, 255, 0.25) 100%), #FFF"
-      height="100%"
-    >
-      <Card gap={8} borderRadius={16} padding={8} maxWidth="350px" width="100%">
-        <CardHeader p={0} textAlign="center">
-          <Heading fontSize="4xl" mb={4}>
+    <Flex height="100%">
+      <Flex
+        flexBasis={350}
+        flexGrow={0}
+        flexShrink={0}
+        marginBlock={20}
+        marginInline={40}
+        flexDirection="column"
+        gap={8}
+      >
+        <Image src={rmutpLogo} alt="RMUTP Logo" width="80px" height="63px" />
+        <Box>
+          <Heading fontSize={32} mb={2}>
             เข้าสู่ระบบ
           </Heading>
-          <Text fontSize="sm">ค้นหาบริษัทสหกิจศึกษาที่เหมาะกับคุณ</Text>
-        </CardHeader>
-        <CardBody p={0}>
-          <Box
-            as="form"
-            onSubmit={handleFormSubmit}
-            display="flex"
-            flexDirection="column"
-            gap={4}
-          >
+          <Text>ค้นหาบริษัทสหกิจศึกษาที่เหมาะกับคุณ</Text>
+        </Box>
+        <Box
+          as="form"
+          onSubmit={handleFormSubmit}
+          display="flex"
+          flexDirection="column"
+          gap={4}
+        >
+          <FormControl>
+            <FormLabel>ชื่อผู้ใช้</FormLabel>
             <Input
               id="username"
               onChange={handleInputChange}
               value={loginRequest.username}
               name="username"
               required
-              placeholder="ชื่อผู้ใช้"
+              placeholder="กรอกชื่อผู้ใช้"
             />
+          </FormControl>
+          <FormControl>
+            <FormLabel>ชื่อรหัสผ่าน</FormLabel>
             <Box position="relative">
               <Input
                 id="password"
@@ -83,20 +91,21 @@ export const Login = () => {
                 />
               </Box>
             </Box>
-            <Button type="submit" isLoading={isAuthenticating}>
-              เข้าสู่ระบบ
-            </Button>
-          </Box>
-        </CardBody>
-        <CardFooter p={0} justifyContent="center">
-          <Text fontSize="sm">
-            เข้าสู่ระบบด้วย{" "}
-            <Link to="https://www.rmutp.ac.th/passport" as={ReactRouterLink}>
-              RMUTP Passport
-            </Link>
-          </Text>
-        </CardFooter>
-      </Card>
-    </Center>
+          </FormControl>
+          <Button mt={4} type="submit" isLoading={isAuthenticating}>
+            เข้าสู่ระบบ
+          </Button>
+        </Box>
+      </Flex>
+      <Box>
+        <Image
+          src={rmutpPlace}
+          objectFit="cover"
+          objectPosition="center"
+          height="100%"
+          alt="RMUTP Place"
+        />
+      </Box>
+    </Flex>
   );
 };
