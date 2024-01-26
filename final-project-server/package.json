@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon & docker compose -f docker-compose-dev.yml up"
+    "dev": "nodemon",
+    "docker:dev:up": "docker compose -f docker-compose-dev.yml up",
+    "docker:dev:down": "docker compose -f docker-compose-dev.yml down"
   },
   "keywords": [],
   "author": "",

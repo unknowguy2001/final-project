@@ -58,7 +58,11 @@ export const AdminUserForm: FC<AdminUserFormProps> = ({ mode }) => {
         </FormControl>
         <FormControl>
           <FormLabel>ตำแหน่ง</FormLabel>
-          <Select name="roleId" value={userData.roleId} onChange={handleChange}>
+          <Select
+            name="roleId"
+            value={userData.roleId!}
+            onChange={handleChange}
+          >
             {roles.map((role) => (
               <option key={role.id} value={role.id}>
                 {role.name}

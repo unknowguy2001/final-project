@@ -19,13 +19,13 @@ export const useFunctions = (mode: "new" | "edit") => {
         username: "",
         password: "",
         fullname: "",
-        roleId: 1,
+        roleId: null,
       };
     }
     return {
       username: "",
       fullname: "",
-      roleId: 1,
+      roleId: null,
     };
   });
 
@@ -57,6 +57,10 @@ export const useFunctions = (mode: "new" | "edit") => {
         signal: abortController.signal,
       });
       setRoles(response.data.items);
+      setUserData((prev) => ({
+        ...prev,
+        roleId: response.data.items[0].id,
+      }));
     };
 
     handleGetRoles();

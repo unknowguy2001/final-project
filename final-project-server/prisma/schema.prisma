@@ -17,9 +17,10 @@ model User {
 }
 
 model Role {
-  id   Int    @id @default(autoincrement())
-  name String
-  User User[]
+  id       Int    @id @default(autoincrement())
+  name     String
+  sequence Int
+  User     User[]
 }
 
 model Company {

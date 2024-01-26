@@ -37,13 +37,22 @@ async function main() {
       await prisma.role.create({
         data: {
           id: 1,
-          name: "user",
+          name: "ผู้ใช้งานที่มีประสบการณ์",
+          sequence: 2,
         },
       });
       await prisma.role.create({
         data: {
           id: 2,
-          name: "admin",
+          name: "ผู้ดูแลระบบ",
+          sequence: 3,
+        },
+      });
+      await prisma.role.create({
+        data: {
+          id: 3,
+          name: "ผู้ใช้งานที่ไม่มีประสบการณ์",
+          sequence: 1,
         },
       });
       const hashedPassword = await argon2.hash(
@@ -54,7 +63,7 @@ async function main() {
           username: process.env.ADMIN_USERNAME || "admin",
           password: hashedPassword,
           roleId: 2,
-          fullname: "Administrator",
+          fullname: "admin",
         },
       });
       await prisma.$disconnect();
