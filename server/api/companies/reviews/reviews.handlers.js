@@ -1,8 +1,9 @@
 const { prisma } = require("../../../utils/prisma");
+const { connect } = require("../companies.routes");
 
 module.exports.createReview = async (req, res) => {
   const parsedCompanyId = req.parsedCompanyId;
-  const { rating, description } = req.body;
+  const { rating, description, hashtags } = req.body;
 
   // Check if rating is provided
   if (!rating) {
@@ -10,6 +11,7 @@ module.exports.createReview = async (req, res) => {
       message: "rating is required",
     });
   }
+  console.log(hashtags);
 
   const createdReview = await prisma.review.create({
     data: {
@@ -18,9 +20,10 @@ module.exports.createReview = async (req, res) => {
       reviewer: req.user.fullname,
       reviewerUsername: req.user.username,
       companyId: parsedCompanyId,
+      hashtags: { connect: hashtags.map((hashtagId) => ({ id: hashtagId })) },
     },
   });
-
+  console.log(createdReview);
   // Check if review is created
   if (!createdReview) {
     return res.status(400).json({
@@ -159,6 +162,7 @@ module.exports.getReview = async (req, res) => {
 
   const review = await prisma.review.findUnique({
     where: { id: parsedReviewId, companyId: parsedCompanyId },
+    include: { hashtags: true },
   });
 
   if (!review) {
