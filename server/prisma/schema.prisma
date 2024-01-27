@@ -24,7 +24,7 @@ model Role {
 }
 
 model Company {
-  id            Int      @id @default(autoincrement())
+  id            Int        @id @default(autoincrement())
   name          String
   address       String
   road          String
@@ -34,19 +34,34 @@ model Company {
   zipcode       String
   telephone     String
   reviews       Review[]
-  averageRating Float    @default(0)
+  averageRating Float      @default(0)
+  positions     Position[]
+}
+
+model Position {
+  id        Int      @id @default(autoincrement())
+  name      String
+  Company   Company? @relation(fields: [companyId], references: [id])
+  companyId Int?
 }
 
 model Review {
-  id               Int      @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   companyId        Int
-  company          Company  @relation(fields: [companyId], references: [id])
+  company          Company   @relation(fields: [companyId], references: [id])
   reviewer         String
   reviewerUsername String
   review           String
   rating           Int
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  hashtags         Hashtag[]
+}
+
+model Hashtag {
+  id      Int      @id @default(autoincrement())
+  name    String
+  reviews Review[]
 }
 
 model Forum {
