@@ -19,7 +19,7 @@ services:
   client:
     container_name: client
     build:
-      context: ./final-project-client
+      context: ./client
     ports:
       - "5173:5173"
     depends_on:
@@ -28,7 +28,7 @@ services:
   server:
     container_name: server
     build:
-      context: ./final-project-server
+      context: ./server
     ports:
       - "3000:3000"
     depends_on:
