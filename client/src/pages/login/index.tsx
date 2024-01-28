@@ -13,7 +13,6 @@ import { Icon } from "@iconify/react";
 
 import { useFunctions } from "./useFunctions";
 import rmutpLogo from "../../assets/images/rmutp-logo.png";
-import rmutpPlace from "../../assets/images/rmutp-place.jpg";
 
 export const Login = () => {
   const {
@@ -51,18 +50,18 @@ export const Login = () => {
           gap={4}
         >
           <FormControl>
-            <FormLabel>ชื่อผู้ใช้</FormLabel>
+            <FormLabel>ชื่อผู้ใช้งาน</FormLabel>
             <Input
               id="username"
               onChange={handleInputChange}
               value={loginRequest.username}
               name="username"
               required
-              placeholder="กรอกชื่อผู้ใช้"
+              placeholder="กรอกชื่อผู้ใช้งาน"
             />
           </FormControl>
           <FormControl>
-            <FormLabel>ชื่อรหัสผ่าน</FormLabel>
+            <FormLabel>รหัสผ่าน</FormLabel>
             <Box position="relative">
               <Input
                 id="password"
@@ -71,7 +70,7 @@ export const Login = () => {
                 name="password"
                 required
                 type={passwordType}
-                placeholder="รหัสผ่าน"
+                placeholder="กรอกรหัสผ่าน"
               />
               <Box
                 position="absolute"
@@ -99,7 +98,7 @@ export const Login = () => {
       </Flex>
       <Box>
         <Image
-          src={rmutpPlace}
+          src="https://images.unsplash.com/photo-1604328698692-f76ea9498e76?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           objectFit="cover"
           objectPosition="center"
           height="100%"
