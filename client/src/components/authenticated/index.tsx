@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 
+import { Loader } from "../loader";
 import { useFunctions } from "./useFunctions";
 
 interface AuthenticatedProps {
@@ -13,5 +14,9 @@ export const Authenticated = ({
 }: AuthenticatedProps) => {
   const { isFetchingAuthInfo, authInfo } = useFunctions(shouldBeAdmin);
 
-  return !isFetchingAuthInfo && authInfo.isAuthenticated ? children : null;
+  return !isFetchingAuthInfo && authInfo.isAuthenticated ? (
+    children
+  ) : (
+    <Loader />
+  );
 };
