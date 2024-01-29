@@ -1,67 +1,93 @@
 import {
   Container,
   Flex,
-  Link,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  Avatar,
+  Button,
+  Box,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import avatar from "animal-avatar-generator";
 
 import { useFunctions } from "./useFunctions";
-import { Fragment } from "react";
 
 export const Navbar = () => {
   const { menues, authInfo, handleLogoutClick } = useFunctions();
 
   return (
-    <Container
+    <Box
       as="nav"
+      position="sticky"
+      top={0}
+      borderBottom="1px solid"
+      borderColor="blackAlpha.200"
       backgroundColor="white"
-      paddingY={6}
-      maxWidth={1024}
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
+      zIndex={999}
     >
-      <Flex gap={4}>
-        {menues.map((menu) => (
-          <Fragment key={menu.label + menu.url}>
-            {menu.canAccess && (
-              <Link
-                _activeLink={{
-                  color: "black",
+      <Container
+        paddingY={4}
+        maxWidth={1024}
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Flex gap={2}>
+          {menues.map((menu) => (
+            <Button
+              fontWeight="400"
+              key={menu.url}
+              _activeLink={{
+                backgroundColor: "brand.50 !important",
+              }}
+              _hover={{
+                backgroundColor: "brand.25",
+              }}
+              color="black"
+              leftIcon={<Icon icon={menu.icon} />}
+              variant="ghost"
+              as={NavLink}
+              to={menu.url}
+            >
+              {menu.label}
+            </Button>
+          ))}
+        </Flex>
+        <Menu>
+          <MenuButton>
+            <Flex fontWeight="500" fontSize="sm" gap={2} alignItems="center">
+              <Box
+                dangerouslySetInnerHTML={{
+                  __html: avatar(authInfo.user!.fullname, {
+                    size: 32,
+                  }),
                 }}
-                color="gray.500"
-                as={NavLink}
-                to={menu.url}
+              />
+              {authInfo.user?.fullname}
+              <Icon fontSize={16} icon="lucide:chevron-down" />
+            </Flex>
+          </MenuButton>
+          <MenuList>
+            {authInfo.isAdmin && (
+              <MenuItem
+                as={Link}
+                to="/admin"
+                icon={<Icon fontSize={16} icon="lucide:shield-check" />}
               >
-                {menu.label}
-              </Link>
+                ระบบจัดการ
+              </MenuItem>
             )}
-          </Fragment>
-        ))}
-      </Flex>
-      <Menu>
-        <MenuButton>
-          <Flex fontWeight="500" fontSize="sm" gap={2} alignItems="center">
-            <Avatar size="xs" name={authInfo.user?.fullname[0]} />
-            {authInfo.user?.fullname}
-            <Icon fontSize={16} icon="akar-icons:chevron-down" />
-          </Flex>
-        </MenuButton>
-        <MenuList>
-          <MenuItem
-            onClick={handleLogoutClick}
-            icon={<Icon fontSize={16} icon="lucide:log-out" />}
-          >
-            ออกจากระบบ
-          </MenuItem>
-        </MenuList>
-      </Menu>
-    </Container>
+            <MenuItem
+              onClick={handleLogoutClick}
+              icon={<Icon fontSize={16} icon="lucide:log-out" />}
+            >
+              ออกจากระบบ
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </Container>
+    </Box>
   );
 };

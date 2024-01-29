@@ -102,31 +102,33 @@ module.exports.getAuthInfo = async (req, res) => {
     const payload = verifyToken(accessToken, "access");
 
     if (!payload) {
-      return res.status(200).json({
-        isAuthenticated: false,
-        user: null,
-        isAdmin: false,
-      });
+      return res.status(401).json();
     }
 
-    const user = await prisma.user.findFirst({
+    const foundUser = await prisma.user.findUnique({
       where: {
         username: payload.username,
       },
     });
 
-    const isAdmin = user.roleId === 2;
+    if (!foundUser) {
+      return res.status(401).json();
+    }
+
+    const isAdmin = foundUser.roleId === 2;
+
+    const { username, fullname } = foundUser;
 
     res.status(200).json({
       isAuthenticated: true,
       user: {
-        username: user.username,
-        fullname: user.fullname,
+        username,
+        fullname,
       },
       isAdmin,
     });
   } catch (error) {
-    res.status(200).json({
+    res.status(500).json({
       isAuthenticated: false,
       user: null,
       isAdmin: false,

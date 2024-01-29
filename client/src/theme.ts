@@ -4,10 +4,18 @@ export const theme = extendTheme(
   {
     colors: {
       brand: {
+        25: "#FDF2FF",
         50: "#F5E6FF",
         500: "#6E2996",
         600: "#5B1E84",
         700: "#4A1870",
+      },
+    },
+    components: {
+      Button: {
+        baseStyle: {
+          borderRadius: "lg",
+        },
       },
     },
   },

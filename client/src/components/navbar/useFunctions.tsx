@@ -3,33 +3,26 @@ import { useAuth } from "../../hooks/useAuth";
 export const useFunctions = () => {
   const { authInfo, setAuthInfo } = useAuth();
 
-  const userMenues = [
+  const menues = [
     {
       label: "หน้าแรก",
       url: "/",
       canAccess: authInfo.isAuthenticated,
+      icon: "lucide:home",
     },
     {
       label: "บริษัท",
       url: "/companies",
       canAccess: authInfo.isAuthenticated,
+      icon: "lucide:building-2",
     },
     {
       label: "กระทู้",
       url: "/forums",
       canAccess: authInfo.isAuthenticated,
+      icon: "lucide:library-big",
     },
   ];
-
-  const adminMenues = [
-    {
-      label: "แอดมิน",
-      url: "/admin",
-      canAccess: authInfo.isAdmin,
-    },
-  ];
-
-  const menues = [...userMenues, ...adminMenues];
 
   const handleLogoutClick = async () => {
     localStorage.removeItem("accessToken");
