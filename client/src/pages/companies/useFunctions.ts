@@ -10,7 +10,7 @@ export const useFunctions = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [companies, setCompanies] = useState<Company[]>([]);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const clearSearch = () => {
     setSearchQuery("");
@@ -18,12 +18,22 @@ export const useFunctions = () => {
       searchInputRef.current.value = "";
       searchInputRef.current.focus();
     }
+    setSearchParams({});
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchQuery(searchInputRef.current?.value || "");
+    setSearchParams({ q: searchInputRef.current?.value || "" });
   };
+
+  useEffect(() => {
+    const searchQuery = searchParams.get("q") || "";
+    setSearchQuery(searchQuery);
+    if (searchInputRef.current) {
+      searchInputRef.current.value = searchQuery;
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const abortController = new AbortController();
