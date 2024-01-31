@@ -29,6 +29,7 @@ import { AuthLayout } from "./layouts/authLayout";
 import { AuthProvider } from "./contexts/authContext";
 import { ForumForm } from "./pages/forum-form";
 import { MainLayout } from "./layouts/mainLayout";
+import { Register } from "./pages/register";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       },
     ],
   },

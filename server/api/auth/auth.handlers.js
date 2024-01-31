@@ -56,6 +56,83 @@ module.exports.login = async (req, res) => {
   }
 };
 
+module.exports.register = async (req, res) => {
+  const { username, password, firstName, lastName } = req.body;
+
+  try {
+    if (!/^\d{12}-\d{1}$/.test(username)) {
+      throw new Error("Invalid username, please use your student ID");
+    }
+
+    if (!username || !password || !firstName || !lastName) {
+      throw new Error(
+        "Username, password, first name and last name are required"
+      );
+    }
+
+    if (password.length < 8) {
+      throw new Error("Password must be at least 8 characters");
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      throw new Error("Password must not contain uppercase letters");
+    }
+
+    if (!/\d/.test(password)) {
+      throw new Error("Password must contain at least 1 number");
+    }
+
+    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(password)) {
+      throw new Error("Password must contain at least 1 special character");
+    }
+
+    const hashedPassword = await argon2.hash(password);
+
+    const entryYear = parseInt(username.slice(2, 4));
+    const currentYear = (new Date().getFullYear() + 543).toString().slice(2, 4);
+    const totalYear = Math.abs(entryYear - currentYear);
+
+    const EXPERIENCE_ROLE_ID = 1;
+    const INEXPERIENCE_ROLE_ID = 3;
+
+    const user = await prisma.user.create({
+      data: {
+        username,
+        password: hashedPassword,
+        fullname: `${firstName} ${lastName}`,
+        roleId: totalYear >= 4 ? EXPERIENCE_ROLE_ID : INEXPERIENCE_ROLE_ID,
+      },
+    });
+
+    const payload = { username: user.username, fullname: user.fullname };
+    const accessToken = generateToken(payload, "access");
+    const refreshToken = generateToken(payload, "refresh");
+
+    // Send user info to client
+    res.status(200).json({
+      message: "Register successful",
+      authInfo: {
+        isAuthenticated: true,
+        user: payload,
+        isAdmin: false,
+      },
+      tokens: {
+        accessToken,
+        refreshToken,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message || "Register failed",
+      authInfo: {
+        isAuthenticated: false,
+        user: null,
+        isAdmin: false,
+      },
+    });
+  }
+};
+
 module.exports.refresh = async (req, res) => {
   try {
     const refreshToken = req.body.refreshToken;

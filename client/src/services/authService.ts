@@ -2,11 +2,23 @@ import { AxiosRequestConfig } from "axios";
 
 import { RESOURCES } from "../constants/api";
 import { axiosInstance } from "../axiosInstance";
-import { AuthInfo, LoginData, LoginResponse, Tokens } from "../interfaces/auth";
+import {
+  AuthInfo,
+  LoginData,
+  AuthResponse,
+  RegisterData,
+  Tokens,
+} from "../interfaces/auth";
 
 export const login = async (data: LoginData) => {
   const url = `${RESOURCES.AUTH}/login`;
-  const response = await axiosInstance.post<LoginResponse>(url, data);
+  const response = await axiosInstance.post<AuthResponse>(url, data);
+  return response;
+};
+
+export const register = async (data: RegisterData) => {
+  const url = `${RESOURCES.AUTH}/register`;
+  const response = await axiosInstance.post<AuthResponse>(url, data);
   return response;
 };
 

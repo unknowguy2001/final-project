@@ -4,6 +4,7 @@ import {
   Flex,
   FormControl,
   Heading,
+  IconButton,
   Image,
   Input,
   Text,
@@ -19,7 +20,12 @@ import hero5 from "../../assets/images/hero/5.png";
 import hero6 from "../../assets/images/hero/6.png";
 
 export const Hero = () => {
-  const { queryRef, handleSearchSubmit } = useFunctions();
+  const {
+    queryRef,
+    handleSearchSubmit,
+    businessOperationsRef,
+    handleScrollClick,
+  } = useFunctions();
 
   return (
     <Container
@@ -60,27 +66,108 @@ export const Hero = () => {
             ค้นหาบริษัท
           </Button>
         </Flex>
+        <Flex rounded="lg" overflow="hidden" position="relative" gap={2} mx={8}>
+          <IconButton
+            onClick={() => handleScrollClick("left")}
+            zIndex={1}
+            position="absolute"
+            left={0}
+            size="xs"
+            aria-label=""
+            icon={<Icon icon="lucide:arrow-left" />}
+          />
+          <Flex
+            ref={businessOperationsRef}
+            width="454px"
+            sx={{
+              "::-webkit-scrollbar": {
+                display: "none",
+              },
+            }}
+            overflow="scroll"
+            gap={2}
+          >
+            <Button
+              _hover={{
+                backgroundColor: "brand.100",
+              }}
+              lineHeight={6}
+              fontWeight="400"
+              fontSize={14}
+              backgroundColor="brand.50"
+              color="black"
+              height="auto"
+              px={4}
+              variant="ghost"
+              flexShrink={0}
+            >
+              จำหน่ายและผลิตโปรแกรม...
+            </Button>
+            <Button
+              _hover={{
+                backgroundColor: "brand.100",
+              }}
+              lineHeight={6}
+              fontWeight="400"
+              fontSize={14}
+              backgroundColor="brand.50"
+              color="black"
+              height="auto"
+              px={4}
+              variant="ghost"
+              flexShrink={0}
+            >
+              จำหน่ายและผลิตโปรแกรม...
+            </Button>
+            <Button
+              _hover={{
+                backgroundColor: "brand.100",
+              }}
+              lineHeight={6}
+              fontWeight="400"
+              fontSize={14}
+              backgroundColor="brand.50"
+              color="black"
+              height="auto"
+              px={4}
+              variant="ghost"
+              flexShrink={0}
+            >
+              จำหน่ายและผลิตโปรแกรม...
+            </Button>
+          </Flex>
+          <IconButton
+            onClick={() => handleScrollClick("right")}
+            zIndex={1}
+            position="absolute"
+            right={0}
+            size="xs"
+            aria-label=""
+            color="white"
+            icon={<Icon icon="lucide:arrow-right" />}
+          />
+        </Flex>
       </Flex>
       <Image
         objectFit="cover"
         rounded="lg"
         left="-15%"
-        top="-65%"
+        top="-50%"
         position="absolute"
-        width={250}
-        height={160}
+        width={300}
+        height={200}
         src={hero1}
         boxShadow="base"
       />
       <Image
         objectFit="cover"
         rounded="lg"
-        left="-2.5%"
-        top="0"
+        left="-5%"
+        top="20%"
         zIndex={-1}
         position="absolute"
-        width={190}
-        height={120}
+        width={241}
+        height={145}
         src={hero2}
         boxShadow="base"
       />
@@ -88,11 +175,11 @@ export const Hero = () => {
         objectFit="cover"
         rounded="lg"
         left="-10%"
-        bottom="-50%"
+        bottom="-80%"
         zIndex={-1}
         position="absolute"
-        width={200}
-        height={130}
+        width={228}
+        height={148}
         src={hero3}
         boxShadow="base"
       />
@@ -102,8 +189,8 @@ export const Hero = () => {
         right="-15%"
         top="-75%"
         position="absolute"
-        width={225}
-        height={150}
+        width={283}
+        height={189}
         src={hero4}
         boxShadow="base"
       />
@@ -111,23 +198,23 @@ export const Hero = () => {
         objectFit="cover"
         rounded="lg"
         right="-5%"
-        top="-20%"
+        top="-10%"
         zIndex={-1}
         position="absolute"
-        width={197}
-        height={131}
+        width={243}
+        height={162}
         src={hero5}
         boxShadow="base"
       />
       <Image
         objectFit="cover"
         rounded="lg"
-        right="-15%"
-        bottom="-40%"
+        right="-20%"
+        bottom="-80%"
         zIndex={-1}
         position="absolute"
-        width={241}
-        height={160}
+        width={299}
+        height={199}
         src={hero6}
         boxShadow="base"
       />
