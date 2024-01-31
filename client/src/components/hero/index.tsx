@@ -25,6 +25,8 @@ export const Hero = () => {
     handleSearchSubmit,
     businessOperationsRef,
     handleScrollClick,
+    isLeftScrollable,
+    isRightScrollable,
   } = useFunctions();
 
   return (
@@ -68,6 +70,7 @@ export const Hero = () => {
         </Flex>
         <Flex rounded="lg" overflow="hidden" position="relative" gap={2} mx={8}>
           <IconButton
+            opacity={Number(isLeftScrollable)}
             onClick={() => handleScrollClick("left")}
             zIndex={1}
             position="absolute"
@@ -135,15 +138,47 @@ export const Hero = () => {
             >
               จำหน่ายและผลิตโปรแกรม...
             </Button>
+            <Button
+              _hover={{
+                backgroundColor: "brand.100",
+              }}
+              lineHeight={6}
+              fontWeight="400"
+              fontSize={14}
+              backgroundColor="brand.50"
+              color="black"
+              height="auto"
+              px={4}
+              variant="ghost"
+              flexShrink={0}
+            >
+              จำหน่ายและผลิตโปรแกรม...
+            </Button>
+            <Button
+              _hover={{
+                backgroundColor: "brand.100",
+              }}
+              lineHeight={6}
+              fontWeight="400"
+              fontSize={14}
+              backgroundColor="brand.50"
+              color="black"
+              height="auto"
+              px={4}
+              variant="ghost"
+              flexShrink={0}
+            >
+              จำหน่ายและผลิตโปรแกรม...
+            </Button>
           </Flex>
           <IconButton
+            opacity={Number(isRightScrollable)}
             onClick={() => handleScrollClick("right")}
             zIndex={1}
             position="absolute"
             right={0}
             size="xs"
             aria-label=""
-            color="white"
             icon={<Icon icon="lucide:arrow-right" />}
           />
         </Flex>
@@ -175,7 +210,7 @@ export const Hero = () => {
         objectFit="cover"
         rounded="lg"
         left="-10%"
-        bottom="-80%"
+        top="100%"
         zIndex={-1}
         position="absolute"
         width={228}
@@ -210,7 +245,7 @@ export const Hero = () => {
         objectFit="cover"
         rounded="lg"
         right="-20%"
-        bottom="-80%"
+        top="75%"
         zIndex={-1}
         position="absolute"
         width={299}
