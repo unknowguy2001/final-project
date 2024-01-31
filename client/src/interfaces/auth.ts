@@ -23,6 +23,11 @@ export interface AuthInfo {
   isAdmin: boolean;
 }
 
+export interface ChangePasswordData {
+  oldPassword: string;
+  newPassword: string;
+}
+
 export interface Tokens {
   accessToken: string;
   refreshToken: string;

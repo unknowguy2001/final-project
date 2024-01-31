@@ -41,7 +41,6 @@ export const Login = () => {
         <FormControl>
           <FormLabel>ชื่อผู้ใช้งาน</FormLabel>
           <Input
-            id="username"
             onChange={handleInputChange}
             value={loginRequest.username}
             name="username"
@@ -54,7 +53,6 @@ export const Login = () => {
           <FormLabel>รหัสผ่าน</FormLabel>
           <Box position="relative">
             <Input
-              id="password"
               onChange={handleInputChange}
               value={loginRequest.password}
               name="password"

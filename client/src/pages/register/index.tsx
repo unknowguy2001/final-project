@@ -8,12 +8,12 @@ import {
   FormLabel,
   Flex,
   Link,
-  Stack,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { Link as RouterLink } from "react-router-dom";
 
 import { useFunctions } from "./useFunctions";
+import { PasswordChecklist } from "../../components/password-checklist";
 
 export const Register = () => {
   const {
@@ -69,7 +69,6 @@ export const Register = () => {
         <FormControl>
           <FormLabel>ชื่อผู้ใช้งาน</FormLabel>
           <Input
-            id="username"
             onChange={handleInputChange}
             value={registerData.username}
             name="username"
@@ -82,7 +81,6 @@ export const Register = () => {
           <FormLabel>รหัสผ่าน</FormLabel>
           <Box position="relative">
             <Input
-              id="password"
               onChange={handleInputChange}
               value={registerData.password}
               name="password"
@@ -106,68 +104,12 @@ export const Register = () => {
               />
             </Box>
           </Box>
-          <Stack pt={4} px={4}>
-            <Flex
-              alignItems="center"
-              gap={2}
-              fontSize="sm"
-              color={isPasswordMoreThan8Characters ? "green.500" : "gray.500"}
-            >
-              <Icon
-                icon={
-                  isPasswordMoreThan8Characters
-                    ? "lucide:check-circle-2"
-                    : "lucide:x-circle"
-                }
-              />{" "}
-              รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร
-            </Flex>
-            <Flex
-              alignItems="center"
-              gap={2}
-              fontSize="sm"
-              color={isPasswordHas1UpperCase ? "green.500" : "gray.500"}
-            >
-              <Icon
-                icon={
-                  isPasswordHas1UpperCase
-                    ? "lucide:check-circle-2"
-                    : "lucide:x-circle"
-                }
-              />{" "}
-              รหัสผ่านต้องมีตัวอักษรพิมพ์ใหญ่อย่างน้อย 1 ตัว
-            </Flex>
-            <Flex
-              alignItems="center"
-              gap={2}
-              fontSize="sm"
-              color={isPasswordHas1Number ? "green.500" : "gray.500"}
-            >
-              <Icon
-                icon={
-                  isPasswordHas1Number
-                    ? "lucide:check-circle-2"
-                    : "lucide:x-circle"
-                }
-              />{" "}
-              รหัสผ่านต้องมีตัวเลขอย่างน้อย 1 ตัว
-            </Flex>
-            <Flex
-              alignItems="center"
-              gap={2}
-              fontSize="sm"
-              color={isPasswordHas1SpecialCharacter ? "green.500" : "gray.500"}
-            >
-              <Icon
-                icon={
-                  isPasswordHas1SpecialCharacter
-                    ? "lucide:check-circle-2"
-                    : "lucide:x-circle"
-                }
-              />{" "}
-              รหัสผ่านต้องมีอักษรพิเศษอย่างน้อย 1 ตัว
-            </Flex>
-          </Stack>
+          <PasswordChecklist
+            isPasswordMoreThan8Characters={isPasswordMoreThan8Characters}
+            isPasswordHas1UpperCase={isPasswordHas1UpperCase}
+            isPasswordHas1Number={isPasswordHas1Number}
+            isPasswordHas1SpecialCharacter={isPasswordHas1SpecialCharacter}
+          />
         </FormControl>
         <Button mt={4} type="submit" isLoading={isAuthenticating}>
           สมัครสมาชิก

@@ -8,6 +8,7 @@ import {
   AuthResponse,
   RegisterData,
   Tokens,
+  ChangePasswordData,
 } from "../interfaces/auth";
 
 export const login = async (data: LoginData) => {
@@ -33,5 +34,11 @@ export const refresh = async () => {
 export const getAuthInfo = async (config: AxiosRequestConfig) => {
   const url = `${RESOURCES.AUTH}/info`;
   const response = await axiosInstance.get<AuthInfo>(url, config);
+  return response;
+};
+
+export const changePassword = async (data: ChangePasswordData) => {
+  const url = `${RESOURCES.AUTH}/change-password`;
+  const response = await axiosInstance.post(url, data);
   return response;
 };

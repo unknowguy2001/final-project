@@ -212,3 +212,64 @@ module.exports.getAuthInfo = async (req, res) => {
     });
   }
 };
+
+module.exports.changePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+
+  try {
+    if (!oldPassword || !newPassword) {
+      throw new Error("Old password and new password are required");
+    }
+
+    if (newPassword.length < 8) {
+      throw new Error("Password must be at least 8 characters");
+    }
+
+    if (!/[A-Z]/.test(newPassword)) {
+      throw new Error("Password must not contain uppercase letters");
+    }
+
+    if (!/\d/.test(newPassword)) {
+      throw new Error("Password must contain at least 1 number");
+    }
+
+    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(newPassword)) {
+      throw new Error("Password must contain at least 1 special character");
+    }
+
+    const username = req.user.username;
+
+    const foundUser = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    if (!foundUser) {
+      throw new Error("Invalid username");
+    }
+
+    if (!(await argon2.verify(foundUser.password, oldPassword))) {
+      throw new Error("Invalid old password");
+    }
+
+    const hashedPassword = await argon2.hash(newPassword);
+
+    await prisma.user.update({
+      where: {
+        username,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    res.status(200).json({
+      message: "Change password successful",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message || "Change password failed",
+    });
+  }
+};
