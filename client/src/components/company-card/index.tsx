@@ -75,7 +75,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
         />
       </CardHeader>
       <CardBody zIndex={1} bgColor="transparent">
-        <Heading as="h3" size="md" mb={2}>
+        <Heading as="h3" size="base" mb={2}>
           {company?.name}
         </Heading>
         <Text mb={2}>

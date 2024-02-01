@@ -19,7 +19,7 @@ export const Home = () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box as="h2" fontSize="3xl" fontWeight="bold">
+          <Box as="h2" fontSize="2xl" fontWeight="bold">
             บริษัทยอดนิยม
           </Box>
           <Link as={RouterLink} to="/companies">
