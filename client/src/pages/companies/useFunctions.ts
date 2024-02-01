@@ -11,6 +11,11 @@ export const useFunctions = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [companies, setCompanies] = useState<Company[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [displayMode, setDisplayMode] = useState<"grid" | "list">("grid");
+
+  const isDisplayMode = (_displayMode: "grid" | "list") => {
+    return displayMode === _displayMode;
+  };
 
   const clearSearch = () => {
     setSearchQuery("");
@@ -70,5 +75,7 @@ export const useFunctions = () => {
     searchInputRef,
     handleSubmit,
     clearSearch,
+    isDisplayMode,
+    setDisplayMode,
   };
 };

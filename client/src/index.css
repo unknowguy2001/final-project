@@ -14,3 +14,7 @@ body {
 .ql-editor[contenteditable="false"] {
   padding: 0;
 }
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}

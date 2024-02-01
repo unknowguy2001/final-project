@@ -81,6 +81,15 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
         <Text mb={2}>
           {company?.address} {company?.road} {company?.village}{" "}
           {company?.district} {company?.province} {company?.zipcode}
+          {[
+            company.address,
+            company.road,
+            company.village,
+            company.district,
+            company.province,
+            company.zipcode,
+          ].some((address) => address) && <br />}
+          เบอร์โทรศัพท์: {company?.telephone || "-"}
         </Text>
       </CardBody>
       <Circle
