@@ -50,11 +50,18 @@ axiosInstance.interceptors.response.use(
         }
         toast.error(error.response.data.message);
       } else if (status === 401) {
-        const response = await refresh();
-        const { accessToken, refreshToken } = response.data.tokens;
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-        return axiosInstance(originalRequest);
+        try {
+          const response = await refresh();
+          const { accessToken, refreshToken } = response.data.tokens;
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", refreshToken);
+          return axiosInstance(originalRequest);
+        } catch (error2) {
+          toast.error("Your session has expired. Please login again.");
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          window.location.href = "/auth/login";
+        }
       }
     }
 

@@ -1,10 +1,11 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FormEvent, useEffect, useRef, useState } from "react";
 
 import { Company, SearchCompaniesResponse } from "../../interfaces/company";
 import { get } from "../../services/baseService";
 
 export const useFunctions = () => {
+  const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,6 +31,10 @@ export const useFunctions = () => {
     e.preventDefault();
     setSearchQuery(searchInputRef.current?.value || "");
     setSearchParams({ q: searchInputRef.current?.value || "" });
+  };
+
+  const handleCompanyRowClick = (id: number) => {
+    navigate(`/companies/${id}`);
   };
 
   useEffect(() => {
@@ -68,6 +73,14 @@ export const useFunctions = () => {
     return () => abortController.abort();
   }, [searchQuery, searchParams]);
 
+  useEffect(() => {
+    const page = parseInt(searchParams.get("page")!) || 1;
+    const perPage = parseInt(searchParams.get("perPage")!) || 12;
+    if (page < 1 || page > Math.ceil(count / perPage)) {
+      setSearchParams({ page: "1" });
+    }
+  }, [count, searchParams, setSearchParams]);
+
   return {
     companies,
     count,
@@ -77,5 +90,6 @@ export const useFunctions = () => {
     clearSearch,
     isDisplayMode,
     setDisplayMode,
+    handleCompanyRowClick,
   };
 };

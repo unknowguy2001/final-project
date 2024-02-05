@@ -13,7 +13,7 @@ export const Forums = () => {
   return (
     <Container as="main" paddingY={8} maxWidth={1024}>
       <Flex mb={4} justifyContent="space-between" alignItems="center">
-        <Heading as="h1" fontSize="3xl">
+        <Heading as="h2" fontSize="2xl">
           กระทู้ทั้งหมด
         </Heading>
         <Button as={Link} to="/forums/new" variant="outline">

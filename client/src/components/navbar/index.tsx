@@ -21,8 +21,8 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { Link, NavLink } from "react-router-dom";
-import avatar from "animal-avatar-generator";
 
+import { UserProfile } from "../user-profile";
 import { useFunctions } from "./useFunctions";
 import { PasswordChecklist } from "../password-checklist";
 
@@ -88,17 +88,10 @@ export const Navbar = () => {
           </Flex>
           <Menu>
             <MenuButton>
-              <Flex fontWeight="500" fontSize="sm" gap={2} alignItems="center">
-                <Box
-                  dangerouslySetInnerHTML={{
-                    __html: avatar(authInfo.user!.fullname, {
-                      size: 32,
-                    }),
-                  }}
-                />
-                {authInfo.user?.fullname}
-                <Icon fontSize={16} icon="lucide:chevron-down" />
-              </Flex>
+              <UserProfile
+                fullname={authInfo.user!.fullname}
+                rightNode={<Icon fontSize={16} icon="lucide:chevron-down" />}
+              />
             </MenuButton>
             <MenuList>
               <MenuItem

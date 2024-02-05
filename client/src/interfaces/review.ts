@@ -1,4 +1,6 @@
-export interface Review {
+import { Hashtag } from "./hashtag";
+
+interface Review {
   id: number;
   companyId: number;
   reviewer: string;
@@ -9,11 +11,20 @@ export interface Review {
   updatedAt: string;
 }
 
+export interface ReviewItem extends Review {
+  hashtags: Hashtag[];
+}
+
 export interface ReviewData {
   rating: number;
   description: string;
+  hashtags: number[];
+}
+
+export interface ReviewInfo extends Review {
+  hashtags: number[];
 }
 
 export interface GetReviewResponse {
-  item: Review;
+  item: ReviewInfo;
 }

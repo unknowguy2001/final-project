@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Flex,
@@ -17,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 
+import { UserProfile } from "../user-profile";
 import { useFunctions } from "./useFunctions";
 import { Reply as IReply } from "../../interfaces/reply";
 import { formatDistanceToNow } from "../../utils/dateUtils";
@@ -77,13 +77,15 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
         padding="20px"
       >
         <Flex justifyContent="space-between" alignItems="center">
-          <Flex fontSize="sm" gap={2} alignItems="center">
-            <Avatar size="xs" name={reply?.createdByName[0]} />
-            <Text display="inline">{reply?.createdByName}</Text>
-            <Text color="gray.500" display="inline">
-              {formatDistanceToNow(reply.createdAt)}
-            </Text>
-          </Flex>
+          <UserProfile
+            avatarSize={24}
+            fullname={reply?.createdByName}
+            rightNode={
+              <Text fontSize="sm" color="gray.500">
+                {formatDistanceToNow(reply?.createdAt)}
+              </Text>
+            }
+          />
           <Button
             onClick={handleReplyClick}
             leftIcon={<Icon icon="lucide:reply" />}
@@ -140,13 +142,15 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
               ml={8}
             >
               <Flex justifyContent="space-between" alignItems="center">
-                <Flex fontSize="sm" gap={2} alignItems="center">
-                  <Avatar size="xs" name={childReply?.createdByName[0]} />
-                  <Text display="inline">{childReply?.createdByName}</Text>
-                  <Text color="gray.500" display="inline">
-                    {formatDistanceToNow(childReply.createdAt)}
-                  </Text>
-                </Flex>
+                <UserProfile
+                  avatarSize={24}
+                  fullname={childReply?.createdByName}
+                  rightNode={
+                    <Text fontSize="sm" color="gray.500">
+                      {formatDistanceToNow(childReply?.createdAt)}
+                    </Text>
+                  }
+                />
                 <Button
                   onClick={handleReplyClick}
                   leftIcon={<Icon icon="lucide:reply" />}

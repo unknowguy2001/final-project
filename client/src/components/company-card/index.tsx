@@ -1,13 +1,16 @@
 import {
+  Box,
   Card,
   CardBody,
   CardHeader,
   Circle,
+  Flex,
   Heading,
   Image,
   Text,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
+import { Rating } from "@smastrom/react-rating";
 
 import { useFunctions } from "./useFunctions";
 import { Company } from "../../interfaces/company";
@@ -75,22 +78,28 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
         />
       </CardHeader>
       <CardBody zIndex={1} bgColor="transparent">
-        <Heading as="h3" size="base" mb={2}>
+        <Heading noOfLines={2} as="h3" size="base" mb={2}>
           {company?.name}
         </Heading>
-        <Text mb={2}>
+        <Text noOfLines={2} mb={2}>
           {company?.address} {company?.road} {company?.village}{" "}
           {company?.district} {company?.province} {company?.zipcode}
           {[
-            company.address,
-            company.road,
-            company.village,
-            company.district,
-            company.province,
-            company.zipcode,
-          ].some((address) => address) && <br />}
-          เบอร์โทรศัพท์: {company?.telephone || "-"}
+            company?.address,
+            company?.road,
+            company?.village,
+            company?.district,
+            company?.province,
+            company?.zipcode,
+          ].some((item) => item) && <br />}
         </Text>
+        <Text mb={2}>เบอร์โทรศัพท์: {company?.telephone || "-"}</Text>
+        <Flex gap={1} alignItems="center">
+          <Box maxWidth="70px">
+            <Rating readOnly value={company?.averageRating} />
+          </Box>
+          <Text fontSize="xs">({company?.reviewCount} รีวิว)</Text>
+        </Flex>
       </CardBody>
       <Circle
         transition="transform 0.25s, left 0.125s, top 0.125s, opacity 0.25s"

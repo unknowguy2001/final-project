@@ -1,5 +1,12 @@
 import { Link as RouterLink } from "react-router-dom";
-import { Box, Container, Flex, Grid, GridItem, Link } from "@chakra-ui/react";
+import {
+  Container,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Link,
+} from "@chakra-ui/react";
 
 import { Hero } from "../../components/hero";
 import { useFunctions } from "./useFunctions";
@@ -19,9 +26,9 @@ export const Home = () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box as="h2" fontSize="2xl" fontWeight="bold">
+          <Heading fontSize="2xl" fontWeight="bold">
             บริษัทยอดนิยม
-          </Box>
+          </Heading>
           <Link as={RouterLink} to="/companies">
             ดูบริษัททั้งหมด
           </Link>

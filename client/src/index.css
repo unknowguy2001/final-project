@@ -1,11 +1,9 @@
-html,
-body,
-#root {
-  min-height: 100%;
+html {
   height: 100%;
 }
 
 body {
+  min-height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;

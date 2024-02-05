@@ -1,9 +1,25 @@
-import { Box, Container, Flex, Image, Link } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { Box, Container, Flex, Image, Link } from "@chakra-ui/react";
 
 export const Footer = () => {
+  const footerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const footerHeight = footerRef.current?.offsetHeight;
+    document.body.style.paddingBottom = `${footerHeight}px`;
+  }, []);
+
   return (
-    <Box bgColor="gray.800" color="white" as="footer">
+    <Box
+      ref={footerRef}
+      pos="absolute"
+      bottom={0}
+      width="100%"
+      bgColor="gray.800"
+      color="white"
+      as="footer"
+    >
       <Container paddingY={8} maxWidth={1024}>
         <Flex alignItems="center" justifyContent="space-between" gap={4}>
           <Image

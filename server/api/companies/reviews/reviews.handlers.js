@@ -1,9 +1,8 @@
 const { prisma } = require("../../../utils/prisma");
-const { connect } = require("../companies.routes");
 
 module.exports.createReview = async (req, res) => {
   const parsedCompanyId = req.parsedCompanyId;
-  const { rating, description, hashtags } = req.body;
+  const { rating, description = "", hashtags = [] } = req.body;
 
   // Check if rating is provided
   if (!rating) {
@@ -11,7 +10,6 @@ module.exports.createReview = async (req, res) => {
       message: "rating is required",
     });
   }
-  console.log(hashtags);
 
   const createdReview = await prisma.review.create({
     data: {
@@ -20,10 +18,16 @@ module.exports.createReview = async (req, res) => {
       reviewer: req.user.fullname,
       reviewerUsername: req.user.username,
       companyId: parsedCompanyId,
-      hashtags: { connect: hashtags.map((hashtagId) => ({ id: hashtagId })) },
     },
   });
-  console.log(createdReview);
+
+  await prisma.reviewHashtag.createMany({
+    data: hashtags.map((hashtag) => ({
+      hashtagId: hashtag,
+      reviewId: createdReview.id,
+    })),
+  });
+
   // Check if review is created
   if (!createdReview) {
     return res.status(400).json({
@@ -77,6 +81,12 @@ module.exports.deleteReview = async (req, res) => {
     });
   }
 
+  await prisma.reviewHashtag.deleteMany({
+    where: {
+      reviewId: parsedReviewId,
+    },
+  });
+
   // Delete review
   await prisma.review.delete({
     where: {
@@ -116,11 +126,31 @@ module.exports.deleteReview = async (req, res) => {
 module.exports.updateReview = async (req, res) => {
   const parsedCompanyId = req.parsedCompanyId;
   const parsedReviewId = req.parsedReviewId;
-  const { rating, description } = req.body;
+  const { rating, description, hashtags = [] } = req.body;
+
+  // Check if rating is provided
+  if (!rating) {
+    return res.status(400).json({
+      message: "rating is required",
+    });
+  }
 
   const updatedReview = await prisma.review.update({
     where: { id: parsedReviewId, companyId: parsedCompanyId },
     data: { rating, review: description },
+  });
+
+  await prisma.reviewHashtag.deleteMany({
+    where: {
+      reviewId: parsedReviewId,
+    },
+  });
+
+  await prisma.reviewHashtag.createMany({
+    data: hashtags.map((hashtag) => ({
+      reviewId: parsedReviewId,
+      hashtagId: hashtag,
+    })),
   });
 
   // Check if review is updated
@@ -162,7 +192,9 @@ module.exports.getReview = async (req, res) => {
 
   const review = await prisma.review.findUnique({
     where: { id: parsedReviewId, companyId: parsedCompanyId },
-    include: { hashtags: true },
+    include: {
+      hashtags: true,
+    },
   });
 
   if (!review) {
@@ -170,6 +202,10 @@ module.exports.getReview = async (req, res) => {
       message: "Can't get this review",
     });
   }
+
+  review.hashtags = review.hashtags.map(
+    (reviewHashtag) => reviewHashtag.hashtagId
+  );
 
   res.status(200).json({ item: review });
 };

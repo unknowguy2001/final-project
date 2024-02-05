@@ -23,7 +23,7 @@ export const Pagination = ({ count }: PaginationProps) => {
   return (
     <>
       {count >= 1 && (
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex zIndex={1} justifyContent="space-between" alignItems="center">
           <Flex gap={4} alignItems="center">
             <Text>แสดง</Text>
             <Select

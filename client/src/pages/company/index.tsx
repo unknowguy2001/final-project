@@ -17,20 +17,22 @@ import {
   Stack,
   Card,
   IconButton,
+  Badge,
+  CardBody,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { Rating } from "@smastrom/react-rating";
 
 import { useFunctions } from "./useFunctions";
 import { formatDistanceToNow } from "../../utils/dateUtils";
+import { UserProfile } from "../../components/user-profile";
 
 export const Company = () => {
   const {
     company,
     canReview,
-    onOpen,
     isOpen,
-    handleClose,
+    onClose,
     rating,
     setRating,
     descriptionRef,
@@ -40,6 +42,10 @@ export const Company = () => {
     formattedAverageRating,
     averageRating,
     authInfo,
+    hashtags,
+    isSelectedHashtag,
+    handleHashtagClick,
+    openReviewModal,
   } = useFunctions();
 
   return (
@@ -80,11 +86,11 @@ export const Company = () => {
             รีวิวบริษัท
           </Heading>
           {canReview && (
-            <Button onClick={onOpen} variant="outline">
+            <Button onClick={openReviewModal} variant="outline">
               เขียนรีวิว
             </Button>
           )}
-          <Modal isOpen={isOpen} onClose={handleClose}>
+          <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
               <ModalHeader>ริวิวบริษัท</ModalHeader>
@@ -93,14 +99,62 @@ export const Company = () => {
                 <Heading mb={2} fontSize="md" fontWeight="normal">
                   ความพึ่งพอใจ
                 </Heading>
-                <Box mb={4} maxWidth="150px">
-                  <Rating value={rating} onChange={setRating} />
-                </Box>
+                <Flex alignItems="center" gap={2} mb={4}>
+                  <Box maxWidth="150px">
+                    <Rating
+                      value={rating}
+                      onChange={(ratingChange: number) => {
+                        setRating(ratingChange);
+                      }}
+                    />
+                  </Box>
+                  {rating ? (
+                    <Text fontSize="sm">
+                      {rating === 1
+                        ? "ไม่พอใจเลย"
+                        : rating === 2
+                          ? "พอใจน้อย"
+                          : rating === 3
+                            ? "พอใจ"
+                            : rating === 4
+                              ? "พอใจมาก"
+                              : "พอใจมากที่สุด"}
+                    </Text>
+                  ) : null}
+                </Flex>
                 <Text mb={2}>คำอธิบาย</Text>
                 <Textarea ref={descriptionRef} rows={4} resize="none" />
+                <Flex mt={4} wrap="wrap" gap={2}>
+                  {hashtags.map((hashtag) => (
+                    <Button
+                      py={0.5}
+                      px={1.5}
+                      key={hashtag.id}
+                      size="xs"
+                      onClick={() => handleHashtagClick(hashtag.id)}
+                      variant="outline"
+                      backgroundColor={
+                        isSelectedHashtag(hashtag.id)
+                          ? "brand.500"
+                          : "transparent"
+                      }
+                      color={
+                        isSelectedHashtag(hashtag.id) ? "white" : "brand.500"
+                      }
+                      _hover={{
+                        backgroundColor: isSelectedHashtag(hashtag.id)
+                          ? "brand.600"
+                          : "brand.50",
+                      }}
+                      borderColor="brand.500"
+                    >
+                      {hashtag.name}
+                    </Button>
+                  ))}
+                </Flex>
               </ModalBody>
               <ModalFooter>
-                <Button variant="ghost" mr={3} onClick={handleClose}>
+                <Button variant="ghost" mr={3} onClick={onClose}>
                   ยกเลิก
                 </Button>
                 <Button onClick={handleReviewClick}>ส่งรีวิว</Button>
@@ -120,37 +174,58 @@ export const Company = () => {
           </Flex>
         </Flex>
       </Box>
-      <Stack mt={8} gap={8}>
+      <Stack mt={4} gap={8}>
         {company?.reviews.map((review) => (
-          <Card key={review.id} p={8}>
-            <Flex justifyContent="space-between">
-              <Heading as="h4" size="sm">
-                {review.reviewer}
-              </Heading>
-              <Text>{formatDistanceToNow(review.createdAt)}</Text>
-            </Flex>
-            <Box mt={2} maxWidth="100px">
-              <Rating readOnly value={review.rating} />
-            </Box>
-            {review?.review && <Text mt={2}>{review.review}</Text>}
-            {authInfo.user?.username === review.reviewerUsername && (
-              <Flex justifyContent="end" gap={2}>
-                <IconButton
-                  onClick={() => handleEditReviewClick(review.id)}
-                  aria-label="edit"
-                  icon={<Icon icon="lucide:pen" />}
-                  variant="ghost"
-                  size="sm"
-                />
-                <IconButton
-                  onClick={() => handleDeleteReviewClick(review.id)}
-                  aria-label="delete"
-                  icon={<Icon icon="lucide:trash" />}
-                  variant="ghost"
-                  size="sm"
-                />
+          <Card variant="outline" key={review.id}>
+            <CardBody>
+              <Flex gap={4} justifyContent="space-between" align="center">
+                <UserProfile fullname={review.reviewer} />
+                <Text fontSize="sm">
+                  {formatDistanceToNow(review.createdAt)}
+                </Text>
               </Flex>
-            )}
+              <Flex my={2} align="center" gap={4} justify="space-between">
+                <Box maxWidth="100px">
+                  <Rating readOnly value={review.rating} />
+                </Box>
+                {authInfo.user?.username === review.reviewerUsername && (
+                  <Box>
+                    <IconButton
+                      onClick={() => handleEditReviewClick(review.id)}
+                      aria-label="edit"
+                      icon={<Icon icon="lucide:pen" />}
+                      variant="ghost"
+                      size="sm"
+                    />
+                    <IconButton
+                      onClick={() => {
+                        handleDeleteReviewClick(review.id);
+                      }}
+                      aria-label="delete"
+                      icon={<Icon icon="lucide:trash" />}
+                      variant="ghost"
+                      size="sm"
+                    />
+                  </Box>
+                )}
+              </Flex>
+              {review?.hashtags?.length > 0 && (
+                <Flex mb={4} wrap="wrap" gap={2}>
+                  {review?.hashtags?.map((hashtag) => (
+                    <Badge
+                      py={0.5}
+                      px={1.5}
+                      rounded="lg"
+                      variant="outline"
+                      key={hashtag.id}
+                    >
+                      {hashtag.name}
+                    </Badge>
+                  ))}
+                </Flex>
+              )}
+              {review?.review && <Text>{review.review}</Text>}
+            </CardBody>
           </Card>
         ))}
       </Stack>

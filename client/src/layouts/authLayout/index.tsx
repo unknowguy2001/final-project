@@ -6,7 +6,7 @@ import { Unauthenticated } from "../../components/unauthenticated";
 export const AuthLayout = () => {
   return (
     <Unauthenticated>
-      <Flex height="100%">
+      <Flex height="100dvh">
         <Flex pt={20} justifyContent="center" flex={1}>
           <Flex width="100%" maxWidth={350} flexDirection="column" gap={8}>
             <Image

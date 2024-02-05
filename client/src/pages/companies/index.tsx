@@ -10,7 +10,6 @@ import {
   AspectRatio,
   SkeletonText,
   IconButton,
-  ButtonGroup,
   TableContainer,
   Table,
   Thead,
@@ -18,8 +17,10 @@ import {
   Th,
   Tbody,
   Td,
+  Heading,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
+import { Rating } from "@smastrom/react-rating";
 
 import { useFunctions } from "./useFunctions";
 import { Pagination } from "../../components/pagination";
@@ -36,6 +37,7 @@ export const Companies = () => {
     clearSearch,
     isDisplayMode,
     setDisplayMode,
+    handleCompanyRowClick,
   } = useFunctions();
 
   return (
@@ -46,9 +48,9 @@ export const Companies = () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box as="h2" fontSize="2xl" fontWeight="bold">
+          <Heading as="h2" fontSize="2xl">
             บริษัททั้งหมด
-          </Box>
+          </Heading>
           <SkeletonText noOfLines={1} isLoaded={!isLoading}>
             แสดง {companies.length} รายการ จากทั้งหมด {count} รายการ
           </SkeletonText>
@@ -73,20 +75,24 @@ export const Companies = () => {
               </Box>
             </Box>
           </Box>
-          <ButtonGroup isAttached variant="outline">
+          <Box>
             <IconButton
+              borderTopRightRadius={0}
+              borderBottomRightRadius={0}
               variant={isDisplayMode("grid") ? "solid" : "outline"}
               onClick={() => setDisplayMode("grid")}
               aria-label=""
               icon={<Icon icon="lucide:layout-grid" />}
             />
             <IconButton
+              borderTopLeftRadius={0}
+              borderBottomLeftRadius={0}
               variant={isDisplayMode("list") ? "solid" : "outline"}
               onClick={() => setDisplayMode("list")}
               aria-label=""
               icon={<Icon icon="lucide:list" />}
             />
-          </ButtonGroup>
+          </Box>
         </Flex>
       </Box>
       {!isLoading && companies.length === 0 && (
@@ -105,7 +111,7 @@ export const Companies = () => {
         </Flex>
       )}
       {isDisplayMode("grid") ? (
-        <SimpleGrid columns={[1, 2, 3]} gap={4} mb={4}>
+        <SimpleGrid columns={[1, 2, 3]} gap={4}>
           {isLoading ? (
             <>
               {Array.from({ length: 3 }).map((_, index) => (
@@ -119,75 +125,76 @@ export const Companies = () => {
           )}
         </SimpleGrid>
       ) : (
-        <TableContainer
-          mb={4}
-          border="1px solid"
-          borderColor="brand.100"
-          rounded="lg"
-        >
-          <Table>
-            <Thead>
-              <Tr>
-                <Th minWidth={200}>รูป</Th>
-                <Th>ชื่อ</Th>
-                <Th>ที่อยู่</Th>
-                <Th>เบอร์โทรศัพท์</Th>
-                <Th>คะแนนรีวิวเฉลี่ย</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {isLoading ? (
-                <>
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Tr key={index}>
-                      <Th>
-                        <Skeleton height="20px" />
-                      </Th>
-                      <Th>
-                        <Skeleton height="20px" />
-                      </Th>
-                      <Th>
-                        <Skeleton height="20px" />
-                      </Th>
-                      <Th>
-                        <Skeleton height="20px" />
-                      </Th>
+        <>
+          {!isLoading && companies.length && (
+            <TableContainer
+              border="1px solid"
+              borderColor="brand.100"
+              rounded="lg"
+            >
+              <Table>
+                <Thead>
+                  <Tr>
+                    <Th minWidth={200}>รูป</Th>
+                    <Th minWidth={175}>คะแนนรีวิว</Th>
+                    <Th>ชื่อ</Th>
+                    <Th>ที่อยู่</Th>
+                    <Th>เบอร์โทรศัพท์</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {companies.map((company) => (
+                    <Tr
+                      onClick={() => handleCompanyRowClick(company.id)}
+                      cursor="pointer"
+                      _hover={{
+                        backgroundColor: "brand.25",
+                      }}
+                      key={company.id}
+                    >
+                      <Td>
+                        <Image
+                          rounded="lg"
+                          objectFit="cover"
+                          src="https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?q=80&w=3271&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        />
+                      </Td>
+                      <Td>
+                        <Flex gap={1} alignItems="center">
+                          <Box>
+                            <Rating readOnly value={company?.averageRating} />
+                          </Box>
+                          <Text fontSize="xs">
+                            ({company?.reviewCount} รีวิว)
+                          </Text>
+                        </Flex>
+                      </Td>
+
+                      <Td>{company.name}</Td>
+                      <Td>
+                        {[
+                          company.address,
+                          company.road,
+                          company.village,
+                          company.district,
+                          company.province,
+                          company.zipcode,
+                        ].every((item) => !item) && "-"}
+                        {company.address} {company.road} {company.village}{" "}
+                        {company.district} {company.province} {company.zipcode}
+                      </Td>
+                      <Td>{company.telephone || "-"}</Td>
                     </Tr>
                   ))}
-                </>
-              ) : (
-                companies.map((company) => (
-                  <Tr key={company.id}>
-                    <Td>
-                      <Image
-                        rounded="lg"
-                        objectFit="cover"
-                        src="https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?q=80&w=3271&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                      />
-                    </Td>
-                    <Td>{company.name}</Td>
-                    <Td>
-                      {[
-                        company.address,
-                        company.road,
-                        company.village,
-                        company.district,
-                        company.province,
-                        company.zipcode,
-                      ].every((address) => !address) && "-"}
-                      {company.address} {company.road} {company.village}{" "}
-                      {company.district} {company.province} {company.zipcode}
-                    </Td>
-                    <Td>{company.telephone || "-"}</Td>
-                    <Td>{company.averageRating}</Td>
-                  </Tr>
-                ))
-              )}
-            </Tbody>
-          </Table>
-        </TableContainer>
+                </Tbody>
+              </Table>
+            </TableContainer>
+          )}
+        </>
       )}
-      <Pagination count={count} />
+      <Box mt={4}>
+        <Pagination count={count} />
+      </Box>
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import { Review } from "./review";
+import { ReviewItem } from "./review";
 
 export interface Company {
   id: number;
@@ -10,8 +10,9 @@ export interface Company {
   province: string;
   zipcode: string;
   telephone: string;
-  reviews: Review[];
+  reviews: ReviewItem[];
   averageRating: number;
+  reviewCount: number;
 }
 
 export interface CompanyData {

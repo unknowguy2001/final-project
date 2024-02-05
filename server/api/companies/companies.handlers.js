@@ -9,8 +9,21 @@ module.exports.getTop4Popular = async (req, res) => {
       averageRating: "desc",
     },
   });
+  const popularCompaniesWithReviewCount = await Promise.all(
+    popularCompanies.map(async (company) => {
+      const reviewCount = await prisma.review.count({
+        where: {
+          companyId: company.id,
+        },
+      });
+      return {
+        ...company,
+        reviewCount,
+      };
+    })
+  );
   res.status(200).json({
-    items: popularCompanies,
+    items: popularCompaniesWithReviewCount,
   });
 };
 
@@ -34,6 +47,13 @@ module.exports.getCompanyById = async (req, res) => {
         orderBy: {
           createdAt: "desc",
         },
+        include: {
+          hashtags: {
+            select: {
+              hashtag: true,
+            },
+          },
+        },
       },
     },
   });
@@ -51,6 +71,11 @@ module.exports.getCompanyById = async (req, res) => {
       break;
     }
   }
+
+  company.reviews = company.reviews.map((review) => ({
+    ...review,
+    hashtags: review.hashtags.map(({ hashtag }) => hashtag),
+  }));
 
   res.status(200).json({
     item: company,
@@ -154,7 +179,21 @@ module.exports.searchCompanies = async (req, res) => {
     prisma.company.count(countOptions),
   ]);
 
-  res.status(200).json({ items: companies, count });
+  const companiesWithReviewCount = await Promise.all(
+    companies.map(async (company) => {
+      const reviewCount = await prisma.review.count({
+        where: {
+          companyId: company.id,
+        },
+      });
+      return {
+        ...company,
+        reviewCount,
+      };
+    })
+  );
+
+  res.status(200).json({ items: companiesWithReviewCount, count });
 };
 
 module.exports.updateCompany = async (req, res) => {

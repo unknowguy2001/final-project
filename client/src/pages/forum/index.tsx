@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Container,
@@ -17,6 +16,7 @@ import { Reply } from "../../components/reply";
 import { Editor } from "../../components/editor";
 import { Pagination } from "../../components/pagination";
 import { formatDistanceToNow } from "../../utils/dateUtils";
+import { UserProfile } from "../../components/user-profile";
 
 export const Forum = () => {
   const {
@@ -47,13 +47,15 @@ export const Forum = () => {
         </Heading>
         <Editor data={description} readOnly={true} theme="bubble" />
         <Flex mt={4} justifyContent="space-between" alignItems="center">
-          <Flex fontSize="sm" gap={2} alignItems="center">
-            <Avatar size="xs" name={forum?.createdByName[0]} />
-            <Text display="inline">{forum?.createdByName}</Text>
-            <Text color="gray.500" display="inline">
-              {formatDistanceToNow(forum?.createdAt)}
-            </Text>
-          </Flex>
+          <UserProfile
+            avatarSize={24}
+            fullname={forum?.createdByName}
+            rightNode={
+              <Text fontSize="sm" color="gray.500">
+                {formatDistanceToNow(forum?.createdAt)}
+              </Text>
+            }
+          />
           {authInfo.user?.username === forum?.createdByUsername && (
             <Flex justifyContent="end" gap={2}>
               <IconButton
