@@ -12,7 +12,28 @@ export interface Company {
   telephone: string;
   reviews: ReviewItem[];
   averageRating: number;
-  reviewCount: number;
+  ratingSummary: RatingSummary;
+  hashtagSummary: HashtagSummaryItem[];
+  reviewCount?: number;
+}
+
+export interface RatingSummary {
+  oneStar: Star;
+  twoStar: Star;
+  threeStar: Star;
+  fourStar: Star;
+  fiveStar: Star;
+}
+
+export interface Star {
+  count: number;
+  percentage: number;
+}
+
+export interface HashtagSummaryItem {
+  id: number;
+  name: string;
+  count: number;
 }
 
 export interface CompanyData {

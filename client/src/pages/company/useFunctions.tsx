@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useAuth } from "../../hooks/useAuth";
 import { Company, GetCompanyResponse } from "../../interfaces/company";
 import { GetReviewResponse, ReviewData } from "../../interfaces/review";
-import { create, get, remove, update } from "../../services/baseService";
 import { GetHashtagsResponse, Hashtag } from "../../interfaces/hashtag";
+import { create, get, remove, update } from "../../services/baseService";
 
 export const useFunctions = () => {
   const [edittingReviewId, setEdittingReviewId] = useState<number | null>(null);
@@ -21,9 +21,51 @@ export const useFunctions = () => {
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
   const [hashtags, setHashtags] = useState<Hashtag[]>([]);
   const [selectedHashtags, setSelectedHashtags] = useState<number[]>([]);
+  const [selectedRatingFilter, setSelectedRatingFilter] = useState<
+    number | null
+  >(null);
 
   const averageRating = company?.averageRating || 0;
   const formattedAverageRating = averageRating.toFixed(1);
+
+  const generateGoogleMapsUrl = (company: Company | undefined): string => {
+    if (!company) return "";
+
+    const addressComponents = [
+      company.address,
+      company.road,
+      company.village,
+      company.district,
+      company.province,
+      company.zipcode,
+      company.name,
+    ]
+      .map((value) => value?.trim())
+      .filter(Boolean);
+
+    const formattedAddress = addressComponents.join("+");
+
+    return `https://www.google.com/maps/search/${encodeURI(formattedAddress)}`;
+  };
+
+  const isRatingFilterSelected = (rating: number) => {
+    return selectedRatingFilter === rating;
+  };
+
+  const handleRatingFilterClick = async (rating: number) => {
+    setSelectedRatingFilter((prev) => (prev === rating ? null : rating));
+  };
+
+  const filteredReviews = useMemo(() => {
+    if (selectedRatingFilter) {
+      return (
+        company?.reviews.filter(
+          (review) => review.rating === selectedRatingFilter
+        ) || []
+      );
+    }
+    return company?.reviews || [];
+  }, [company?.reviews, selectedRatingFilter]);
 
   const handleReviewClick = async () => {
     if (!descriptionRef.current) return;
@@ -135,7 +177,6 @@ export const useFunctions = () => {
   return {
     company,
     canReview,
-    onOpen,
     isOpen,
     rating,
     setRating,
@@ -151,5 +192,9 @@ export const useFunctions = () => {
     isSelectedHashtag,
     handleHashtagClick,
     openReviewModal,
+    handleRatingFilterClick,
+    filteredReviews,
+    isRatingFilterSelected,
+    generateGoogleMapsUrl,
   };
 };

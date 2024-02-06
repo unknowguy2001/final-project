@@ -3,6 +3,7 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ParallaxProvider } from "react-scroll-parallax";
 
 // theme
 import { theme } from "./theme";
@@ -119,10 +120,12 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <ChakraProvider theme={theme}>
-      <AuthProvider>
-        <Toaster richColors position="bottom-center" />
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <ParallaxProvider>
+        <AuthProvider>
+          <Toaster richColors position="bottom-center" />
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </ParallaxProvider>
     </ChakraProvider>
   );
 };

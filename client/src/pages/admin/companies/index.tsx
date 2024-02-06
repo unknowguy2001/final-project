@@ -3,6 +3,7 @@ import {
   Button,
   Container,
   Flex,
+  Heading,
   IconButton,
   Input,
   SkeletonText,
@@ -41,9 +42,9 @@ export const AdminCompanies = () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box as="h2" fontSize="3xl" fontWeight="bold">
+          <Heading as="h2" fontSize="2xl">
             บริษัททั้งหมด
-          </Box>
+          </Heading>
           <SkeletonText noOfLines={1} isLoaded={!isLoading}>
             แสดง {companies.length} รายการ จากทั้งหมด {count} รายการ
           </SkeletonText>

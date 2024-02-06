@@ -1,8 +1,8 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { Company, SearchCompaniesResponse } from "../../interfaces/company";
 import { get } from "../../services/baseService";
+import { Company, SearchCompaniesResponse } from "../../interfaces/company";
 
 export const useFunctions = () => {
   const navigate = useNavigate();
@@ -74,6 +74,7 @@ export const useFunctions = () => {
   }, [searchQuery, searchParams]);
 
   useEffect(() => {
+    if (count === 0) return;
     const page = parseInt(searchParams.get("page")!) || 1;
     const perPage = parseInt(searchParams.get("perPage")!) || 12;
     if (page < 1 || page > Math.ceil(count / perPage)) {

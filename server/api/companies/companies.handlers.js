@@ -72,10 +72,70 @@ module.exports.getCompanyById = async (req, res) => {
     }
   }
 
-  company.reviews = company.reviews.map((review) => ({
-    ...review,
-    hashtags: review.hashtags.map(({ hashtag }) => hashtag),
-  }));
+  company.ratingSummary = {
+    oneStar: 0,
+    twoStar: 0,
+    threeStar: 0,
+    fourStar: 0,
+    fiveStar: 0,
+  };
+
+  const hashtags = await prisma.hashtag.findMany({});
+
+  company.hashtagSummary = [];
+
+  for (let i = 0; i < hashtags.length; i++) {
+    company.hashtagSummary.push({
+      ...hashtags[i],
+      count: 0,
+    });
+  }
+
+  company.reviews.forEach((review) => {
+    review.hashtags.forEach(({ hashtag }) => {
+      const index = company.hashtagSummary.findIndex(
+        (item) => item.id === hashtag.id
+      );
+      if (index !== -1) {
+        company.hashtagSummary[index].count += 1;
+      }
+    });
+  });
+
+  const numberMap = {
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+  };
+
+  company.reviews = company.reviews.map((review) => {
+    company.ratingSummary[`${numberMap[review.rating]}Star`] += 1;
+    return {
+      ...review,
+      hashtags: review.hashtags.map(({ hashtag }) => hashtag),
+    };
+  });
+
+  const totalStar = Object.values(company.ratingSummary).reduce(
+    (acc, cur) => acc + cur,
+    0
+  );
+
+  company.ratingSummary = Object.entries(company.ratingSummary).reduce(
+    (acc, [key, value]) => {
+      const percentage = (value / totalStar) * 100;
+      return {
+        ...acc,
+        [key]: {
+          count: value,
+          percentage: isNaN(percentage) ? 0 : percentage,
+        },
+      };
+    },
+    {}
+  );
 
   res.status(200).json({
     item: company,
