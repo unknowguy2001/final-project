@@ -26,7 +26,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         setAuthInfo(response.data);
         setIsFetchingAuthInfo(false);
       } catch (error) {
-        console.error("Error fetching authentication info:", error);
+        //
       }
     };
 
