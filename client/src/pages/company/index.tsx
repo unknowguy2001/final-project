@@ -265,6 +265,7 @@ export const Company = () => {
       <Flex gap={2} mt={4}>
         {Array.from({ length: 5 }, (_, i) => (
           <Button
+            key={`rating-filter-${i + 1}`}
             rounded="full"
             gap={1}
             variant="outline"
