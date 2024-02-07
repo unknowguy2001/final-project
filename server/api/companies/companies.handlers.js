@@ -64,13 +64,6 @@ module.exports.getCompanyById = async (req, res) => {
     });
   }
 
-  let canReview = true;
-  const reviewByReviewer = await prisma.review.findFirst({
-    where: { reviewerUsername: req.user.username },
-  });
-
-  if (reviewByReviewer) canReview = false;
-
   company.ratingSummary = {
     oneStar: 0,
     twoStar: 0,
@@ -135,6 +128,12 @@ module.exports.getCompanyById = async (req, res) => {
     },
     {}
   );
+
+  // Check if the user can review the company
+  const reviewByReviewer = await prisma.review.findFirst({
+    where: { reviewerUsername: req.user.username },
+  });
+  const canReview = !reviewByReviewer;
 
   res.status(200).json({
     item: company,
