@@ -65,12 +65,11 @@ module.exports.getCompanyById = async (req, res) => {
   }
 
   let canReview = true;
-  for (let i = 0; i < company.reviews.length; i++) {
-    if (company.reviews[i].reviewerUsername === req.user.username) {
-      canReview = false;
-      break;
-    }
-  }
+  const reviewByReviewer = await prisma.review.findFirst({
+    where: { reviewerUsername: req.user.username },
+  });
+
+  if (reviewByReviewer) canReview = false;
 
   company.ratingSummary = {
     oneStar: 0,
