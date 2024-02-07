@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as ReactRouterDomLink } from "react-router-dom";
 import { Box, Container, Flex, Image, Link } from "@chakra-ui/react";
 
 export const Footer = () => {
@@ -7,7 +7,11 @@ export const Footer = () => {
 
   useEffect(() => {
     const footerHeight = footerRef.current?.offsetHeight;
-    document.body.style.paddingBottom = `${footerHeight}px`;
+    document.body.style.paddingBottom = `${footerHeight || 0}px`;
+
+    return () => {
+      document.body.style.paddingBottom = "0";
+    };
   }, []);
 
   return (
@@ -28,13 +32,13 @@ export const Footer = () => {
             src="https://www.rmutp.ac.th/web2561/wp-content/uploads/2018/06/rmutp-logo.png"
           />
           <Flex gap={12}>
-            <Link to="/" as={RouterLink}>
+            <Link to="/" as={ReactRouterDomLink}>
               หลักแรก
             </Link>
-            <Link to="/companies" as={RouterLink}>
+            <Link to="/companies" as={ReactRouterDomLink}>
               บริษัท
             </Link>
-            <Link to="/forums" as={RouterLink}>
+            <Link href="/forums" as={ReactRouterDomLink}>
               กระทู้
             </Link>
             <Link>แบบสอบถาม</Link>

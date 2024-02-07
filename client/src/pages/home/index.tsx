@@ -1,4 +1,4 @@
-import { Link as RouterLink } from "react-router-dom";
+import { Link as ReactRouterDomLink } from "react-router-dom";
 import {
   Container,
   Flex,
@@ -29,7 +29,7 @@ export const Home = () => {
           <Heading fontSize="2xl" fontWeight="bold">
             บริษัทยอดนิยม
           </Heading>
-          <Link as={RouterLink} to="/companies">
+          <Link as={ReactRouterDomLink} to="/companies">
             ดูบริษัททั้งหมด
           </Link>
         </Flex>

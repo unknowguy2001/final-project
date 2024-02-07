@@ -24,7 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { Rating } from "@smastrom/react-rating";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as ReactRouterDomLink } from "react-router-dom";
 import { ParallaxBanner } from "react-scroll-parallax";
 
 import { useFunctions } from "./useFunctions";
@@ -80,7 +80,7 @@ export const Company = () => {
           <Flex>
             <IconButton
               aria-label="info"
-              as={RouterLink}
+              as={ReactRouterDomLink}
               to={`https://www.google.com/search?q=ข้อมูล+${company?.name}`}
               target="_blank"
               variant="ghost"
@@ -88,7 +88,7 @@ export const Company = () => {
             />
             <IconButton
               aria-label="map"
-              as={RouterLink}
+              as={ReactRouterDomLink}
               to={generateGoogleMapsUrl(company)}
               target="_blank"
               variant="ghost"

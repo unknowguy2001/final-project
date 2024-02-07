@@ -10,7 +10,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as ReactRouterDomLink } from "react-router-dom";
 
 import { useFunctions } from "./useFunctions";
 import { PasswordChecklist } from "../../components/password-checklist";
@@ -117,7 +117,12 @@ export const Register = () => {
       </Box>
       <Text color="gray.600" textAlign="center">
         มีบัญชีอยู่แล้ว?{" "}
-        <Link as={RouterLink} color="black" to="/auth/login" textAlign="center">
+        <Link
+          as={ReactRouterDomLink}
+          color="black"
+          to="/auth/login"
+          textAlign="center"
+        >
           เข้าสู่ระบบ
         </Link>
       </Text>

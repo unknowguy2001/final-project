@@ -9,7 +9,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as ReactRouterDomLink } from "react-router-dom";
 
 import { useFunctions } from "./useFunctions";
 
@@ -84,7 +84,7 @@ export const Login = () => {
       <Text color="gray.600" textAlign="center">
         ยังไม่มีบัญชีผู้ใช้งาน?{" "}
         <Link
-          as={RouterLink}
+          as={ReactRouterDomLink}
           color="black"
           to="/auth/register"
           textAlign="center"
