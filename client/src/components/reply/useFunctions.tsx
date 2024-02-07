@@ -56,13 +56,12 @@ export const useFunctions = ({
           },
         }
       );
-    } catch (error) {
-      console.error(error);
-    } finally {
       setComment("");
       handleSearchReplies();
       setShowChildReplies(true);
       setShowCommentForm(false);
+    } catch (error) {
+      console.error(error);
     }
   };
 

@@ -42,11 +42,10 @@ export const useFunctions = () => {
       e.preventDefault();
       if (!forumId) return;
       await createReply(forumId, { description: comment });
-    } catch (error) {
-      console.error(error);
-    } finally {
       setComment("");
       handleSearchReplies();
+    } catch (error) {
+      console.error(error);
     }
   };
 

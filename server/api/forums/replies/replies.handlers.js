@@ -1,3 +1,6 @@
+const thaiCut = require("thai-cut-slim");
+
+const { badWords } = require("../../../constants/bad-words");
 const { prisma } = require("../../../utils/prisma");
 const { DEFAULT_PER_PAGE } = require("../../../constants/pagination");
 
@@ -41,7 +44,7 @@ module.exports.createReply = async (req, res) => {
   try {
     const { description } = req.body;
     const { forumId } = req.params;
-    console.log(forumId);
+
     const parsedForumId = Number(forumId);
     const replyId = Number(req.query.replyId);
 
@@ -51,6 +54,14 @@ module.exports.createReply = async (req, res) => {
 
     if (isNaN(parsedForumId)) {
       return res.status(400).json({ message: "Id must be a number" });
+    }
+
+    const words = thaiCut.cut(description);
+
+    for (let i = 0; i < words.length; i++) {
+      if (badWords.includes(words[i].toLowerCase())) {
+        return res.status(400).json({ message: "Bad words are not allowed!" });
+      }
     }
 
     const reply = await prisma.reply.create({

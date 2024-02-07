@@ -1,11 +1,10 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import { get } from "../../services/baseService";
 import { Company, SearchCompaniesResponse } from "../../interfaces/company";
 
 export const useFunctions = () => {
-  const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,10 +30,6 @@ export const useFunctions = () => {
     e.preventDefault();
     setSearchQuery(searchInputRef.current?.value || "");
     setSearchParams({ q: searchInputRef.current?.value || "" });
-  };
-
-  const handleCompanyRowClick = (id: number) => {
-    navigate(`/companies/${id}`);
   };
 
   useEffect(() => {
@@ -91,6 +86,5 @@ export const useFunctions = () => {
     clearSearch,
     isDisplayMode,
     setDisplayMode,
-    handleCompanyRowClick,
   };
 };
