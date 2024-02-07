@@ -9,6 +9,7 @@ const forumsRoutes = require("./api/forums");
 const repliesRoutes = require("./api/forums/replies");
 const companiesRoutes = require("./api/companies");
 const reviewsRoutes = require("./api/companies/reviews");
+const chartRoutes = require("./api/chart");
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.use("/api/v1/forums", authentication, forumsRoutes);
 router.use("/api/v1/forums", authentication, repliesRoutes);
 router.use("/api/v1/companies", authentication, companiesRoutes);
 router.use("/api/v1/companies", authentication, reviewsRoutes);
+router.use("/api/v1/chart", authentication, authorization(2), chartRoutes);
 
 module.exports = router;

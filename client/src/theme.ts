@@ -1,7 +1,16 @@
-import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
+import {
+  extendTheme,
+  withDefaultColorScheme,
+  type ThemeConfig,
+} from "@chakra-ui/react";
+
+const config: ThemeConfig = {
+  // initialColorMode: "dark",
+};
 
 export const theme = extendTheme(
   {
+    config,
     colors: {
       brand: {
         25: "#FDF2FF",

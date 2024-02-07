@@ -8,4 +8,5 @@ export const RESOURCES = {
   REPLIES: "/replies",
   REVIEWS: "/reviews",
   USERS: "/users",
+  CHART: "/chart",
 };
