@@ -15,8 +15,6 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-    networks:
-      - app_network
 
   client:
     container_name: client
@@ -26,8 +24,6 @@ services:
       - "5173:5173"
     depends_on:
       - server
-    networks:
-      - app_network
 
   server:
     container_name: server
@@ -37,11 +33,9 @@ services:
       - "3000:3000"
     depends_on:
       - postgres
-    networks:
-      - app_network
 
   postgres:
-    image: postgres:15-alpine
+    image: postgres:latest
     container_name: postgres
     restart: always
     environment:
@@ -52,11 +46,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    networks:
-      - app_network
-
-networks:
-  app_network:
 
 volumes:
   caddy_data:
