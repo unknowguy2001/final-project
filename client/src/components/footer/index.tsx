@@ -21,6 +21,7 @@ export const Footer = () => {
       bottom={0}
       width="100%"
       bgColor="gray.800"
+      _dark={{ bgColor: "#2D3748" }}
       color="white"
       as="footer"
     >
@@ -38,7 +39,7 @@ export const Footer = () => {
             <Link to="/companies" as={ReactRouterDomLink}>
               บริษัท
             </Link>
-            <Link href="/forums" as={ReactRouterDomLink}>
+            <Link to="/forums" as={ReactRouterDomLink}>
               กระทู้
             </Link>
             <Link>แบบสอบถาม</Link>

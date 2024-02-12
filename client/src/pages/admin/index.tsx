@@ -9,7 +9,6 @@ import {
   Container,
   Flex,
   Heading,
-  SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";

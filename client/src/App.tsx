@@ -1,7 +1,7 @@
 import { Toaster } from "sonner";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, createLocalStorageManager } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ParallaxProvider } from "react-scroll-parallax";
 
@@ -31,6 +31,8 @@ import { AuthProvider } from "./contexts/authContext";
 import { ForumForm } from "./pages/forum-form";
 import { MainLayout } from "./layouts/mainLayout";
 import { Register } from "./pages/register";
+
+const colorModeManager = createLocalStorageManager("color-mode");
 
 const router = createBrowserRouter([
   {
@@ -119,7 +121,7 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider colorModeManager={colorModeManager} theme={theme}>
       <ParallaxProvider>
         <AuthProvider>
           <Toaster richColors position="bottom-center" />

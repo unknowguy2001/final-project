@@ -27,7 +27,14 @@ export const CompanyTable = ({ companies }: CompanyTableProps) => {
   };
 
   return (
-    <TableContainer border="1px solid" borderColor="brand.100" rounded="lg">
+    <TableContainer
+      border="1px solid"
+      borderColor="brand.100"
+      _dark={{
+        borderColor: "gray.600",
+      }}
+      rounded="lg"
+    >
       <Table>
         <Thead>
           <Tr>
@@ -45,6 +52,11 @@ export const CompanyTable = ({ companies }: CompanyTableProps) => {
               cursor="pointer"
               _hover={{
                 backgroundColor: "brand.25",
+              }}
+              _dark={{
+                _hover: {
+                  backgroundColor: "gray.650",
+                },
               }}
               key={company.id}
             >

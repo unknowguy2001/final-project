@@ -5,11 +5,9 @@ import {
   Flex,
   FormControl,
   Heading,
-  IconButton,
   Image,
   Input,
   Text,
-  Tooltip,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 
@@ -21,25 +19,20 @@ import hero4 from "../../assets/images/hero/4.png";
 import hero5 from "../../assets/images/hero/5.png";
 import hero6 from "../../assets/images/hero/6.png";
 
-import pattern from "../../assets/images/pattern.svg";
-
 export const Hero = () => {
-  const {
-    queryRef,
-    handleSearchSubmit,
-    businessOperationsRef,
-    handleScrollClick,
-    isLeftScrollable,
-    isRightScrollable,
-  } = useFunctions();
+  const { queryRef, handleSearchSubmit } = useFunctions();
 
   return (
     <Box
+      backgroundImage="radial-gradient(#fff 10%, #f0f0f0 10%, #f0f0f0 90%, #fff 90%)"
+      _dark={{
+        backgroundImage:
+          "radial-gradient(#1A202C 10%, #2D3748 10%, #2D3748 90%, #1A202C 90%)",
+      }}
+      backgroundSize="300px 300px"
       borderBottom="1px solid"
       borderColor="blackAlpha.200"
       py={250}
-      backgroundImage={`url(${pattern})`}
-      backgroundAttachment="fixed"
     >
       <Container
         position="relative"
@@ -51,7 +44,10 @@ export const Hero = () => {
           <Heading textAlign="center" fontSize={48} as="h1">
             <Text
               display="inline-block"
-              bgGradient="linear(to-l, #6E2996, #FF0099)"
+              bgGradient="linear(to-l, #A366FF, #6E2996)"
+              _dark={{
+                bgGradient: "linear(to-l, #C399FF, #A366FF)",
+              }}
               bgClip="text"
             >
               Discover
@@ -73,7 +69,10 @@ export const Hero = () => {
           >
             <FormControl flex={1}>
               <Input
-                backgroundColor="white"
+                bg="white"
+                _dark={{
+                  bg: "gray.800",
+                }}
                 ref={queryRef}
                 placeholder="กรอกคำค้นหา"
               />
@@ -81,136 +80,6 @@ export const Hero = () => {
             <Button type="submit" rightIcon={<Icon icon="lucide:search" />}>
               ค้นหาบริษัท
             </Button>
-          </Flex>
-          <Flex
-            rounded="lg"
-            overflow="hidden"
-            position="relative"
-            gap={2}
-            mx={8}
-          >
-            <IconButton
-              opacity={Number(isLeftScrollable)}
-              onClick={() => handleScrollClick("left")}
-              zIndex={1}
-              position="absolute"
-              left={0}
-              size="xs"
-              aria-label=""
-              icon={<Icon icon="lucide:arrow-left" />}
-            />
-            <Flex
-              ref={businessOperationsRef}
-              width="454px"
-              sx={{
-                "::-webkit-scrollbar": {
-                  display: "none",
-                },
-              }}
-              overflow="scroll"
-              gap={2}
-            >
-              <Tooltip label="จำหน่ายและผลิตโปรแกรมคอมพิวเตอร์ และอุปกรณ์ต่อพ่วงที่เกี่ยวข้อง">
-                <Button
-                  _hover={{
-                    backgroundColor: "brand.100",
-                  }}
-                  lineHeight={6}
-                  fontWeight="400"
-                  fontSize={14}
-                  backgroundColor="brand.50"
-                  color="black"
-                  height="auto"
-                  px={4}
-                  variant="ghost"
-                  flexShrink={0}
-                >
-                  จำหน่ายและผลิตโปรแกรม...
-                </Button>
-              </Tooltip>
-              <Tooltip label="จำหน่ายและผลิตโปรแกรมคอมพิวเตอร์ และอุปกรณ์ต่อพ่วงที่เกี่ยวข้อง">
-                <Button
-                  _hover={{
-                    backgroundColor: "brand.100",
-                  }}
-                  lineHeight={6}
-                  fontWeight="400"
-                  fontSize={14}
-                  backgroundColor="brand.50"
-                  color="black"
-                  height="auto"
-                  px={4}
-                  variant="ghost"
-                  flexShrink={0}
-                >
-                  จำหน่ายและผลิตโปรแกรม...
-                </Button>
-              </Tooltip>
-              <Tooltip label="จำหน่ายและผลิตโปรแกรมคอมพิวเตอร์ และอุปกรณ์ต่อพ่วงที่เกี่ยวข้อง">
-                <Button
-                  _hover={{
-                    backgroundColor: "brand.100",
-                  }}
-                  lineHeight={6}
-                  fontWeight="400"
-                  fontSize={14}
-                  backgroundColor="brand.50"
-                  color="black"
-                  height="auto"
-                  px={4}
-                  variant="ghost"
-                  flexShrink={0}
-                >
-                  จำหน่ายและผลิตโปรแกรม...
-                </Button>
-              </Tooltip>
-              <Tooltip label="จำหน่ายและผลิตโปรแกรมคอมพิวเตอร์ และอุปกรณ์ต่อพ่วงที่เกี่ยวข้อง">
-                <Button
-                  _hover={{
-                    backgroundColor: "brand.100",
-                  }}
-                  lineHeight={6}
-                  fontWeight="400"
-                  fontSize={14}
-                  backgroundColor="brand.50"
-                  color="black"
-                  height="auto"
-                  px={4}
-                  variant="ghost"
-                  flexShrink={0}
-                >
-                  จำหน่ายและผลิตโปรแกรม...
-                </Button>
-              </Tooltip>
-              <Tooltip label="จำหน่ายและผลิตโปรแกรมคอมพิวเตอร์ และอุปกรณ์ต่อพ่วงที่เกี่ยวข้อง">
-                <Button
-                  _hover={{
-                    backgroundColor: "brand.100",
-                  }}
-                  lineHeight={6}
-                  fontWeight="400"
-                  fontSize={14}
-                  backgroundColor="brand.50"
-                  color="black"
-                  height="auto"
-                  px={4}
-                  variant="ghost"
-                  flexShrink={0}
-                >
-                  จำหน่ายและผลิตโปรแกรม...
-                </Button>
-              </Tooltip>
-            </Flex>
-            <IconButton
-              opacity={Number(isRightScrollable)}
-              onClick={() => handleScrollClick("right")}
-              zIndex={1}
-              position="absolute"
-              right={0}
-              size="xs"
-              aria-label=""
-              icon={<Icon icon="lucide:arrow-right" />}
-            />
           </Flex>
         </Flex>
         <Image

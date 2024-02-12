@@ -34,8 +34,8 @@ export const useFunctions = ({ company }: UseFunctionsProps) => {
   const handleMouseMove = (e: MouseEvent) => {
     const { x, y } = cardRef.current!.getBoundingClientRect();
     if (floatingCircleRef.current) {
-      floatingCircleRef.current.style.left = `${e.clientX - x}px`;
-      floatingCircleRef.current.style.top = `${e.clientY - y}px`;
+      floatingCircleRef.current!.style.left = `${e.clientX - x}px`;
+      floatingCircleRef.current!.style.top = `${e.clientY - y}px`;
     }
   };
 

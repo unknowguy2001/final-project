@@ -18,6 +18,7 @@ import {
   FormLabel,
   Input,
   Stack,
+  IconButton,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { Link, NavLink } from "react-router-dom";
@@ -45,6 +46,8 @@ export const Navbar = () => {
     onOpen,
     isOpen,
     handleSubmit,
+    colorMode,
+    toggleColorMode,
   } = useFunctions();
 
   return (
@@ -55,7 +58,12 @@ export const Navbar = () => {
         top={0}
         borderBottom="1px solid"
         borderColor="blackAlpha.200"
-        backgroundColor="white"
+        backgroundColor="whiteAlpha.900"
+        backdropFilter="blur(0.75rem)"
+        _dark={{
+          backgroundColor: "gray.800",
+          borderColor: "whiteAlpha.200",
+        }}
         zIndex={999}
       >
         <Container
@@ -68,16 +76,24 @@ export const Navbar = () => {
           <Flex gap={2}>
             {menues.map((menu) => (
               <Button
-                fontWeight="400"
                 key={menu.url}
                 _activeLink={{
+                  color: "brand.700",
                   backgroundColor: "brand.50 !important",
                 }}
-                _hover={{
-                  backgroundColor: "brand.25",
+                _dark={{
+                  color: "white",
+                  _hover: {
+                    backgroundColor: "whiteAlpha.200",
+                  },
+                  _activeLink: {
+                    backgroundColor: "whiteAlpha.200 !important",
+                  },
+                  _active: {
+                    backgroundColor: "whiteAlpha.100",
+                  },
                 }}
-                color="black"
-                leftIcon={<Icon icon={menu.icon} />}
+                leftIcon={<Icon fontSize={14} icon={menu.icon} />}
                 variant="ghost"
                 as={NavLink}
                 to={menu.url}
@@ -86,37 +102,72 @@ export const Navbar = () => {
               </Button>
             ))}
           </Flex>
-          <Menu>
-            <MenuButton>
-              <UserProfile
-                fullname={authInfo.user!.fullname}
-                rightNode={<Icon fontSize={16} icon="lucide:chevron-down" />}
-              />
-            </MenuButton>
-            <MenuList>
-              <MenuItem
-                onClick={onOpen}
-                icon={<Icon fontSize={16} icon="lucide:lock" />}
-              >
-                เปลี่ยนรหัสผ่าน
-              </MenuItem>
-              {authInfo.isAdmin && (
+          <Flex align="center" gap={4}>
+            <IconButton
+              onClick={toggleColorMode}
+              aria-label=""
+              size="sm"
+              backgroundColor="brand.300"
+              _hover={{
+                backgroundColor: "brand.350",
+              }}
+              _active={{
+                backgroundColor: "brand.400",
+              }}
+              _dark={{
+                backgroundColor: "orange.200",
+                _hover: {
+                  backgroundColor: "orange.250",
+                },
+                _active: {
+                  backgroundColor: "orange.300",
+                },
+              }}
+              icon={
+                colorMode === "light" ? (
+                  <Icon key="moon" icon={"line-md:moon-filled-alt-loop"} />
+                ) : (
+                  <Icon
+                    key="sun"
+                    icon={
+                      "line-md:moon-filled-alt-to-sunny-filled-loop-transition"
+                    }
+                  />
+                )
+              }
+            />
+            <Menu>
+              <MenuButton>
+                <UserProfile
+                  fullname={authInfo.user!.fullname}
+                  rightNode={<Icon fontSize={16} icon="lucide:chevron-down" />}
+                />
+              </MenuButton>
+              <MenuList>
                 <MenuItem
-                  as={Link}
-                  to="/admin"
-                  icon={<Icon fontSize={16} icon="lucide:shield-check" />}
+                  onClick={onOpen}
+                  icon={<Icon fontSize={16} icon="lucide:lock" />}
                 >
-                  ระบบจัดการ
+                  เปลี่ยนรหัสผ่าน
                 </MenuItem>
-              )}
-              <MenuItem
-                onClick={handleLogoutClick}
-                icon={<Icon fontSize={16} icon="lucide:log-out" />}
-              >
-                ออกจากระบบ
-              </MenuItem>
-            </MenuList>
-          </Menu>
+                {authInfo.isAdmin && (
+                  <MenuItem
+                    as={Link}
+                    to="/admin"
+                    icon={<Icon fontSize={16} icon="lucide:shield-check" />}
+                  >
+                    ระบบจัดการ
+                  </MenuItem>
+                )}
+                <MenuItem
+                  onClick={handleLogoutClick}
+                  icon={<Icon fontSize={16} icon="lucide:log-out" />}
+                >
+                  ออกจากระบบ
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Flex>
         </Container>
       </Box>
       <Modal isOpen={isOpen} onClose={handleCloseClick}>

@@ -79,6 +79,9 @@ export const Company = () => {
           </Heading>
           <Flex>
             <IconButton
+              _dark={{
+                color: "white",
+              }}
               aria-label="info"
               as={ReactRouterDomLink}
               to={`https://www.google.com/search?q=ข้อมูล+${company?.name}`}
@@ -87,6 +90,9 @@ export const Company = () => {
               icon={<Icon icon="lucide:info" />}
             />
             <IconButton
+              _dark={{
+                color: "white",
+              }}
               aria-label="map"
               as={ReactRouterDomLink}
               to={generateGoogleMapsUrl(company)}
@@ -310,6 +316,9 @@ export const Company = () => {
                       icon={<Icon icon="lucide:pen" />}
                       variant="ghost"
                       size="sm"
+                      _dark={{
+                        color: "white",
+                      }}
                     />
                     <IconButton
                       onClick={() => {
@@ -319,6 +328,9 @@ export const Company = () => {
                       icon={<Icon icon="lucide:trash" />}
                       variant="ghost"
                       size="sm"
+                      _dark={{
+                        color: "white",
+                      }}
                     />
                   </Box>
                 )}

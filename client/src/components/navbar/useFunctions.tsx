@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useColorMode, useDisclosure } from "@chakra-ui/react";
+
 import { useAuth } from "../../hooks/useAuth";
 import { ChangePasswordData } from "../../interfaces/auth";
-import { useDisclosure } from "@chakra-ui/react";
 import { changePassword } from "../../services/authService";
 
 export const useFunctions = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const [changePasswordData, setChangePasswordData] =
     useState<ChangePasswordData>({
       oldPassword: "",
@@ -40,13 +42,13 @@ export const useFunctions = () => {
       label: "บริษัท",
       url: "/companies",
       canAccess: authInfo.isAuthenticated,
-      icon: "lucide:building-2",
+      icon: "lucide:briefcase",
     },
     {
       label: "กระทู้",
       url: "/forums",
       canAccess: authInfo.isAuthenticated,
-      icon: "lucide:library-big",
+      icon: "lucide:help-circle",
     },
   ];
 
@@ -99,5 +101,7 @@ export const useFunctions = () => {
     onOpen,
     isOpen,
     handleSubmit,
+    colorMode,
+    toggleColorMode,
   };
 };

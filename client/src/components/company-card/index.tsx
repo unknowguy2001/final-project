@@ -46,6 +46,13 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
       borderColor="gray.200"
       overflow="hidden"
       bg="white"
+      _dark={{
+        bg: "transparent",
+        borderColor: "gray.600",
+        _after: {
+          bg: "gray.700",
+        },
+      }}
       transition="all 0.5s"
       position="relative"
       cursor="pointer"
@@ -110,6 +117,9 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
         padding={2}
         bgColor="white"
         zIndex={2}
+        _dark={{
+          bgColor: "gray.800",
+        }}
       >
         <Icon icon="lucide:arrow-up-right" />
       </Circle>
