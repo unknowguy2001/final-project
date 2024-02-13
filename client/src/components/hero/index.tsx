@@ -76,9 +76,9 @@ export const Hero = () => {
           trigger: "#hero",
           start: "top top",
           end: "50% top",
-          scrub: 0.2,
-          markers: true,
+          scrub: 1,
         },
+        delay: 1,
       });
       tl.to(
         "#hero1",
