@@ -158,11 +158,20 @@ export const Register = () => {
           สมัครสมาชิก
         </Button>
       </Box>
-      <Text color="gray.600" textAlign="center">
+      <Text
+        color="gray.600"
+        _dark={{
+          color: "gray.400",
+        }}
+        textAlign="center"
+      >
         มีบัญชีอยู่แล้ว?{" "}
         <Link
           as={ReactRouterDomLink}
           color="black"
+          _dark={{
+            color: "white",
+          }}
           to="/auth/login"
           textAlign="center"
         >

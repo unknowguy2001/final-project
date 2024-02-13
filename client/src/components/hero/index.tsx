@@ -10,20 +10,133 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { useFunctions } from "./useFunctions";
 import hero1 from "../../assets/images/hero/1.png";
-import hero2 from "../../assets/images/hero/2.png";
+import hero2 from "../../assets/images/hero/2.jpg";
 import hero3 from "../../assets/images/hero/3.png";
 import hero4 from "../../assets/images/hero/4.png";
 import hero5 from "../../assets/images/hero/5.png";
 import hero6 from "../../assets/images/hero/6.png";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const Hero = () => {
+  const container = useRef<HTMLDivElement>(null);
+  useGSAP(
+    () => {
+      gsap.from("#hero1", {
+        x: 300,
+        y: 100,
+        duration: 1,
+        ease: "power1.inOut",
+      });
+      gsap.from("#hero2", {
+        x: 200,
+        y: 0,
+        duration: 1,
+        ease: "power1.inOut",
+      });
+      gsap.from("#hero3", {
+        x: 350,
+        y: -50,
+        duration: 1,
+        ease: "power1.inOut",
+      });
+      gsap.from("#hero4", {
+        x: -425,
+        y: 150,
+        duration: 1,
+        ease: "power1.inOut",
+      });
+      gsap.from("#hero5", {
+        x: -400,
+        y: 150,
+        duration: 1,
+        ease: "power1.inOut",
+      });
+      gsap.from("#hero6", {
+        x: -450,
+        y: 0,
+        duration: 1,
+        ease: "power1.inOut",
+      });
+      gsap.from("#hero-content", {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: "power1.inOut",
+      });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#hero",
+          start: "top top",
+          end: "50% top",
+          scrub: 0.2,
+          markers: true,
+        },
+      });
+      tl.to(
+        "#hero1",
+        {
+          y: container.current!.offsetHeight * 0.25,
+          ease: "none",
+        },
+        "<"
+      )
+        .to(
+          "#hero2",
+          {
+            y: container.current!.offsetHeight * 0.125,
+            ease: "none",
+          },
+          "<"
+        )
+        .to(
+          "#hero3",
+          {
+            y: container.current!.offsetHeight * 0.125,
+            ease: "none",
+          },
+          "<"
+        )
+        .to(
+          "#hero4",
+          {
+            y: container.current!.offsetHeight * 0.25,
+            ease: "none",
+          },
+          "<"
+        )
+        .to(
+          "#hero5",
+          {
+            y: container.current!.offsetHeight * 0.125,
+            ease: "none",
+          },
+          "<"
+        )
+        .to(
+          "#hero6",
+          {
+            y: container.current!.offsetHeight * -0.075,
+            ease: "none",
+          },
+          "<"
+        );
+    },
+    { scope: container }
+  );
   const { queryRef, handleSearchSubmit } = useFunctions();
 
   return (
     <Box
+      id="hero"
+      ref={container}
       backgroundImage="radial-gradient(#fff 10%, #f0f0f0 10%, #f0f0f0 90%, #fff 90%)"
       _dark={{
         backgroundImage:
@@ -40,8 +153,13 @@ export const Hero = () => {
         justifyContent="center"
         maxWidth={1024}
       >
-        <Flex flexDirection="column" gap={4} alignItems="center">
-          <Heading textAlign="center" fontSize={48} as="h1">
+        <Flex
+          id="hero-content"
+          flexDirection="column"
+          gap={4}
+          alignItems="center"
+        >
+          <Heading textAlign="center" fontSize={48} as="h1" zIndex={500}>
             <Text
               display="inline-block"
               bgGradient="linear(to-l, #A366FF, #6E2996)"
@@ -83,6 +201,7 @@ export const Hero = () => {
           </Flex>
         </Flex>
         <Image
+          id="hero1"
           objectFit="cover"
           rounded="lg"
           left="-15%"
@@ -94,6 +213,7 @@ export const Hero = () => {
           boxShadow="base"
         />
         <Image
+          id="hero2"
           objectFit="cover"
           rounded="lg"
           left="-5%"
@@ -105,6 +225,7 @@ export const Hero = () => {
           boxShadow="base"
         />
         <Image
+          id="hero3"
           objectFit="cover"
           rounded="lg"
           left="-10%"
@@ -116,6 +237,7 @@ export const Hero = () => {
           boxShadow="base"
         />
         <Image
+          id="hero4"
           objectFit="cover"
           rounded="lg"
           right="-15%"
@@ -127,6 +249,7 @@ export const Hero = () => {
           boxShadow="base"
         />
         <Image
+          id="hero5"
           objectFit="cover"
           rounded="lg"
           right="-5%"
@@ -138,6 +261,7 @@ export const Hero = () => {
           boxShadow="base"
         />
         <Image
+          id="hero6"
           objectFit="cover"
           rounded="lg"
           right="-20%"

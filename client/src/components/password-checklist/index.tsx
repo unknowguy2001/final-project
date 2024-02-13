@@ -21,6 +21,9 @@ export const PasswordChecklist = ({
         gap={2}
         fontSize="sm"
         color={isPasswordMoreThan8Characters ? "green.500" : "gray.500"}
+        _dark={{
+          color: isPasswordMoreThan8Characters ? "green.300" : "gray.300",
+        }}
       >
         <Icon
           icon={
@@ -36,6 +39,9 @@ export const PasswordChecklist = ({
         gap={2}
         fontSize="sm"
         color={isPasswordHas1UpperCase ? "green.500" : "gray.500"}
+        _dark={{
+          color: isPasswordHas1UpperCase ? "green.300" : "gray.300",
+        }}
       >
         <Icon
           icon={
@@ -51,6 +57,9 @@ export const PasswordChecklist = ({
         gap={2}
         fontSize="sm"
         color={isPasswordHas1Number ? "green.500" : "gray.500"}
+        _dark={{
+          color: isPasswordHas1Number ? "green.300" : "gray.300",
+        }}
       >
         <Icon
           icon={
@@ -64,6 +73,9 @@ export const PasswordChecklist = ({
         gap={2}
         fontSize="sm"
         color={isPasswordHas1SpecialCharacter ? "green.500" : "gray.500"}
+        _dark={{
+          color: isPasswordHas1SpecialCharacter ? "green.300" : "gray.300",
+        }}
       >
         <Icon
           icon={

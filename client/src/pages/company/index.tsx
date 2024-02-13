@@ -214,7 +214,14 @@ export const Company = () => {
         </Flex>
         <Flex justify="space-between" align="center" gap={4}>
           <Flex gap={4} alignItems="center">
-            <Heading textColor="brand.500" as="h3" fontSize="6xl">
+            <Heading
+              textColor="brand.500"
+              _dark={{
+                textColor: "brand.300",
+              }}
+              as="h3"
+              fontSize="6xl"
+            >
               {formattedAverageRating}
             </Heading>
             <Flex flexDirection="column" gap={1}>

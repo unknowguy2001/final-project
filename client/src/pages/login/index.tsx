@@ -83,11 +83,20 @@ export const Login = () => {
           เข้าสู่ระบบ
         </Button>
       </Box>
-      <Text color="gray.600" textAlign="center">
+      <Text
+        color="gray.600"
+        _dark={{
+          color: "gray.400",
+        }}
+        textAlign="center"
+      >
         ยังไม่มีบัญชีผู้ใช้งาน?{" "}
         <Link
           as={ReactRouterDomLink}
           color="black"
+          _dark={{
+            color: "white",
+          }}
           to="/auth/register"
           textAlign="center"
         >

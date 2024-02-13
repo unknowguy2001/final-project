@@ -1,9 +1,9 @@
+import { toast } from "sonner";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 
 import { useAuth } from "../../hooks/useAuth";
 import { RegisterData } from "../../interfaces/auth";
 import { register } from "../../services/authService";
-import { toast } from "sonner";
 
 export const useFunctions = () => {
   const { setAuthInfo } = useAuth();

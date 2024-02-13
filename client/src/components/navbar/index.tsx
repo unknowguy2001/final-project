@@ -101,6 +101,7 @@ export const Navbar = () => {
                     backgroundColor: "whiteAlpha.100",
                   },
                 }}
+                fontWeight={400}
                 leftIcon={<Icon fontSize={14} icon={menu.icon} />}
                 variant="ghost"
                 as={NavLink}
