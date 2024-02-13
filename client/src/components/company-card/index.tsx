@@ -85,7 +85,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
         />
       </CardHeader>
       <CardBody zIndex={1} bgColor="transparent">
-        <Heading noOfLines={2} as="h3" size="base" mb={2}>
+        <Heading noOfLines={1} as="h3" size="base" mb={2}>
           {company?.name}
         </Heading>
         <Text noOfLines={2} mb={2}>
@@ -100,11 +100,13 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
             company?.zipcode,
           ].some((item) => item) && <br />}
         </Text>
-        <Text mb={2}>เบอร์โทรศัพท์: {company?.telephone || "-"}</Text>
         <Flex gap={1} alignItems="center">
           <Box maxWidth="70px">
             <Rating readOnly value={company?.averageRating} />
           </Box>
+          <Text color="brand.500" fontWeight={500} fontSize="xs">
+            {company?.averageRating}/5
+          </Text>
           <Text fontSize="xs">({company?.reviewCount} รีวิว)</Text>
         </Flex>
       </CardBody>

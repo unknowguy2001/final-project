@@ -11,7 +11,7 @@ export const Forums = () => {
     useFunctions();
 
   return (
-    <Container as="main" paddingY={8} maxWidth={1024}>
+    <Container as="main" paddingY={8} maxWidth="6xl">
       <Flex mb={4} justifyContent="space-between" alignItems="center">
         <Heading as="h2" fontSize="2xl">
           กระทู้ทั้งหมด

@@ -4,7 +4,7 @@ import {
   CompanyData,
   GetCompanyResponse,
   SearchCompaniesResponse,
-  GetTop4PopularCompaniesResponse,
+  GetTopPopularCompaniesResponse,
 } from "../interfaces/company";
 import { RESOURCES } from "../constants/api";
 import { create, get, remove, update } from "./baseService";
@@ -23,9 +23,9 @@ export const getCompany = async (
   );
 };
 
-export const getTop4PopularCompanies = async (config: AxiosRequestConfig) => {
-  return await get<GetTop4PopularCompaniesResponse>(
-    `${RESOURCES.COMPANIES}/top-4-popular`,
+export const getTopPopularCompanies = async (config: AxiosRequestConfig) => {
+  return await get<GetTopPopularCompaniesResponse>(
+    `${RESOURCES.COMPANIES}/top-popular`,
     config
   );
 };

@@ -76,7 +76,7 @@ export const Navbar = () => {
       >
         <Container
           paddingY={4}
-          maxWidth={1024}
+          maxWidth="6xl"
           display="flex"
           alignItems="center"
           justifyContent="space-between"

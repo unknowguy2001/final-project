@@ -58,7 +58,7 @@ export const Company = () => {
   } = useFunctions();
 
   return (
-    <Container as="main" paddingY={8} maxWidth={1024}>
+    <Container as="main" paddingY={8} maxWidth="6xl">
       <ParallaxBanner
         layers={[
           {

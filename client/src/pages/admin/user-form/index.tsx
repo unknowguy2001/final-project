@@ -22,7 +22,7 @@ export const AdminUserForm: FC<AdminUserFormProps> = ({ mode }) => {
     useFunctions(mode);
 
   return (
-    <Container as="main" paddingY={8} maxWidth={1024}>
+    <Container as="main" paddingY={8} maxWidth="6xl">
       <Stack spacing={4}>
         <Heading as="h1" fontSize="3xl">
           {isNewMode ? "เพิ่มผู้ใช้ใหม่" : "แก้ไขผู้ใช้"}

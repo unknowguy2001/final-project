@@ -35,7 +35,7 @@ export const Forum = () => {
   const description = forum?.description || "";
 
   return (
-    <Container as="main" paddingY={8} maxWidth={1024}>
+    <Container as="main" paddingY={8} maxWidth="6xl">
       <Box
         borderRadius="md"
         padding="20px"

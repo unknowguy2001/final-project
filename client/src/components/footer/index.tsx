@@ -25,7 +25,7 @@ export const Footer = () => {
       color="white"
       as="footer"
     >
-      <Container paddingY={8} maxWidth={1024}>
+      <Container paddingY={8} maxWidth="6xl">
         <Flex alignItems="center" justifyContent="space-between" gap={4}>
           <Image
             width={200}

@@ -20,7 +20,7 @@ export const AdminCompanyForm: FC<AdminCompanyFormProps> = ({ mode }) => {
     useFunctions(mode);
 
   return (
-    <Container as="main" paddingY={8} maxWidth={1024}>
+    <Container as="main" paddingY={8} maxWidth="6xl">
       <Stack spacing={4}>
         <Heading as="h1" fontSize="3xl">
           {isNewMode ? "เพิ่มบริษัทใหม่" : "แก้ไขบริษัท"}

@@ -35,7 +35,7 @@ export const AdminCompanies = () => {
   } = useFunctions();
 
   return (
-    <Container as="main" paddingY={8} maxWidth={1024}>
+    <Container as="main" paddingY={8} maxWidth="6xl">
       <Box mb={4}>
         <Flex
           flexDirection={["column", "column", "row"]}

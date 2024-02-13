@@ -25,7 +25,7 @@ export const ForumForm: FC<ForumFormProps> = ({ mode }) => {
   } = useFunctions(mode);
 
   return (
-    <Container as="main" paddingY={8} maxWidth={1024}>
+    <Container as="main" paddingY={8} maxWidth="6xl">
       <Heading as="h1" mb={4} fontSize="3xl">
         {mode === "new" ? "สร้างกระทู้" : "แก้ไขกระทู้"}
       </Heading>

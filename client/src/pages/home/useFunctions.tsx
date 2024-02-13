@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
 
 import { Company } from "../../interfaces/company";
-import { getTop4PopularCompanies } from "../../services/companiesService";
+import { getTopPopularCompanies } from "../../services/companiesService";
 
 export const useFunctions = () => {
-  const [top4PopularCompanies, setTop4PopularCompanies] = useState<Company[]>(
-    []
-  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [topPopularCompanies, setTopPopularCompanies] = useState<Company[]>([]);
 
   useEffect(() => {
     const abortController = new AbortController();
 
-    const handleGetTop4PopularCompanies = async (signal: AbortSignal) => {
-      const response = await getTop4PopularCompanies({
+    const handleGetTopPopularCompanies = async (signal: AbortSignal) => {
+      setIsLoading(true);
+      const response = await getTopPopularCompanies({
         signal,
       });
-      setTop4PopularCompanies(response.data.items);
+      setTopPopularCompanies(response.data.items);
+      setIsLoading(false);
     };
 
-    handleGetTop4PopularCompanies(abortController.signal);
+    handleGetTopPopularCompanies(abortController.signal);
 
     return () => abortController.abort();
   }, []);
 
-  return { top4PopularCompanies };
+  return { topPopularCompanies, isLoading };
 };

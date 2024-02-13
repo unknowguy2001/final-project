@@ -2,9 +2,9 @@ const { prisma } = require("../../utils/prisma");
 
 const { DEFAULT_PER_PAGE } = require("../../constants/pagination");
 
-module.exports.getTop4Popular = async (req, res) => {
+module.exports.getTopPopular = async (req, res) => {
   const popularCompanies = await prisma.company.findMany({
-    take: 4,
+    take: 6,
     orderBy: {
       averageRating: "desc",
     },

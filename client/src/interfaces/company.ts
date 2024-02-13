@@ -57,6 +57,6 @@ export interface SearchCompaniesResponse {
   count: number;
 }
 
-export interface GetTop4PopularCompaniesResponse {
+export interface GetTopPopularCompaniesResponse {
   items: Company[];
 }

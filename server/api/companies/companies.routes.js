@@ -5,7 +5,7 @@ const { authorization } = require("../../middleware/authorization");
 
 const companiesRoutes = express.Router();
 
-companiesRoutes.get("/top-4-popular", companiesHandlers.getTop4Popular);
+companiesRoutes.get("/top-popular", companiesHandlers.getTopPopular);
 companiesRoutes.get("", companiesHandlers.searchCompanies);
 companiesRoutes.get("/:id", companiesHandlers.getCompanyById);
 companiesRoutes.post("", authorization(2), companiesHandlers.addCompany);
