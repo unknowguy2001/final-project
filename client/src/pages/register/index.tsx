@@ -8,12 +8,13 @@ import {
   FormLabel,
   Flex,
   Link,
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import { Icon } from "@iconify/react";
 import { Link as ReactRouterDomLink } from "react-router-dom";
 
 import { useFunctions } from "./useFunctions";
 import { PasswordChecklist } from "../../components/password-checklist";
+import { PasswordVisibilityToggleIcon } from "../../components/password-visibility-toggle-icon";
 
 export const Register = () => {
   const {
@@ -27,6 +28,11 @@ export const Register = () => {
     isPasswordHas1UpperCase,
     isPasswordHas1Number,
     isPasswordHas1SpecialCharacter,
+    confirmPassword,
+    setConfirmPassword,
+    confirmPasswordType,
+    switchConfirmPasswordType,
+    isConfirmPasswordInvalid,
   } = useFunctions();
 
   return (
@@ -52,7 +58,7 @@ export const Register = () => {
               value={registerData.firstName}
               name="firstName"
               required
-              placeholder="กรอกชื่อ"
+              placeholder="สมชาย"
             />
           </FormControl>
           <FormControl>
@@ -62,7 +68,7 @@ export const Register = () => {
               value={registerData.lastName}
               name="lastName"
               required
-              placeholder="กรอกนามสกุล"
+              placeholder="ใจดี"
             />
           </FormControl>
         </Flex>
@@ -86,7 +92,13 @@ export const Register = () => {
               name="password"
               required
               type={passwordType}
-              placeholder="กรอกรหัสผ่าน"
+              placeholder="********"
+              _placeholder={{
+                position: "absolute",
+                top: "50%",
+                transform: "translateY(-50%)",
+                height: "11px",
+              }}
             />
             <Box
               position="absolute"
@@ -97,11 +109,7 @@ export const Register = () => {
               cursor="pointer"
               onClick={switchPasswordType}
             >
-              <Icon
-                icon={
-                  passwordType === "password" ? "lucide:eye" : "lucide:eye-off"
-                }
-              />
+              <PasswordVisibilityToggleIcon passwordType={passwordType} />
             </Box>
           </Box>
           <PasswordChecklist
@@ -110,6 +118,41 @@ export const Register = () => {
             isPasswordHas1Number={isPasswordHas1Number}
             isPasswordHas1SpecialCharacter={isPasswordHas1SpecialCharacter}
           />
+        </FormControl>
+        <FormControl isInvalid={isConfirmPasswordInvalid}>
+          <FormLabel>ยืนยันรหัสผ่าน</FormLabel>
+          <Box position="relative">
+            <Input
+              pos="relative"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={confirmPassword}
+              required
+              type={confirmPasswordType}
+              placeholder="********"
+              _placeholder={{
+                position: "absolute",
+                top: "50%",
+                transform: "translateY(-50%)",
+                height: "11px",
+              }}
+            />
+            <Box
+              position="absolute"
+              right={4}
+              top="50%"
+              zIndex={1}
+              transform="translateY(-50%)"
+              cursor="pointer"
+              onClick={switchConfirmPasswordType}
+            >
+              <PasswordVisibilityToggleIcon
+                passwordType={confirmPasswordType}
+              />
+            </Box>
+          </Box>
+          {isConfirmPasswordInvalid && (
+            <FormErrorMessage>รหัสผ่านไม่ตรงกัน</FormErrorMessage>
+          )}
         </FormControl>
         <Button mt={4} type="submit" isLoading={isAuthenticating}>
           สมัครสมาชิก

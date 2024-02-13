@@ -23,9 +23,6 @@ export const theme = extendTheme(
     },
     components: {
       Button: {
-        baseStyle: {
-          fontWeight: "normal",
-        },
         variants: {
           solid: {
             _dark: {

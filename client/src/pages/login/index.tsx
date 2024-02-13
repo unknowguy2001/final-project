@@ -8,10 +8,10 @@ import {
   FormLabel,
   Link,
 } from "@chakra-ui/react";
-import { Icon } from "@iconify/react";
 import { Link as ReactRouterDomLink } from "react-router-dom";
 
 import { useFunctions } from "./useFunctions";
+import { PasswordVisibilityToggleIcon } from "../../components/password-visibility-toggle-icon";
 
 export const Login = () => {
   const {
@@ -58,7 +58,13 @@ export const Login = () => {
               name="password"
               required
               type={passwordType}
-              placeholder="กรอกรหัสผ่าน"
+              placeholder="********"
+              _placeholder={{
+                position: "absolute",
+                top: "50%",
+                transform: "translateY(-50%)",
+                height: "11px",
+              }}
             />
             <Box
               position="absolute"
@@ -69,11 +75,7 @@ export const Login = () => {
               cursor="pointer"
               onClick={switchPasswordType}
             >
-              <Icon
-                icon={
-                  passwordType === "password" ? "lucide:eye" : "lucide:eye-off"
-                }
-              />
+              <PasswordVisibilityToggleIcon passwordType={passwordType} />
             </Box>
           </Box>
         </FormControl>

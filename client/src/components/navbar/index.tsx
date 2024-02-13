@@ -19,6 +19,7 @@ import {
   Input,
   Stack,
   IconButton,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { Link, NavLink } from "react-router-dom";
@@ -26,6 +27,7 @@ import { Link, NavLink } from "react-router-dom";
 import { UserProfile } from "../user-profile";
 import { useFunctions } from "./useFunctions";
 import { PasswordChecklist } from "../password-checklist";
+import { PasswordVisibilityToggleIcon } from "../password-visibility-toggle-icon";
 
 export const Navbar = () => {
   const {
@@ -48,6 +50,12 @@ export const Navbar = () => {
     handleSubmit,
     colorMode,
     toggleColorMode,
+    confirmNewPassword,
+    setConfirmNewPassword,
+    confirmNewPasswordType,
+    switchConfirmPasswordType,
+    isConfirmNewPasswordInvalid,
+    isChangingPassword,
   } = useFunctions();
 
   return (
@@ -189,7 +197,13 @@ export const Navbar = () => {
                     name="oldPassword"
                     value={changePasswordData.oldPassword}
                     onChange={handleChange}
-                    placeholder="กรอกรหัสผ่านเก่า"
+                    placeholder="********"
+                    _placeholder={{
+                      position: "absolute",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      height: "11px",
+                    }}
                     required
                     type={passwordType}
                   />
@@ -202,13 +216,7 @@ export const Navbar = () => {
                     cursor="pointer"
                     onClick={switchPasswordType}
                   >
-                    <Icon
-                      icon={
-                        passwordType === "password"
-                          ? "lucide:eye"
-                          : "lucide:eye-off"
-                      }
-                    />
+                    <PasswordVisibilityToggleIcon passwordType={passwordType} />
                   </Box>
                 </Box>
               </FormControl>
@@ -220,7 +228,13 @@ export const Navbar = () => {
                       name="newPassword"
                       value={changePasswordData.newPassword}
                       onChange={handleChange}
-                      placeholder="กรอกรหัสผ่านใหม่"
+                      placeholder="********"
+                      _placeholder={{
+                        position: "absolute",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        height: "11px",
+                      }}
                       required
                       type={newPasswordType}
                     />
@@ -233,12 +247,8 @@ export const Navbar = () => {
                       cursor="pointer"
                       onClick={switchNewPasswordType}
                     >
-                      <Icon
-                        icon={
-                          newPasswordType === "password"
-                            ? "lucide:eye"
-                            : "lucide:eye-off"
-                        }
+                      <PasswordVisibilityToggleIcon
+                        passwordType={newPasswordType}
                       />
                     </Box>
                   </Box>
@@ -254,13 +264,50 @@ export const Navbar = () => {
                   }
                 />
               </Box>
+              <FormControl isInvalid={isConfirmNewPasswordInvalid}>
+                <FormLabel>ยืนยันรหัสผ่านใหม่</FormLabel>
+                <Box position="relative">
+                  <Input
+                    pos="relative"
+                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    value={confirmNewPassword}
+                    required
+                    type={confirmNewPasswordType}
+                    placeholder="********"
+                    _placeholder={{
+                      position: "absolute",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      height: "11px",
+                    }}
+                  />
+                  <Box
+                    position="absolute"
+                    right={4}
+                    top="50%"
+                    zIndex={1}
+                    transform="translateY(-50%)"
+                    cursor="pointer"
+                    onClick={switchConfirmPasswordType}
+                  >
+                    <PasswordVisibilityToggleIcon
+                      passwordType={confirmNewPasswordType}
+                    />
+                  </Box>
+                </Box>
+                {isConfirmNewPasswordInvalid && (
+                  <FormErrorMessage>รหัสผ่านไม่ตรงกัน</FormErrorMessage>
+                )}
+              </FormControl>
             </Stack>
           </ModalBody>
           <ModalFooter>
             <Button onClick={handleCloseClick} mr={2} variant="ghost">
               ยกเลิก
             </Button>
-            <Button type="submit">บันทึก</Button>
+            <Button isLoading={isChangingPassword} type="submit">
+              บันทึก
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -4,6 +4,7 @@ import { useColorMode, useDisclosure } from "@chakra-ui/react";
 import { useAuth } from "../../hooks/useAuth";
 import { ChangePasswordData } from "../../interfaces/auth";
 import { changePassword } from "../../services/authService";
+import { toast } from "sonner";
 
 export const useFunctions = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -18,6 +19,11 @@ export const useFunctions = () => {
   const [newPasswordType, setNewPasswordType] = useState<"text" | "password">(
     "password"
   );
+  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
+  const [confirmNewPasswordType, setConfirmNewPasswordType] = useState<
+    "text" | "password"
+  >("password");
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { authInfo, setAuthInfo } = useAuth();
@@ -60,6 +66,12 @@ export const useFunctions = () => {
     setNewPasswordType((prev) => (prev === "password" ? "text" : "password"));
   };
 
+  const switchConfirmPasswordType = () => {
+    setConfirmNewPasswordType((prev) =>
+      prev === "password" ? "text" : "password"
+    );
+  };
+
   const handleLogoutClick = async () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -78,10 +90,20 @@ export const useFunctions = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (changePasswordData.newPassword !== confirmNewPassword) {
+      return toast.error("รหัสผ่านไม่ตรงกัน");
+    }
+    setIsChangingPassword(true);
     await changePassword(changePasswordData);
+    setIsChangingPassword(false);
     handleCloseClick();
     handleLogoutClick();
   };
+
+  const isConfirmNewPasswordInvalid =
+    changePasswordData.newPassword.length > 0 &&
+    confirmNewPassword.length > 0 &&
+    confirmNewPassword !== changePasswordData.newPassword;
 
   return {
     menues,
@@ -103,5 +125,11 @@ export const useFunctions = () => {
     handleSubmit,
     colorMode,
     toggleColorMode,
+    confirmNewPassword,
+    setConfirmNewPassword,
+    confirmNewPasswordType,
+    switchConfirmPasswordType,
+    isConfirmNewPasswordInvalid,
+    isChangingPassword,
   };
 };
