@@ -7,8 +7,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { Forum } from "../../interfaces/forum";
+import { UserProfile } from "../user-profile";
 import { useFunctions } from "./useFunctions";
+import { Forum } from "../../interfaces/forum";
 import { formatDistanceToNow } from "../../utils/dateUtils";
 
 interface ForumCardProps {
@@ -65,17 +66,25 @@ export const ForumCard = ({ forum }: ForumCardProps) => {
         </Heading>
       </CardHeader>
       <CardBody zIndex={1} pt={2}>
-        <Box>
-          <Text
-            color="gray.500"
-            _dark={{
-              color: "gray.400",
-            }}
-            display="inline"
-          >
-            {formatDistanceToNow(forum.createdAt)} โดย
-          </Text>{" "}
-          <Text display="inline">{forum.createdByName}</Text>
+        <Text
+          color="gray.600"
+          _dark={{
+            color: "gray.400",
+          }}
+          isTruncated
+        >
+          {forum.description.replace(/<[^>]+>/g, "")}
+        </Text>
+        <Box mt={2}>
+          <UserProfile
+            avatarSize={24}
+            fullname={forum?.createdByName}
+            rightNode={
+              <Text fontSize="sm" color="gray.500">
+                {formatDistanceToNow(forum?.createdAt)}
+              </Text>
+            }
+          />
         </Box>
       </CardBody>
     </Card>

@@ -13,7 +13,7 @@ export const AuthLayout = () => {
             <Outlet />
           </Flex>
         </Flex>
-        <Box flex={1}>
+        <Box pos="relative" flex={1}>
           <Image
             src="/science-and-technology-building.jpg"
             objectFit="cover"
@@ -21,6 +21,7 @@ export const AuthLayout = () => {
             height="100%"
             alt=""
           />
+          <Box pos="absolute" inset={0} bg="rgba(0, 0, 0, 0.25)" />
         </Box>
       </Flex>
     </Unauthenticated>

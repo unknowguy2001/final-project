@@ -27,7 +27,7 @@ import { Link, NavLink } from "react-router-dom";
 import { UserProfile } from "../user-profile";
 import { useFunctions } from "./useFunctions";
 import { PasswordChecklist } from "../password-checklist";
-import { PasswordVisibilityToggleIcon } from "../password-visibility-toggle-icon";
+import { PasswordVisibilityToggleButton } from "../password-visibility-toggle-button";
 
 export const Navbar = () => {
   const {
@@ -199,26 +199,13 @@ export const Navbar = () => {
                     value={changePasswordData.oldPassword}
                     onChange={handleChange}
                     placeholder="********"
-                    _placeholder={{
-                      position: "absolute",
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      height: "11px",
-                    }}
                     required
                     type={passwordType}
                   />
-                  <Box
-                    position="absolute"
-                    right={4}
-                    top="50%"
-                    zIndex={1}
-                    transform="translateY(-50%)"
-                    cursor="pointer"
-                    onClick={switchPasswordType}
-                  >
-                    <PasswordVisibilityToggleIcon passwordType={passwordType} />
-                  </Box>
+                  <PasswordVisibilityToggleButton
+                    passwordType={passwordType}
+                    switchPasswordType={switchPasswordType}
+                  />
                 </Box>
               </FormControl>
               <Box>
@@ -230,28 +217,13 @@ export const Navbar = () => {
                       value={changePasswordData.newPassword}
                       onChange={handleChange}
                       placeholder="********"
-                      _placeholder={{
-                        position: "absolute",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        height: "11px",
-                      }}
                       required
                       type={newPasswordType}
                     />
-                    <Box
-                      position="absolute"
-                      right={4}
-                      top="50%"
-                      zIndex={1}
-                      transform="translateY(-50%)"
-                      cursor="pointer"
-                      onClick={switchNewPasswordType}
-                    >
-                      <PasswordVisibilityToggleIcon
-                        passwordType={newPasswordType}
-                      />
-                    </Box>
+                    <PasswordVisibilityToggleButton
+                      passwordType={newPasswordType}
+                      switchPasswordType={switchNewPasswordType}
+                    />
                   </Box>
                 </FormControl>
                 <PasswordChecklist
@@ -275,26 +247,11 @@ export const Navbar = () => {
                     required
                     type={confirmNewPasswordType}
                     placeholder="********"
-                    _placeholder={{
-                      position: "absolute",
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      height: "11px",
-                    }}
                   />
-                  <Box
-                    position="absolute"
-                    right={4}
-                    top="50%"
-                    zIndex={1}
-                    transform="translateY(-50%)"
-                    cursor="pointer"
-                    onClick={switchConfirmPasswordType}
-                  >
-                    <PasswordVisibilityToggleIcon
-                      passwordType={confirmNewPasswordType}
-                    />
-                  </Box>
+                  <PasswordVisibilityToggleButton
+                    passwordType={confirmNewPasswordType}
+                    switchPasswordType={switchConfirmPasswordType}
+                  />
                 </Box>
                 {isConfirmNewPasswordInvalid && (
                   <FormErrorMessage>รหัสผ่านไม่ตรงกัน</FormErrorMessage>

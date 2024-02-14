@@ -14,7 +14,7 @@ import { Link as ReactRouterDomLink } from "react-router-dom";
 
 import { useFunctions } from "./useFunctions";
 import { PasswordChecklist } from "../../components/password-checklist";
-import { PasswordVisibilityToggleIcon } from "../../components/password-visibility-toggle-icon";
+import { PasswordVisibilityToggleButton } from "../../components/password-visibility-toggle-button";
 
 export const Register = () => {
   const {
@@ -93,24 +93,11 @@ export const Register = () => {
               required
               type={passwordType}
               placeholder="********"
-              _placeholder={{
-                position: "absolute",
-                top: "50%",
-                transform: "translateY(-50%)",
-                height: "11px",
-              }}
             />
-            <Box
-              position="absolute"
-              right={4}
-              top="50%"
-              zIndex={1}
-              transform="translateY(-50%)"
-              cursor="pointer"
-              onClick={switchPasswordType}
-            >
-              <PasswordVisibilityToggleIcon passwordType={passwordType} />
-            </Box>
+            <PasswordVisibilityToggleButton
+              passwordType={passwordType}
+              switchPasswordType={switchPasswordType}
+            />
           </Box>
           <PasswordChecklist
             isPasswordMoreThan8Characters={isPasswordMoreThan8Characters}
@@ -129,26 +116,11 @@ export const Register = () => {
               required
               type={confirmPasswordType}
               placeholder="********"
-              _placeholder={{
-                position: "absolute",
-                top: "50%",
-                transform: "translateY(-50%)",
-                height: "11px",
-              }}
             />
-            <Box
-              position="absolute"
-              right={4}
-              top="50%"
-              zIndex={1}
-              transform="translateY(-50%)"
-              cursor="pointer"
-              onClick={switchConfirmPasswordType}
-            >
-              <PasswordVisibilityToggleIcon
-                passwordType={confirmPasswordType}
-              />
-            </Box>
+            <PasswordVisibilityToggleButton
+              passwordType={confirmPasswordType}
+              switchPasswordType={switchConfirmPasswordType}
+            />
           </Box>
           {isConfirmPasswordInvalid && (
             <FormErrorMessage>รหัสผ่านไม่ตรงกัน</FormErrorMessage>

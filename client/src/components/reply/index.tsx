@@ -1,6 +1,8 @@
 import {
   Box,
   Button,
+  Card,
+  CardBody,
   Flex,
   IconButton,
   Modal,
@@ -70,51 +72,52 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Box
-        borderRadius="md"
-        border="1px solid"
-        borderColor="gray.200"
-        padding="20px"
-      >
-        <Flex justifyContent="space-between" alignItems="center">
-          <UserProfile
-            avatarSize={24}
-            fullname={reply?.createdByName}
-            rightNode={
-              <Text fontSize="sm" color="gray.500">
-                {formatDistanceToNow(reply?.createdAt)}
-              </Text>
-            }
-          />
-          <Button
-            onClick={handleReplyClick}
-            leftIcon={<Icon icon="lucide:reply" />}
-            size="sm"
-            variant="link"
-          >
-            ตอบกลับ
-          </Button>
-        </Flex>
-        <Text mt={3}>{reply.description}</Text>
-        {authInfo.user?.username === reply.createdByUsername && (
-          <Flex justifyContent="end" gap={2}>
-            <IconButton
-              onClick={() => handleEditReplyClick(reply)}
-              aria-label="edit"
-              icon={<Icon icon="lucide:pen" />}
-              variant="ghost"
+      <Card variant="outline">
+        <CardBody>
+          <Flex justifyContent="space-between" gap={4} alignItems="center">
+            <Flex gap={4} align="center">
+              <UserProfile
+                fullname={reply?.createdByName}
+                verticalInfo
+                rightNode={
+                  <Text fontSize="sm" color="gray.500">
+                    {formatDistanceToNow(reply?.createdAt)}
+                  </Text>
+                }
+              />
+              {authInfo.user?.username === reply.createdByUsername && (
+                <Flex>
+                  <IconButton
+                    onClick={() => handleEditReplyClick(reply)}
+                    aria-label="edit"
+                    icon={<Icon icon="lucide:pen" />}
+                    variant="ghost"
+                    size="sm"
+                  />
+                  <IconButton
+                    onClick={() =>
+                      handleDeleteReplyClick(reply.forumId, reply.id)
+                    }
+                    aria-label="delete"
+                    icon={<Icon icon="lucide:trash" />}
+                    variant="ghost"
+                    size="sm"
+                  />
+                </Flex>
+              )}
+            </Flex>
+            <Button
+              onClick={handleReplyClick}
+              leftIcon={<Icon icon="lucide:reply" />}
               size="sm"
-            />
-            <IconButton
-              onClick={() => handleDeleteReplyClick(reply.forumId, reply.id)}
-              aria-label="delete"
-              icon={<Icon icon="lucide:trash" />}
-              variant="ghost"
-              size="sm"
-            />
+              variant="link"
+            >
+              ตอบกลับ
+            </Button>
           </Flex>
-        )}
-      </Box>
+          <Text mt={3}>{reply.description}</Text>
+        </CardBody>
+      </Card>
       {reply.childReplies.length > 0 && (
         <Button
           width="calc(100% - 2rem)"

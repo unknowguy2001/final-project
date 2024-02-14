@@ -90,7 +90,7 @@ export const CompanyTable = ({ companies, isLoading }: CompanyTableProps) => {
                       aspectRatio={16 / 9}
                       minWidth={40}
                       objectFit="cover"
-                      src="company.jpg"
+                      src="/company.jpg"
                     />
                   </Td>
                   <Td>

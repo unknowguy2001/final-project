@@ -164,7 +164,7 @@ export const Hero = () => {
     <Box
       id="hero"
       ref={container}
-      backgroundImage="radial-gradient(#fff8a4 10%, #fdf9ff 10%, #fdf9ff 90%, #fff8a4 90%)"
+      backgroundImage="radial-gradient(#fffbcb 10%, #fdf9ff 10%, #fdf9ff 90%, #fffbcb 90%)"
       _dark={{
         backgroundImage:
           "radial-gradient(#1A202C 10%, #2D3748 10%, #2D3748 90%, #1A202C 90%)",

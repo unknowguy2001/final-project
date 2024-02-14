@@ -20,3 +20,7 @@ tbody tr:last-child td {
 html[data-theme="dark"] [aria-valuenow] {
   background-color: var(--chakra-colors-brand-300) !important;
 }
+
+.ql-container {
+  font-size: inherit !important;
+}

@@ -7,7 +7,8 @@ import {
   Flex,
   Heading,
   Input,
-  Skeleton,
+  SimpleGrid,
+  Text,
 } from "@chakra-ui/react";
 
 import { useFunctions } from "./useFunctions";
@@ -54,14 +55,14 @@ export const Forums = () => {
           </Box>
         </Box>
       </Box>
-      <Flex flexDirection="column" gap={4} mb={4}>
-        {!isLoading && forums.length === 0 && <SearchNotFound />}
-        {isLoading
-          ? Array.from({ length: 12 }, (_, index) => (
-              <Skeleton key={index} height="98px" />
-            ))
-          : forums.map((forum) => <ForumCard key={forum.id} forum={forum} />)}
-      </Flex>
+      {!isLoading && forums.length === 0 && <SearchNotFound />}
+      <SimpleGrid columns={2} gap={4} mb={4}>
+        {isLoading ? (
+          <Text>กำลังโหลด...</Text>
+        ) : (
+          forums.map((forum) => <ForumCard key={forum.id} forum={forum} />)
+        )}
+      </SimpleGrid>
       <Pagination count={count} />
     </Container>
   );

@@ -11,7 +11,7 @@ import {
 import { Link as ReactRouterDomLink } from "react-router-dom";
 
 import { useFunctions } from "./useFunctions";
-import { PasswordVisibilityToggleIcon } from "../../components/password-visibility-toggle-icon";
+import { PasswordVisibilityToggleButton } from "../../components/password-visibility-toggle-button";
 
 export const Login = () => {
   const {
@@ -51,7 +51,7 @@ export const Login = () => {
         </FormControl>
         <FormControl>
           <FormLabel>รหัสผ่าน</FormLabel>
-          <Box position="relative">
+          <Box pos="relative">
             <Input
               onChange={handleInputChange}
               value={loginRequest.password}
@@ -59,24 +59,11 @@ export const Login = () => {
               required
               type={passwordType}
               placeholder="********"
-              _placeholder={{
-                position: "absolute",
-                top: "50%",
-                transform: "translateY(-50%)",
-                height: "11px",
-              }}
             />
-            <Box
-              position="absolute"
-              right={4}
-              top="50%"
-              zIndex={1}
-              transform="translateY(-50%)"
-              cursor="pointer"
-              onClick={switchPasswordType}
-            >
-              <PasswordVisibilityToggleIcon passwordType={passwordType} />
-            </Box>
+            <PasswordVisibilityToggleButton
+              passwordType={passwordType}
+              switchPasswordType={switchPasswordType}
+            />
           </Box>
         </FormControl>
         <Button mt={4} type="submit" isLoading={isAuthenticating}>
