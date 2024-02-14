@@ -16,3 +16,7 @@ body {
 tbody tr:last-child td {
   border-bottom: 0;
 }
+
+html[data-theme="dark"] [aria-valuenow] {
+  background-color: var(--chakra-colors-brand-300) !important;
+}

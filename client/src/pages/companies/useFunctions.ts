@@ -11,7 +11,9 @@ export const useFunctions = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [companies, setCompanies] = useState<Company[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [displayMode, setDisplayMode] = useState<"grid" | "list">("grid");
+  const [displayMode, setDisplayMode] = useState<"grid" | "list">(
+    (localStorage.getItem("displayMode") as "grid" | "list") || "grid"
+  );
 
   const isDisplayMode = (_displayMode: "grid" | "list") => {
     return displayMode === _displayMode;
@@ -44,23 +46,20 @@ export const useFunctions = () => {
     const abortController = new AbortController();
 
     const handleSearchCompanies = async () => {
-      try {
-        setIsLoading(true);
-        const page = searchParams.get("page")!;
-        const perPage = searchParams.get("perPage")!;
-        const response = await get<SearchCompaniesResponse>("companies", {
-          signal: abortController.signal,
-          params: {
-            searchQuery,
-            page,
-            perPage,
-          },
-        });
-        setCompanies(response.data.items);
-        setCount(response.data.count);
-      } finally {
-        setIsLoading(false);
-      }
+      const page = searchParams.get("page")!;
+      const perPage = searchParams.get("perPage")!;
+      setIsLoading(true);
+      const response = await get<SearchCompaniesResponse>("companies", {
+        signal: abortController.signal,
+        params: {
+          searchQuery,
+          page,
+          perPage,
+        },
+      });
+      setCompanies(response.data.items);
+      setCount(response.data.count);
+      setIsLoading(false);
     };
 
     handleSearchCompanies();
@@ -76,6 +75,10 @@ export const useFunctions = () => {
       setSearchParams({ page: "1" });
     }
   }, [count, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    localStorage.setItem("displayMode", displayMode);
+  }, [displayMode]);
 
   return {
     companies,

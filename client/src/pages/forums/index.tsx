@@ -1,14 +1,29 @@
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
-import { Box, Button, Container, Flex, Heading, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Heading,
+  Input,
+  Skeleton,
+} from "@chakra-ui/react";
 
 import { useFunctions } from "./useFunctions";
 import { ForumCard } from "../../components/forum-card";
 import { Pagination } from "../../components/pagination";
+import { SearchNotFound } from "../../components/search-not-found";
 
 export const Forums = () => {
-  const { forums, handleSubmit, clearSearch, searchInputRef, count } =
-    useFunctions();
+  const {
+    forums,
+    handleSubmit,
+    clearSearch,
+    searchInputRef,
+    count,
+    isLoading,
+  } = useFunctions();
 
   return (
     <Container as="main" paddingY={8} maxWidth="6xl">
@@ -40,9 +55,12 @@ export const Forums = () => {
         </Box>
       </Box>
       <Flex flexDirection="column" gap={4} mb={4}>
-        {forums.map((forum) => (
-          <ForumCard key={forum.id} forum={forum} />
-        ))}
+        {!isLoading && forums.length === 0 && <SearchNotFound />}
+        {isLoading
+          ? Array.from({ length: 12 }, (_, index) => (
+              <Skeleton key={index} height="98px" />
+            ))
+          : forums.map((forum) => <ForumCard key={forum.id} forum={forum} />)}
       </Flex>
       <Pagination count={count} />
     </Container>

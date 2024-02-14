@@ -9,7 +9,7 @@ export const AuthLayout = () => {
       <Flex height="100dvh">
         <Flex pt={20} justifyContent="center" flex={1}>
           <Flex width="100%" maxWidth={400} flexDirection="column" gap={8}>
-            <Image src='rmutp-logo.png' alt="" width="80px" height="63px" />
+            <Image src="/rmutp-logo.png" alt="" width="80px" height="63px" />
             <Outlet />
           </Flex>
         </Flex>

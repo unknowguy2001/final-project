@@ -244,7 +244,7 @@ export const Hero = () => {
           position="absolute"
           width={300}
           height={200}
-          src="hero/1.jpg"
+          src="/hero/1.jpg"
           boxShadow="base"
           onLoad={() => {
             console.log("hi");
@@ -259,7 +259,7 @@ export const Hero = () => {
           position="absolute"
           width={241}
           height={145}
-          src="hero/2.jpg"
+          src="/hero/2.jpg"
           boxShadow="base"
         />
         <Image
@@ -271,7 +271,7 @@ export const Hero = () => {
           position="absolute"
           width={228}
           height={148}
-          src="hero/3.jpg"
+          src="/hero/3.jpg"
           boxShadow="base"
         />
         <Image
@@ -283,7 +283,7 @@ export const Hero = () => {
           position="absolute"
           width={283}
           height={189}
-          src="hero/4.jpg"
+          src="/hero/4.jpg"
           boxShadow="base"
         />
         <Image
@@ -295,7 +295,7 @@ export const Hero = () => {
           position="absolute"
           width={243}
           height={162}
-          src="hero/5.jpg"
+          src="/hero/5.jpg"
           boxShadow="base"
         />
         <Image
@@ -307,7 +307,7 @@ export const Hero = () => {
           position="absolute"
           width={299}
           height={199}
-          src="hero/6.jpg"
+          src="/hero/6.jpg"
           boxShadow="base"
         />
       </Container>

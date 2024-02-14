@@ -27,7 +27,7 @@ export const Footer = () => {
     >
       <Container paddingY={8} maxWidth="6xl">
         <Flex alignItems="center" justifyContent="space-between" gap={4}>
-          <Image width={200} height={40.67} src="rmutp-full-logo.png" />
+          <Image width={200} height={40.67} src="/rmutp-full-logo.png" />
           <Flex gap={12}>
             <Link to="/" as={ReactRouterDomLink}>
               หลักแรก

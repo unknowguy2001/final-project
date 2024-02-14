@@ -3,13 +3,9 @@ import {
   Flex,
   Text,
   Input,
-  Image,
-  Skeleton,
-  Container,
-  AspectRatio,
-  SkeletonText,
-  IconButton,
   Heading,
+  Container,
+  IconButton,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 
@@ -17,6 +13,7 @@ import { useFunctions } from "./useFunctions";
 import { Pagination } from "../../components/pagination";
 import { CompanyGrid } from "../../components/company-grid";
 import { CompanyTable } from "../../components/company-table";
+import { SearchNotFound } from "../../components/search-not-found";
 
 export const Companies = () => {
   const {
@@ -41,9 +38,9 @@ export const Companies = () => {
           <Heading as="h2" fontSize="2xl">
             บริษัททั้งหมด
           </Heading>
-          <SkeletonText isLoaded={!isLoading}>
+          <Text>
             แสดง {companies.length} รายการ จากทั้งหมด {count} รายการ
-          </SkeletonText>
+          </Text>
         </Flex>
         <Flex gap={4} mt={2}>
           <Box flex={1} as="form" position="relative" onSubmit={handleSubmit}>
@@ -85,35 +82,11 @@ export const Companies = () => {
           </Box>
         </Flex>
       </Box>
-      {isLoading ? (
-        <>
-          {Array.from({ length: 3 }).map((_, index) => (
-            <Skeleton key={index} borderRadius="md" height="400px" />
-          ))}
-        </>
+      {!isLoading && companies.length === 0 && <SearchNotFound />}
+      {isDisplayMode("grid") ? (
+        <CompanyGrid companies={companies} isLoading={isLoading} />
       ) : (
-        <>
-          {companies.length === 0 && (
-            <Flex
-              justifyContent="center"
-              flexDirection="column"
-              alignItems="center"
-              gap={2}
-            >
-              <AspectRatio width="100%" maxWidth="500px" ratio={16 / 9}>
-                <Image width="100%" height="100%" src="decrease.png" />
-              </AspectRatio>
-              <Text textAlign="center" fontWeight="bold">
-                ไม่พบข้อมูลที่ค้นหา
-              </Text>
-            </Flex>
-          )}
-          {isDisplayMode("grid") ? (
-            <CompanyGrid companies={companies} />
-          ) : (
-            <CompanyTable companies={companies} />
-          )}
-        </>
+        <CompanyTable companies={companies} isLoading={isLoading} />
       )}
       <Box mt={4}>
         <Pagination count={count} />

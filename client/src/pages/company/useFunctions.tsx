@@ -24,6 +24,7 @@ export const useFunctions = () => {
   const [selectedRatingFilter, setSelectedRatingFilter] = useState<
     number | null
   >(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const averageRating = company?.averageRating || 0;
   const formattedAverageRating = averageRating.toFixed(1);
@@ -142,11 +143,15 @@ export const useFunctions = () => {
     async (signal?: AbortSignal) => {
       if (!companyId) return;
 
+      setIsLoading(true);
+
       const response = await get<GetCompanyResponse>(`companies/${companyId}`, {
         signal,
       });
       setCompany(response.data.item);
       setCanReview(response.data.canReview);
+
+      setIsLoading(false);
     },
     [companyId]
   );
@@ -196,5 +201,6 @@ export const useFunctions = () => {
     filteredReviews,
     isRatingFilterSelected,
     generateGoogleMapsUrl,
+    isLoading,
   };
 };

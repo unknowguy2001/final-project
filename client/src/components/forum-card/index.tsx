@@ -34,17 +34,45 @@ export const ForumCard = ({ forum }: ForumCardProps) => {
       onClick={handleForumClick}
       _hover={{
         borderColor: "gray.500",
-        transform: "translateY(-2px) scale(1.02)",
+        _after: {
+          width: "200%",
+          height: "200%",
+        },
+      }}
+      _dark={{
+        bg: "transparent",
+        borderColor: "gray.600",
+        _after: {
+          bg: "gray.700",
+        },
+      }}
+      _after={{
+        content: `""`,
+        height: 0,
+        width: 0,
+        position: "absolute",
+        bottom: 0,
+        right: 0,
+        bg: "blackAlpha.300",
+        borderTopLeftRadius: "100%",
+        backgroundColor: "brand.50",
+        transition: "all 0.5s",
       }}
     >
-      <CardHeader pb={0}>
+      <CardHeader zIndex={1} pb={0}>
         <Heading isTruncated as="h2" size="md">
           {forum.title}
         </Heading>
       </CardHeader>
-      <CardBody pt={2}>
+      <CardBody zIndex={1} pt={2}>
         <Box>
-          <Text color="gray.500" display="inline">
+          <Text
+            color="gray.500"
+            _dark={{
+              color: "gray.400",
+            }}
+            display="inline"
+          >
             {formatDistanceToNow(forum.createdAt)} โดย
           </Text>{" "}
           <Text display="inline">{forum.createdByName}</Text>

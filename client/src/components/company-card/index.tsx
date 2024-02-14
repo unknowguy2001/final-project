@@ -81,7 +81,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
           objectFit="cover"
           height="250px"
           width="100%"
-          src="company.jpg"
+          src="/company.jpg"
         />
       </CardHeader>
       <CardBody zIndex={1} bgColor="transparent">
@@ -104,7 +104,14 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
           <Box maxWidth="70px">
             <Rating readOnly value={company?.averageRating} />
           </Box>
-          <Text color="brand.500" fontWeight={500} fontSize="xs">
+          <Text
+            color="brand.500"
+            _dark={{
+              color: "brand.300",
+            }}
+            fontWeight={500}
+            fontSize="xs"
+          >
             {company?.averageRating}/5
           </Text>
           <Text fontSize="xs">({company?.reviewCount} รีวิว)</Text>

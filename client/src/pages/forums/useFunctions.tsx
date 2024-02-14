@@ -10,6 +10,7 @@ export const useFunctions = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState(true);
 
   const clearSearch = () => {
     setSearchQuery("");
@@ -30,12 +31,14 @@ export const useFunctions = () => {
     const handleSearchForums = async () => {
       const page = searchParams.get("page")!;
       const perPage = searchParams.get("perPage")!;
+      setIsLoading(true);
       const response = await searchForums({
         signal: abortController.signal,
         params: { searchQuery, page, perPage },
       });
       setForums(response.data.items);
       setCount(response.data.count);
+      setIsLoading(false);
     };
 
     handleSearchForums();
@@ -49,5 +52,6 @@ export const useFunctions = () => {
     searchInputRef,
     clearSearch,
     count,
+    isLoading,
   };
 };

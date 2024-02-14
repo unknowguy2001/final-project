@@ -21,6 +21,7 @@ import {
   Divider,
   Progress,
   SimpleGrid,
+  Skeleton,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { Rating } from "@smastrom/react-rating";
@@ -55,6 +56,7 @@ export const Company = () => {
     filteredReviews,
     isRatingFilterSelected,
     generateGoogleMapsUrl,
+    isLoading,
   } = useFunctions();
 
   return (
@@ -62,8 +64,7 @@ export const Company = () => {
       <ParallaxBanner
         layers={[
           {
-            image:
-              "https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?q=80&w=3271&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            image: "/company-high.jpeg",
             speed: 10,
           },
         ]}
@@ -74,9 +75,15 @@ export const Company = () => {
       />
       <Box mt={8}>
         <Flex justify="space-between" gap={4}>
-          <Heading as="h1" mb={4} fontSize="3xl">
-            {company?.name}
-          </Heading>
+          <Box mb={4}>
+            {isLoading ? (
+              <Skeleton height={8} width={500} />
+            ) : (
+              <Heading as="h1" fontSize="3xl">
+                {company?.name}
+              </Heading>
+            )}
+          </Box>
           <Flex>
             <IconButton
               _dark={{
@@ -107,10 +114,14 @@ export const Company = () => {
             <CardBody>
               <Flex height="full" direction="column" align="center" gap={4}>
                 <Icon icon="lucide:map-pin" fontSize={24} />
-                <Text textAlign="center">
-                  {company?.address} {company?.road} {company?.village}{" "}
-                  {company?.district} {company?.province} {company?.zipcode}
-                </Text>
+                {isLoading ? (
+                  <Skeleton height={4} width={300} />
+                ) : (
+                  <Text textAlign="center">
+                    {company?.address} {company?.road} {company?.village}{" "}
+                    {company?.district} {company?.province} {company?.zipcode}
+                  </Text>
+                )}
               </Flex>
             </CardBody>
           </Card>
@@ -124,7 +135,11 @@ export const Company = () => {
                 gap={4}
               >
                 <Icon icon="lucide:phone" fontSize={24} />
-                <Text textAlign="center">{company?.telephone || "-"}</Text>
+                {isLoading ? (
+                  <Skeleton height={4} width={150} />
+                ) : (
+                  <Text textAlign="center">{company?.telephone || "-"}</Text>
+                )}
               </Flex>
             </CardBody>
           </Card>
@@ -204,7 +219,15 @@ export const Company = () => {
                 </Flex>
               </ModalBody>
               <ModalFooter>
-                <Button variant="ghost" mr={3} onClick={onClose}>
+                <Button
+                  color="white"
+                  _hover={{
+                    color: "white",
+                  }}
+                  variant="ghost"
+                  mr={3}
+                  onClick={onClose}
+                >
                   ยกเลิก
                 </Button>
                 <Button onClick={handleReviewClick}>ส่งรีวิว</Button>
@@ -228,7 +251,7 @@ export const Company = () => {
               <Box maxWidth="150px">
                 <Rating readOnly value={averageRating} />
               </Box>
-              <Text ml={1}>{company?.reviews.length} รีวิว</Text>
+              <Text ml={1}>{company?.reviews.length || 0} รีวิว</Text>
             </Flex>
           </Flex>
           <Flex direction="column">
@@ -261,18 +284,22 @@ export const Company = () => {
         </Flex>
       </Box>
       <Flex my={4} wrap="wrap" gap={2}>
-        {company?.hashtagSummary?.map((item) => (
-          <Badge
-            py={0.5}
-            px={1.5}
-            colorScheme="gray"
-            rounded="lg"
-            variant="subtle"
-            key={item.id}
-          >
-            {item.name} {item.count}
-          </Badge>
-        ))}
+        {isLoading
+          ? Array.from({ length: 5 }, (_, i) => (
+              <Skeleton key={i} height={4} width={150} rounded="lg" />
+            ))
+          : company?.hashtagSummary?.map((item) => (
+              <Badge
+                py={0.5}
+                px={1.5}
+                colorScheme="gray"
+                rounded="lg"
+                variant="subtle"
+                key={item.id}
+              >
+                {item.name} {item.count}
+              </Badge>
+            ))}
       </Flex>
       <Divider my={4} />
       <Flex gap={2} mt={4}>

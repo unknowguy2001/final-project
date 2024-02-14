@@ -22,7 +22,7 @@ export const Pagination = ({ count }: PaginationProps) => {
 
   return (
     <>
-      {count >= 1 && (
+      {totalPages > 1 && (
         <Flex zIndex={1} justifyContent="space-between" alignItems="center">
           <Flex gap={4} alignItems="center">
             <Text>แสดง</Text>

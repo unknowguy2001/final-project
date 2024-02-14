@@ -2,6 +2,7 @@ import {
   Box,
   Flex,
   Image,
+  Skeleton,
   Table,
   TableContainer,
   Tbody,
@@ -17,14 +18,17 @@ import { Company } from "../../interfaces/company";
 
 interface CompanyTableProps {
   companies: Company[];
+  isLoading: boolean;
 }
 
-export const CompanyTable = ({ companies }: CompanyTableProps) => {
+export const CompanyTable = ({ companies, isLoading }: CompanyTableProps) => {
   const navigate = useNavigate();
 
   const handleCompanyRowClick = (id: number) => {
     navigate(`/companies/${id}`);
   };
+
+  if (!isLoading && companies.length === 0) return null;
 
   return (
     <TableContainer
@@ -38,56 +42,91 @@ export const CompanyTable = ({ companies }: CompanyTableProps) => {
       <Table>
         <Thead>
           <Tr>
-            <Th minWidth={200}>รูป</Th>
-            <Th minWidth={175}>คะแนนรีวิว</Th>
+            <Th>รูป</Th>
+            <Th>คะแนนรีวิว</Th>
             <Th>ชื่อ</Th>
             <Th>ที่อยู่</Th>
             <Th>เบอร์โทรศัพท์</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {companies.map((company) => (
-            <Tr
-              onClick={() => handleCompanyRowClick(company.id)}
-              cursor="pointer"
-              _hover={{
-                backgroundColor: "brand.25",
-              }}
-              _dark={{
-                _hover: {
-                  backgroundColor: "gray.650",
-                },
-              }}
-              key={company.id}
-            >
-              <Td>
-                <Image rounded="lg" objectFit="cover" src="company.jpg" />
-              </Td>
-              <Td>
-                <Flex gap={1} alignItems="center">
-                  <Box>
-                    <Rating readOnly value={company?.averageRating} />
-                  </Box>
-                  <Text fontSize="xs">({company?.reviewCount} รีวิว)</Text>
-                </Flex>
-              </Td>
-
-              <Td>{company.name}</Td>
-              <Td>
-                {[
-                  company.address,
-                  company.road,
-                  company.village,
-                  company.district,
-                  company.province,
-                  company.zipcode,
-                ].every((item) => !item) && "-"}
-                {company.address} {company.road} {company.village}{" "}
-                {company.district} {company.province} {company.zipcode}
-              </Td>
-              <Td>{company.telephone || "-"}</Td>
-            </Tr>
-          ))}
+          {isLoading
+            ? Array.from({ length: 12 }).map((_, index) => (
+                <Tr key={index}>
+                  <Td>
+                    <Skeleton rounded="lg" aspectRatio={16 / 9} width={40} />
+                  </Td>
+                  <Td>
+                    <Skeleton height={4} width="150px" />
+                  </Td>
+                  <Td>
+                    <Skeleton height={4} width={80} />
+                  </Td>
+                  <Td>
+                    <Skeleton height={4} width={80} />
+                  </Td>
+                  <Td>
+                    <Skeleton height={4} width={100} />
+                  </Td>
+                </Tr>
+              ))
+            : companies.map((company) => (
+                <Tr
+                  onClick={() => handleCompanyRowClick(company.id)}
+                  cursor="pointer"
+                  _hover={{
+                    backgroundColor: "brand.25",
+                  }}
+                  _dark={{
+                    _hover: {
+                      backgroundColor: "gray.650",
+                    },
+                  }}
+                  key={company.id}
+                >
+                  <Td>
+                    <Image
+                      rounded="lg"
+                      aspectRatio={16 / 9}
+                      minWidth={40}
+                      objectFit="cover"
+                      src="company.jpg"
+                    />
+                  </Td>
+                  <Td>
+                    <Flex minWidth="150px" gap={1} alignItems="center">
+                      <Box>
+                        <Rating readOnly value={company?.averageRating} />
+                      </Box>
+                      <Text
+                        color="brand.500"
+                        _dark={{
+                          color: "brand.300",
+                        }}
+                        fontWeight={500}
+                        fontSize="xs"
+                      >
+                        {company?.averageRating}/5
+                      </Text>
+                      <Text fontSize="xs">({company?.reviewCount} รีวิว)</Text>
+                    </Flex>
+                  </Td>
+                  <Td>{company.name}</Td>
+                  <Td>
+                    {[
+                      company.address,
+                      company.road,
+                      company.village,
+                      company.district,
+                      company.province,
+                      company.zipcode,
+                    ].every((item) => !item) && "-"}
+                    {company.address} {company.road} {company.village}{" "}
+                    {company.district} {company.province} {company.zipcode}
+                  </Td>
+                  <Td>{company.telephone || "-"}</Td>
+                </Tr>
+              ))}
         </Tbody>
       </Table>
     </TableContainer>
