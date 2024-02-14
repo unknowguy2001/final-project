@@ -16,7 +16,6 @@ import { Icon } from "@iconify/react";
 import { useFunctions } from "./useFunctions";
 import { Pagination } from "../../components/pagination";
 import { CompanyGrid } from "../../components/company-grid";
-import decreaseImage from "../../assets/images/decrease.png";
 import { CompanyTable } from "../../components/company-table";
 
 export const Companies = () => {
@@ -102,7 +101,7 @@ export const Companies = () => {
               gap={2}
             >
               <AspectRatio width="100%" maxWidth="500px" ratio={16 / 9}>
-                <Image width="100%" height="100%" src={decreaseImage} />
+                <Image width="100%" height="100%" src="decrease.png" />
               </AspectRatio>
               <Text textAlign="center" fontWeight="bold">
                 ไม่พบข้อมูลที่ค้นหา

@@ -5,7 +5,7 @@ import { ParallaxProvider } from "react-scroll-parallax";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ChakraProvider, createLocalStorageManager } from "@chakra-ui/react";
 
-import { theme } from "./theme";
+import { theme } from "./utils/theme";
 import { AuthProvider } from "./contexts/authContext";
 
 const router = createBrowserRouter([

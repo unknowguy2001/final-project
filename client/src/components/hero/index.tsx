@@ -16,12 +16,6 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { useFunctions } from "./useFunctions";
-import hero1 from "../../assets/images/hero/1.jpg";
-import hero2 from "../../assets/images/hero/2.jpg";
-import hero3 from "../../assets/images/hero/3.jpg";
-import hero4 from "../../assets/images/hero/4.jpg";
-import hero5 from "../../assets/images/hero/5.jpg";
-import hero6 from "../../assets/images/hero/6.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -170,12 +164,13 @@ export const Hero = () => {
     <Box
       id="hero"
       ref={container}
-      backgroundImage="radial-gradient(#fff 10%, #f0f0f0 10%, #f0f0f0 90%, #fff 90%)"
+      backgroundImage="radial-gradient(#fff8a4 10%, #fdf9ff 10%, #fdf9ff 90%, #fff8a4 90%)"
       _dark={{
         backgroundImage:
           "radial-gradient(#1A202C 10%, #2D3748 10%, #2D3748 90%, #1A202C 90%)",
       }}
-      backgroundSize="300px 300px"
+      backgroundSize="400px 400px"
+      backgroundAttachment="fixed"
       borderBottom="1px solid"
       borderColor="blackAlpha.200"
       py={250}
@@ -249,8 +244,11 @@ export const Hero = () => {
           position="absolute"
           width={300}
           height={200}
-          src={hero1}
+          src="hero/1.jpg"
           boxShadow="base"
+          onLoad={() => {
+            console.log("hi");
+          }}
         />
         <Image
           id="hero2"
@@ -261,7 +259,7 @@ export const Hero = () => {
           position="absolute"
           width={241}
           height={145}
-          src={hero2}
+          src="hero/2.jpg"
           boxShadow="base"
         />
         <Image
@@ -273,7 +271,7 @@ export const Hero = () => {
           position="absolute"
           width={228}
           height={148}
-          src={hero3}
+          src="hero/3.jpg"
           boxShadow="base"
         />
         <Image
@@ -285,7 +283,7 @@ export const Hero = () => {
           position="absolute"
           width={283}
           height={189}
-          src={hero4}
+          src="hero/4.jpg"
           boxShadow="base"
         />
         <Image
@@ -297,7 +295,7 @@ export const Hero = () => {
           position="absolute"
           width={243}
           height={162}
-          src={hero5}
+          src="hero/5.jpg"
           boxShadow="base"
         />
         <Image
@@ -309,7 +307,7 @@ export const Hero = () => {
           position="absolute"
           width={299}
           height={199}
-          src={hero6}
+          src="hero/6.jpg"
           boxShadow="base"
         />
       </Container>

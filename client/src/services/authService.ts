@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 
 import { RESOURCES } from "../constants/api";
-import { axiosInstance } from "../axiosInstance";
+import { axiosInstance } from "../utils/axiosInstance";
 import {
   AuthInfo,
   LoginData,

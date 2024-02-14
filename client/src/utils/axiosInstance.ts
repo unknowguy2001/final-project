@@ -1,8 +1,8 @@
 import axios from "axios";
 import { toast } from "sonner";
 
-import { BASE_URL } from "./constants/api";
-import { refresh } from "./services/authService";
+import { BASE_URL } from "../constants/api";
+import { refresh } from "../services/authService";
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,

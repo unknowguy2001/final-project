@@ -1,6 +1,6 @@
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 
-import { axiosInstance } from "../axiosInstance";
+import { axiosInstance } from "../utils/axiosInstance";
 
 type ResourceId = string | number;
 

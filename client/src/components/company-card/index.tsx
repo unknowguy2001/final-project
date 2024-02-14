@@ -81,7 +81,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
           objectFit="cover"
           height="250px"
           width="100%"
-          src="https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?q=80&w=3271&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="company.jpg"
         />
       </CardHeader>
       <CardBody zIndex={1} bgColor="transparent">
