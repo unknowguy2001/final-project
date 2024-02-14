@@ -7,17 +7,12 @@ import {
   Input,
   Stack,
 } from "@chakra-ui/react";
-import { FC } from "react";
 
 import { useFunctions } from "./useFunctions";
 
-interface AdminCompanyFormProps {
-  mode: "new" | "edit";
-}
-
-export const AdminCompanyForm: FC<AdminCompanyFormProps> = ({ mode }) => {
+export const AdminCompanyForm = () => {
   const { companyData, handleChange, handleActionClick, isNewMode } =
-    useFunctions(mode);
+    useFunctions();
 
   return (
     <Container as="main" paddingY={8} maxWidth="6xl">

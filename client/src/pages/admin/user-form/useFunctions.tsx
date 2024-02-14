@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { Role } from "../../../interfaces/role";
 import { getRoles } from "../../../services/commonService";
 import { UpdateUserData, UserData } from "../../../interfaces/user";
 import { addUser, getUser, updateUser } from "../../../services/usersService";
 
-export const useFunctions = (mode: "new" | "edit") => {
+export const useFunctions = () => {
+  const location = useLocation();
+  const mode = location.pathname.includes("new") ? "new" : "edit";
   const isNewMode = mode === "new";
   const { userId } = useParams<{
     userId: string;

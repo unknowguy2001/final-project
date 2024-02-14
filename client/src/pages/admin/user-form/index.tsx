@@ -8,18 +8,13 @@ import {
   Select,
   Stack,
 } from "@chakra-ui/react";
-import { FC } from "react";
 
 import { useFunctions } from "./useFunctions";
 import { UserData } from "../../../interfaces/user";
 
-interface AdminUserFormProps {
-  mode: "new" | "edit";
-}
-
-export const AdminUserForm: FC<AdminUserFormProps> = ({ mode }) => {
+export const AdminUserForm = () => {
   const { userData, roles, handleChange, handleActionClick, isNewMode } =
-    useFunctions(mode);
+    useFunctions();
 
   return (
     <Container as="main" paddingY={8} maxWidth="6xl">

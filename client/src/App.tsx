@@ -1,123 +1,160 @@
 import { Toaster } from "sonner";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
-import { ChakraProvider, createLocalStorageManager } from "@chakra-ui/react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ParallaxProvider } from "react-scroll-parallax";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ChakraProvider, createLocalStorageManager } from "@chakra-ui/react";
 
-// theme
 import { theme } from "./theme";
-
-// user pages
-import { Home } from "./pages/home";
-import { Login } from "./pages/login";
-import { Forums } from "./pages/forums";
-import { Forum } from "./pages/forum";
-import { Companies } from "./pages/companies";
-import { Company } from "./pages/company";
-
-// admin pages
-import { Admin } from "./pages/admin";
-import { AdminUsers } from "./pages/admin/users";
-import { AdminUserForm } from "./pages/admin/user-form";
-import { AdminCompanies } from "./pages/admin/companies";
-import { AdminCompanyForm } from "./pages/admin/company-form";
-
-// layouts
-import { AuthLayout } from "./layouts/authLayout";
-
-// contexts
 import { AuthProvider } from "./contexts/authContext";
-import { ForumForm } from "./pages/forum-form";
-import { MainLayout } from "./layouts/mainLayout";
-import { Register } from "./pages/register";
-
-const colorModeManager = createLocalStorageManager("color-mode");
 
 const router = createBrowserRouter([
   {
     path: "/auth",
-    element: <AuthLayout />,
+    lazy: async () => {
+      const { AuthLayout } = await import("./layouts/authLayout");
+      return { Component: AuthLayout };
+    },
     children: [
       {
         path: "login",
-        element: <Login />,
+        lazy: async () => {
+          const { Login } = await import("./pages/login");
+          return { Component: Login };
+        },
       },
       {
         path: "register",
-        element: <Register />,
+        lazy: async () => {
+          const { Register } = await import("./pages/register");
+          return { Component: Register };
+        },
       },
     ],
   },
   {
     path: "/",
-    element: <MainLayout />,
+    lazy: async () => {
+      const { MainLayout } = await import("./layouts/mainLayout");
+      return { Component: MainLayout };
+    },
     children: [
       {
         path: "",
-        element: <Home />,
+        lazy: async () => {
+          const { Home } = await import("./pages/home");
+          return { Component: Home };
+        },
       },
       {
         path: "companies",
-        element: <Companies />,
+        lazy: async () => {
+          const { Companies } = await import("./pages/companies");
+          return { Component: Companies };
+        },
       },
       {
         path: "companies/:companyId",
-        element: <Company />,
+        lazy: async () => {
+          const { Company } = await import("./pages/company");
+          return { Component: Company };
+        },
       },
       {
         path: "forums",
-        element: <Forums />,
+        lazy: async () => {
+          const { Forums } = await import("./pages/forums");
+          return { Component: Forums };
+        },
       },
       {
         path: "forums/:forumId",
-        element: <Forum />,
+        lazy: async () => {
+          const { Forum } = await import("./pages/forum");
+          return { Component: Forum };
+        },
       },
       {
         path: "forums/new",
-        element: <ForumForm mode="new" />,
+        lazy: async () => {
+          const { ForumForm } = await import("./pages/forum-form");
+          return { Component: ForumForm };
+        },
       },
       {
         path: "forums/:forumId/edit",
-        element: <ForumForm mode="edit" />,
+        lazy: async () => {
+          const { ForumForm } = await import("./pages/forum-form");
+          return { Component: ForumForm };
+        },
       },
     ],
   },
   {
     path: "/admin",
-    element: <MainLayout shouldBeAdmin />,
+    lazy: async () => {
+      const { MainLayout } = await import("./layouts/mainLayout");
+      return { Component: MainLayout };
+    },
     children: [
       {
         path: "",
-        element: <Admin />,
+        lazy: async () => {
+          const { Admin } = await import("./pages/admin");
+          return { Component: Admin };
+        },
       },
       {
         path: "companies",
-        element: <AdminCompanies />,
+        lazy: async () => {
+          const { AdminCompanies } = await import("./pages/admin/companies");
+          return { Component: AdminCompanies };
+        },
       },
       {
         path: "companies/new",
-        element: <AdminCompanyForm mode="new" />,
+        lazy: async () => {
+          const { AdminCompanyForm } = await import(
+            "./pages/admin/company-form"
+          );
+          return { Component: AdminCompanyForm };
+        },
       },
       {
         path: "companies/:companyId/edit",
-        element: <AdminCompanyForm mode="edit" />,
+        lazy: async () => {
+          const { AdminCompanyForm } = await import(
+            "./pages/admin/company-form"
+          );
+          return { Component: AdminCompanyForm };
+        },
       },
       {
         path: "users",
-        element: <AdminUsers />,
+        lazy: async () => {
+          const { AdminUsers } = await import("./pages/admin/users");
+          return { Component: AdminUsers };
+        },
       },
       {
         path: "users/new",
-        element: <AdminUserForm mode="new" />,
+        lazy: async () => {
+          const { AdminUserForm } = await import("./pages/admin/user-form");
+          return { Component: AdminUserForm };
+        },
       },
       {
         path: "users/:userId/edit",
-        element: <AdminUserForm mode="edit" />,
+        lazy: async () => {
+          const { AdminUserForm } = await import("./pages/admin/user-form");
+          return { Component: AdminUserForm };
+        },
       },
     ],
   },
 ]);
+
+const colorModeManager = createLocalStorageManager("color-mode");
 
 const App = () => {
   return (

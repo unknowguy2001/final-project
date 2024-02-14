@@ -1,15 +1,13 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import { Footer } from "../../components/footer";
 import { Navbar } from "../../components/navbar";
 import { Authenticated } from "../../components/authenticated";
-import { FC } from "react";
 
-interface MainLayoutProps {
-  shouldBeAdmin?: boolean;
-}
+export const MainLayout = () => {
+  const location = useLocation();
+  const shouldBeAdmin = location.pathname.includes("admin");
 
-export const MainLayout: FC<MainLayoutProps> = ({ shouldBeAdmin = false }) => {
   return (
     <Authenticated shouldBeAdmin={shouldBeAdmin}>
       <Navbar />

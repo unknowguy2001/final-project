@@ -16,12 +16,12 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { useFunctions } from "./useFunctions";
-import hero1 from "../../assets/images/hero/1.png";
+import hero1 from "../../assets/images/hero/1.jpg";
 import hero2 from "../../assets/images/hero/2.jpg";
-import hero3 from "../../assets/images/hero/3.png";
-import hero4 from "../../assets/images/hero/4.png";
-import hero5 from "../../assets/images/hero/5.png";
-import hero6 from "../../assets/images/hero/6.png";
+import hero3 from "../../assets/images/hero/3.jpg";
+import hero4 from "../../assets/images/hero/4.jpg";
+import hero5 from "../../assets/images/hero/5.jpg";
+import hero6 from "../../assets/images/hero/6.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,102 +29,135 @@ export const Hero = () => {
   const container = useRef<HTMLDivElement>(null);
   useGSAP(
     () => {
-      gsap.from("#hero1", {
-        x: 300,
-        y: 100,
-        duration: 1,
-        ease: "power1.inOut",
-      });
-      gsap.from("#hero2", {
-        x: 200,
-        y: 0,
-        duration: 1,
-        ease: "power1.inOut",
-      });
-      gsap.from("#hero3", {
-        x: 350,
-        y: -50,
-        duration: 1,
-        ease: "power1.inOut",
-      });
-      gsap.from("#hero4", {
-        x: -450,
-        y: 125,
-        duration: 1,
-        ease: "power1.inOut",
-      });
-      gsap.from("#hero5", {
-        x: -400,
-        y: 150,
-        duration: 1,
-        ease: "power1.inOut",
-      });
-      gsap.from("#hero6", {
-        x: -525,
-        y: -75,
-        duration: 1,
-        ease: "power1.inOut",
-      });
-      gsap.from("#hero-content", {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: "power1.inOut",
-      });
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: "#hero",
-          start: "top top",
-          end: "50% top",
-          scrub: 1,
+      const startTl = gsap.timeline({
+        onComplete: () => {
+          const scrollTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: "#hero",
+              start: "top top",
+              end: "50% top",
+              scrub: 1,
+            },
+          });
+          scrollTl
+            .to(
+              "#hero1",
+              {
+                y: container.current!.offsetHeight * 0.25,
+                ease: "none",
+              },
+              "<"
+            )
+            .to(
+              "#hero2",
+              {
+                y: container.current!.offsetHeight * 0.3,
+                ease: "none",
+              },
+              "<"
+            )
+            .to(
+              "#hero3",
+              {
+                y: container.current!.offsetHeight * 0.125,
+                ease: "none",
+              },
+              "<"
+            )
+            .to(
+              "#hero4",
+              {
+                y: container.current!.offsetHeight * 0.25,
+                ease: "none",
+              },
+              "<"
+            )
+            .to(
+              "#hero5",
+              {
+                y: container.current!.offsetHeight * 0.125,
+                ease: "none",
+              },
+              "<"
+            )
+            .to(
+              "#hero6",
+              {
+                y: container.current!.offsetHeight * -0.075,
+                ease: "none",
+              },
+              "<"
+            );
         },
-        delay: 1,
       });
-      tl.to(
-        "#hero1",
-        {
-          y: container.current!.offsetHeight * 0.25,
-          ease: "none",
-        },
-        "<"
-      )
-        .to(
+      startTl
+        .from(
+          "#hero1",
+          {
+            x: 300,
+            y: 100,
+            duration: 1,
+            ease: "power1.inOut",
+          },
+          "<"
+        )
+        .from(
           "#hero2",
           {
-            y: container.current!.offsetHeight * 0.125,
-            ease: "none",
+            x: 200,
+            y: 0,
+            duration: 1,
+            ease: "power1.inOut",
           },
           "<"
         )
-        .to(
+        .from(
           "#hero3",
           {
-            y: container.current!.offsetHeight * 0.125,
-            ease: "none",
+            x: 350,
+            y: -50,
+            duration: 1,
+            ease: "power1.inOut",
           },
           "<"
         )
-        .to(
+        .from(
           "#hero4",
           {
-            y: container.current!.offsetHeight * 0.25,
-            ease: "none",
+            x: -450,
+            y: 125,
+            duration: 1,
+            ease: "power1.inOut",
           },
           "<"
         )
-        .to(
+        .from(
           "#hero5",
           {
-            y: container.current!.offsetHeight * 0.125,
-            ease: "none",
+            x: -400,
+            y: 150,
+            duration: 1,
+            ease: "power1.inOut",
           },
           "<"
         )
-        .to(
+        .from(
           "#hero6",
           {
-            y: container.current!.offsetHeight * -0.075,
-            ease: "none",
+            x: -525,
+            y: -75,
+            duration: 1,
+            ease: "power1.inOut",
+          },
+          "<"
+        )
+        .from(
+          "#hero-content",
+          {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: "power1.inOut",
           },
           "<"
         );

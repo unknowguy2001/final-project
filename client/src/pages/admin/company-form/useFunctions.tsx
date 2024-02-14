@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import {
   addCompany,
@@ -8,7 +8,7 @@ import {
 } from "../../../services/companiesService";
 import { CompanyData } from "../../../interfaces/company";
 
-export const useFunctions = (mode: "new" | "edit") => {
+export const useFunctions = () => {
   const navigate = useNavigate();
   const { companyId } = useParams<{
     companyId: string;
@@ -23,6 +23,8 @@ export const useFunctions = (mode: "new" | "edit") => {
     zipcode: "",
     telephone: "",
   });
+  const location = useLocation();
+  const mode = location.pathname.includes("new") ? "new" : "edit";
   const isNewMode = mode === "new";
 
   const handleChange = (

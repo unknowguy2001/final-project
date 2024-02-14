@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { useAuth } from "../../hooks/useAuth";
 import { getForum } from "../../services/forumsService";
 import { create, update } from "../../services/baseService";
 import { CreateForumResponse, ForumData } from "../../interfaces/forum";
 
-export const useFunctions = (mode: "new" | "edit") => {
-  const isNewMode = mode === "new";
-  const navigate = useNavigate();
+export const useFunctions = () => {
   const { authInfo } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDesciption] = useState("");
   const { forumId } = useParams<{ forumId: string }>();
+
+  const mode = location.pathname.includes("new") ? "new" : "edit";
+  const isNewMode = mode === "new";
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -63,5 +66,6 @@ export const useFunctions = (mode: "new" | "edit") => {
     description,
     setDesciption,
     handleActionClick,
+    mode,
   };
 };

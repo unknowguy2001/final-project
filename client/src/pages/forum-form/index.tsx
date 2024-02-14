@@ -6,23 +6,19 @@ import {
   Heading,
   Input,
 } from "@chakra-ui/react";
-import { FC } from "react";
 
 import { useFunctions } from "./useFunctions";
 import { Editor } from "../../components/editor";
 
-interface ForumFormProps {
-  mode: "new" | "edit";
-}
-
-export const ForumForm: FC<ForumFormProps> = ({ mode }) => {
+export const ForumForm = () => {
   const {
     title,
     handleTitleChange,
     description,
     setDesciption,
     handleActionClick,
-  } = useFunctions(mode);
+    mode,
+  } = useFunctions();
 
   return (
     <Container as="main" paddingY={8} maxWidth="6xl">

@@ -30,6 +30,6 @@ module.exports.provinces = async (req, res) => {
       new Set(
         companies.map((company) => company.province.trim()).filter(Boolean)
       )
-    ),
+    ).slice(0, 10),
   });
 };
