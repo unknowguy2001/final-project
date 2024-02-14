@@ -15,7 +15,7 @@ export const AuthLayout = () => {
         </Flex>
         <Box flex={1}>
           <Image
-            src="science-and-technology-building.jpg"
+            src="/science-and-technology-building.jpg"
             objectFit="cover"
             objectPosition="center"
             height="100%"
