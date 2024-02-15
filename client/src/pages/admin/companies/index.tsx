@@ -74,7 +74,15 @@ export const AdminCompanies = () => {
           </Button>
         </Flex>
       </Box>
-      <TableContainer mb={4}>
+      <TableContainer
+        mb={4}
+        border="1px solid"
+        borderColor="brand.100"
+        _dark={{
+          borderColor: "gray.600",
+        }}
+        rounded="lg"
+      >
         <Table>
           <Thead>
             <Tr>

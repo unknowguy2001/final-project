@@ -7,6 +7,7 @@ import { Forum } from "../../interfaces/forum";
 import { Reply } from "../../interfaces/reply";
 import { deleteForum, getForum } from "../../services/forumsService";
 import { createReply, searchReplies } from "../../services/repliesService";
+import { useDisclosure } from "@chakra-ui/react";
 
 export const useFunctions = () => {
   const { authInfo } = useAuth();
@@ -17,10 +18,18 @@ export const useFunctions = () => {
   const [replies, setReplies] = useState<Reply[]>([]);
   const [count, setCount] = useState<number>(0);
   const [searchParams] = useSearchParams();
+  const [isCommentSubmitting, setIsCommentSubmitting] =
+    useState<boolean>(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isRepliesLoading, setIsRepliesLoading] = useState<boolean>(false);
+  const [isForumLoading, setIsForumLoading] = useState<boolean>(false);
+  const [isForumDeleting, setIsForumDeleting] = useState<boolean>(false);
+  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
 
   const handleSearchReplies = useCallback(
     async (config: AxiosRequestConfig = {}) => {
       if (!forumId) return;
+      setIsRepliesLoading(true);
       const page = searchParams.get("page")!;
       const perPage = searchParams.get("perPage")!;
       const response = await searchReplies(forumId, {
@@ -29,8 +38,10 @@ export const useFunctions = () => {
       });
       setReplies(response.data.items);
       setCount(response.data.count);
+      setIsRepliesLoading(false);
+      setIsFirstLoad(false);
     },
-    [forumId, searchParams]
+    [forumId, searchParams],
   );
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -40,10 +51,13 @@ export const useFunctions = () => {
   const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
+      setIsCommentSubmitting(true);
       if (!forumId) return;
       await createReply(forumId, { description: comment });
       setComment("");
       handleSearchReplies();
+      setIsCommentSubmitting(false);
+      onClose();
     } catch (error) {
       console.error(error);
     }
@@ -51,10 +65,13 @@ export const useFunctions = () => {
 
   const handleDeleteForumClick = async (forumId: number) => {
     if (!forumId) return;
+    setIsForumDeleting(true);
     try {
       await deleteForum(forumId);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsForumDeleting(false);
     }
     navigate("/forums");
   };
@@ -64,6 +81,14 @@ export const useFunctions = () => {
     navigate(`/forums/${forumId}/edit`);
   };
 
+  const handleCloseClick = () => {
+    onClose();
+  };
+
+  const handleCreateCommentClick = () => {
+    onOpen();
+  };
+
   useEffect(() => {
     if (!forumId) return;
 
@@ -71,9 +96,11 @@ export const useFunctions = () => {
     const abortSearchRepliesController = new AbortController();
 
     const handleGetForum = async () => {
+      setIsForumLoading(true);
       const response = await getForum(forumId, {
         signal: abortGetForumController.signal,
       });
+      setIsForumLoading(false);
       setForum(response.data.item);
     };
 
@@ -97,5 +124,13 @@ export const useFunctions = () => {
     handleSearchReplies,
     handleDeleteForumClick,
     handleEditForumClick,
+    isCommentSubmitting,
+    isOpen,
+    handleCloseClick,
+    handleCreateCommentClick,
+    isRepliesLoading,
+    isForumLoading,
+    isForumDeleting,
+    isFirstLoad,
   };
 };

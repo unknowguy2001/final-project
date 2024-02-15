@@ -32,7 +32,7 @@ export const useFunctions = () => {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setUserData((prev) => ({
@@ -48,6 +48,10 @@ export const useFunctions = () => {
       if (!userId) return;
       await updateUser(userId, userData as UpdateUserData);
     }
+    navigate("/admin/users");
+  };
+
+  const handleCancelClick = () => {
     navigate("/admin/users");
   };
 
@@ -100,5 +104,6 @@ export const useFunctions = () => {
     handleChange,
     handleActionClick,
     isNewMode,
+    handleCancelClick,
   };
 };

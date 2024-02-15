@@ -182,12 +182,7 @@ export const Navbar = () => {
       <Modal isOpen={isOpen} onClose={handleCloseClick}>
         <ModalOverlay />
         <ModalContent onSubmit={handleSubmit} as="form">
-          <ModalHeader>
-            <Flex alignItems="center" gap={2}>
-              <Icon icon="lucide:lock" />
-              เปลี่ยนรหัสผ่าน
-            </Flex>
-          </ModalHeader>
+          <ModalHeader>เปลี่ยนรหัสผ่าน</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Stack spacing={4}>
@@ -260,7 +255,12 @@ export const Navbar = () => {
             </Stack>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={handleCloseClick} mr={2} variant="ghost">
+            <Button
+              onClick={handleCloseClick}
+              mr={2}
+              variant="outline"
+              colorScheme="red"
+            >
               ยกเลิก
             </Button>
             <Button isLoading={isChangingPassword} type="submit">

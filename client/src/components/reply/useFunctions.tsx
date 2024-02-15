@@ -27,6 +27,11 @@ export const useFunctions = ({
   const { forumId } = useParams<{ forumId: string }>();
   const [showCommentForm, setShowCommentForm] = useState<boolean>(false);
   const [showChildReplies, setShowChildReplies] = useState<boolean>(false);
+  const [isCommentSubmitting, setIsCommentSubmitting] =
+    useState<boolean>(false);
+  const [isCommentUpdating, setIsCommentUpdating] = useState<boolean>(false);
+  const [isCommentDeleting, setIsCommentDeleting] = useState<boolean>(false);
+  const [deletingReplyId, setDeletingReplyId] = useState<number | null>(null);
 
   const handleClose = () => {
     onClose();
@@ -34,7 +39,7 @@ export const useFunctions = ({
   };
 
   const handleEdittingCommentChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setEdittingComment(e.target.value);
   };
@@ -45,6 +50,7 @@ export const useFunctions = ({
 
   const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
+      setIsCommentSubmitting(true);
       e.preventDefault();
       if (!forumId) return;
       await createReply(
@@ -54,12 +60,13 @@ export const useFunctions = ({
           params: {
             replyId: reply.id,
           },
-        }
+        },
       );
       setComment("");
       handleSearchReplies();
       setShowChildReplies(true);
       setShowCommentForm(false);
+      setIsCommentSubmitting(false);
     } catch (error) {
       console.error(error);
     }
@@ -80,10 +87,15 @@ export const useFunctions = ({
 
   const handleDeleteReplyClick = async (forumId: number, replyId: number) => {
     try {
+      setIsCommentDeleting(true);
+      setDeletingReplyId(replyId);
       await deleteReply(forumId, replyId);
       handleSearchReplies();
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsCommentDeleting(false);
+      setDeletingReplyId(null);
     }
   };
 
@@ -96,6 +108,7 @@ export const useFunctions = ({
   const handleSaveClick = async () => {
     if (!edittingReplyId) return;
     try {
+      setIsCommentUpdating(true);
       const data = { description: edittingComment };
       await updateReply(reply.forumId, edittingReplyId, data);
     } catch (error) {
@@ -105,6 +118,7 @@ export const useFunctions = ({
       setEdittingReplyId(null);
       handleSearchReplies();
       onClose();
+      setIsCommentUpdating(false);
     }
   };
 
@@ -125,5 +139,9 @@ export const useFunctions = ({
     edittingComment,
     handleEdittingCommentChange,
     handleSaveClick,
+    isCommentSubmitting,
+    isCommentUpdating,
+    isCommentDeleting,
+    deletingReplyId,
   };
 };

@@ -1,7 +1,7 @@
 import ReactQuill from "react-quill";
 
 interface EditorProps {
-  data: string;
+  data?: string;
   setData?: React.Dispatch<React.SetStateAction<string>>;
   placeholder?: string;
   readOnly?: boolean;
@@ -9,7 +9,7 @@ interface EditorProps {
 }
 
 export const Editor = ({
-  data,
+  data = "",
   setData,
   placeholder = "",
   readOnly = false,

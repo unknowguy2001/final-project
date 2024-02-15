@@ -73,7 +73,7 @@ export const Register = () => {
           </FormControl>
         </Flex>
         <FormControl>
-          <FormLabel>ชื่อผู้ใช้งาน</FormLabel>
+          <FormLabel>รหัสนักศึกษา</FormLabel>
           <Input
             onChange={handleInputChange}
             value={registerData.username}

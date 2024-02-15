@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 
 import { Footer } from "../../components/footer";
 import { Navbar } from "../../components/navbar";
@@ -13,6 +13,7 @@ export const MainLayout = () => {
       <Navbar />
       <Outlet />
       <Footer />
+      <ScrollRestoration />
     </Authenticated>
   );
 };

@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Container,
   FormControl,
@@ -11,13 +12,18 @@ import {
 import { useFunctions } from "./useFunctions";
 
 export const AdminCompanyForm = () => {
-  const { companyData, handleChange, handleActionClick, isNewMode } =
-    useFunctions();
+  const {
+    companyData,
+    handleChange,
+    handleActionClick,
+    isNewMode,
+    handleCancelClick,
+  } = useFunctions();
 
   return (
     <Container as="main" paddingY={8} maxWidth="6xl">
       <Stack spacing={4}>
-        <Heading as="h1" fontSize="3xl">
+        <Heading as="h1" fontSize="2xl">
           {isNewMode ? "เพิ่มบริษัทใหม่" : "แก้ไขบริษัท"}
         </Heading>
         <FormControl>
@@ -88,9 +94,14 @@ export const AdminCompanyForm = () => {
           />
         </FormControl>
       </Stack>
-      <Button onClick={handleActionClick} mt={4}>
-        {isNewMode ? "เพิ่มบริษัท" : "บันทึก"}
-      </Button>
+      <Box mt={4}>
+        <Button variant="outline" colorScheme="red" onClick={handleCancelClick}>
+          ยกเลิก
+        </Button>
+        <Button ml={2} onClick={handleActionClick}>
+          ยืนยัน
+        </Button>
+      </Box>
     </Container>
   );
 };

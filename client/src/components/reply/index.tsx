@@ -46,6 +46,10 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
     edittingComment,
     handleEdittingCommentChange,
     handleSaveClick,
+    isCommentSubmitting,
+    isCommentUpdating,
+    isCommentDeleting,
+    deletingReplyId,
   } = useFunctions({ reply, handleSearchReplies });
 
   return (
@@ -57,18 +61,28 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
           <ModalCloseButton />
           <ModalBody>
             <Textarea
+              isDisabled={isCommentUpdating}
               value={edittingComment}
               onChange={handleEdittingCommentChange}
               required
+              rows={5}
               resize="none"
               placeholder="ความคิดเห็น"
             />
           </ModalBody>
           <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={handleClose}>
+            <Button
+              isDisabled={isCommentUpdating}
+              variant="outline"
+              colorScheme="red"
+              mr={2}
+              onClick={handleClose}
+            >
               ยกเลิก
             </Button>
-            <Button onClick={handleSaveClick}>บันทึก</Button>
+            <Button isLoading={isCommentUpdating} onClick={handleSaveClick}>
+              ยืนยัน
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -93,8 +107,14 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
                     icon={<Icon icon="lucide:pen" />}
                     variant="ghost"
                     size="sm"
+                    isDisabled={
+                      isCommentDeleting && deletingReplyId === reply.id
+                    }
                   />
                   <IconButton
+                    isLoading={
+                      isCommentDeleting && deletingReplyId === reply.id
+                    }
                     onClick={() =>
                       handleDeleteReplyClick(reply.forumId, reply.id)
                     }
@@ -107,6 +127,7 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
               )}
             </Flex>
             <Button
+              isDisabled={isCommentDeleting && deletingReplyId === reply.id}
               onClick={handleReplyClick}
               leftIcon={<Icon icon="lucide:reply" />}
               size="sm"
@@ -119,103 +140,135 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
         </CardBody>
       </Card>
       {reply.childReplies.length > 0 && (
-        <Button
-          width="calc(100% - 2rem)"
-          mt={4}
-          onClick={handleShowChildReplies}
-          variant="outline"
-          ml={8}
-          size="sm"
-        >
-          {showChildReplies ? "ซ่อน" : "ดู"}ความคิดเห็นย่อย (
-          {reply.childReplies.length})
-        </Button>
+        <Box pl={8} pt={4}>
+          <Button
+            width="full"
+            onClick={handleShowChildReplies}
+            variant="outline"
+            size="sm"
+          >
+            {showChildReplies ? "ซ่อน" : "ดู"}ความคิดเห็นย่อย (
+            {reply.childReplies.length})
+          </Button>
+        </Box>
       )}
-      <Stack mt={showChildReplies ? 4 : 0} gap={4}>
-        {showChildReplies &&
-          reply.childReplies.map((childReply) => (
-            <Box
-              key={childReply.id}
-              backgroundColor="gray.50"
-              position="relative"
-              borderRadius="md"
-              border="1px solid"
-              borderColor="gray.200"
-              padding="20px"
-              ml={8}
-            >
-              <Flex justifyContent="space-between" alignItems="center">
-                <UserProfile
-                  avatarSize={24}
-                  fullname={childReply?.createdByName}
-                  rightNode={
-                    <Text fontSize="sm" color="gray.500">
-                      {formatDistanceToNow(childReply?.createdAt)}
-                    </Text>
-                  }
-                />
-                <Button
-                  onClick={handleReplyClick}
-                  leftIcon={<Icon icon="lucide:reply" />}
-                  size="sm"
-                  variant="link"
-                >
-                  ตอบกลับ
-                </Button>
-              </Flex>
-              <Text mt={3}>{childReply.description}</Text>
-              {authInfo.user?.username === childReply.createdByUsername && (
-                <Flex justifyContent="end" gap={2}>
-                  <IconButton
-                    onClick={() => handleEditReplyClick(childReply)}
-                    aria-label="edit"
-                    icon={<Icon icon="lucide:pen" />}
-                    variant="ghost"
-                    size="sm"
-                  />
-                  <IconButton
-                    onClick={() =>
-                      handleDeleteReplyClick(childReply.forumId, childReply.id)
-                    }
-                    aria-label="delete"
-                    icon={<Icon icon="lucide:trash" />}
-                    variant="ghost"
-                    size="sm"
-                  />
-                </Flex>
-              )}
-            </Box>
-          ))}
-      </Stack>
       <Box
-        mt={4}
         display="grid"
         transition={"grid-template-rows 0.25s"}
-        gridTemplateRows={showCommentForm ? "1fr" : "0fr"}
+        gridTemplateRows={showChildReplies ? "1fr" : "0fr"}
         position="relative"
-        ml={8}
         as="form"
         onSubmit={handleCommentSubmit}
       >
         <Box overflow="hidden">
-          <Textarea
-            value={comment}
-            onChange={handleCommentChange}
-            required
-            resize="none"
-            placeholder="ความคิดเห็น"
-          />
-          <Flex mt={4} gap={4}>
-            <Button
-              variant="outline"
-              type="button"
-              onClick={handleCommentCancel}
-              colorScheme="red"
-            >
-              ยกเลิก
-            </Button>
-            <Button type="submit">ส่งความคิดเห็น</Button>
-          </Flex>
+          <Stack pt={4} gap={4}>
+            {reply.childReplies.map((childReply) => (
+              <Box
+                key={childReply.id}
+                backgroundColor="gray.50"
+                position="relative"
+                borderRadius="md"
+                border="1px solid"
+                borderColor="gray.200"
+                padding="20px"
+                ml={8}
+              >
+                <Flex
+                  justifyContent="space-between"
+                  gap={4}
+                  alignItems="center"
+                >
+                  <Flex gap={4} align="center">
+                    <UserProfile
+                      fullname={childReply?.createdByName}
+                      verticalInfo
+                      rightNode={
+                        <Text fontSize="sm" color="gray.500">
+                          {formatDistanceToNow(childReply?.createdAt)}
+                        </Text>
+                      }
+                    />
+                    {authInfo.user?.username ===
+                      childReply.createdByUsername && (
+                      <Flex>
+                        <IconButton
+                          isDisabled={
+                            isCommentDeleting &&
+                            deletingReplyId === childReply.id
+                          }
+                          onClick={() => handleEditReplyClick(childReply)}
+                          aria-label="edit"
+                          icon={<Icon icon="lucide:pen" />}
+                          variant="ghost"
+                          size="sm"
+                        />
+                        <IconButton
+                          isLoading={
+                            isCommentDeleting &&
+                            deletingReplyId === childReply.id
+                          }
+                          onClick={() =>
+                            handleDeleteReplyClick(reply.forumId, childReply.id)
+                          }
+                          aria-label="delete"
+                          icon={<Icon icon="lucide:trash" />}
+                          variant="ghost"
+                          size="sm"
+                        />
+                      </Flex>
+                    )}
+                  </Flex>
+                  <Button
+                    isDisabled={
+                      isCommentDeleting && deletingReplyId === childReply.id
+                    }
+                    onClick={handleReplyClick}
+                    leftIcon={<Icon icon="lucide:reply" />}
+                    size="sm"
+                    variant="link"
+                  >
+                    ตอบกลับ
+                  </Button>
+                </Flex>
+                <Text mt={3}>{childReply.description}</Text>
+              </Box>
+            ))}
+          </Stack>
+        </Box>
+      </Box>
+      <Box
+        display="grid"
+        transition={"grid-template-rows 0.25s"}
+        gridTemplateRows={showCommentForm ? "1fr" : "0fr"}
+        position="relative"
+        as="form"
+        onSubmit={handleCommentSubmit}
+      >
+        <Box overflow="hidden">
+          <Box pt={4} pl={8} pb={4}>
+            <Textarea
+              value={comment}
+              onChange={handleCommentChange}
+              required
+              resize="none"
+              placeholder="ความคิดเห็น"
+              isDisabled={isCommentSubmitting}
+            />
+            <Flex mt={4} gap={2}>
+              <Button
+                isDisabled={isCommentSubmitting}
+                variant="outline"
+                colorScheme="red"
+                type="button"
+                onClick={handleCommentCancel}
+              >
+                ยกเลิก
+              </Button>
+              <Button isLoading={isCommentSubmitting} type="submit">
+                ยืนยัน
+              </Button>
+            </Flex>
+          </Box>
         </Box>
       </Box>
     </Box>

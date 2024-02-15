@@ -57,6 +57,10 @@ export const Company = () => {
     isRatingFilterSelected,
     generateGoogleMapsUrl,
     isLoading,
+    isReviewSubmitting,
+    isReviewDeleting,
+    isEditting,
+    isReviewLoading,
   } = useFunctions();
 
   return (
@@ -152,21 +156,24 @@ export const Company = () => {
           </Heading>
           {canReview && (
             <Button onClick={openReviewModal} variant="outline">
-              เขียนรีวิว
+              สร้างรีวิว
             </Button>
           )}
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-              <ModalHeader>ริวิวบริษัท</ModalHeader>
+              <ModalHeader>
+                {isEditting ? "แก้ไขรีวิว" : "สร้างรีวิว"}
+              </ModalHeader>
               <ModalCloseButton />
               <ModalBody>
                 <Heading mb={2} fontSize="md" fontWeight="normal">
-                  ความพึ่งพอใจ
+                  คะแนน
                 </Heading>
                 <Flex alignItems="center" gap={2} mb={4}>
                   <Box maxWidth="150px">
                     <Rating
+                      isDisabled={isReviewSubmitting || isReviewLoading}
                       value={rating}
                       onChange={(ratingChange: number) => {
                         setRating(ratingChange);
@@ -176,22 +183,28 @@ export const Company = () => {
                   {rating ? (
                     <Text fontSize="sm">
                       {rating === 1
-                        ? "ไม่พอใจเลย"
+                        ? "แย่"
                         : rating === 2
-                          ? "พอใจน้อย"
+                          ? "พอใช้"
                           : rating === 3
-                            ? "พอใจ"
+                            ? "ดี"
                             : rating === 4
-                              ? "พอใจมาก"
-                              : "พอใจมากที่สุด"}
+                              ? "ดีมาก"
+                              : "ยอดเยี่ยม"}
                     </Text>
                   ) : null}
                 </Flex>
                 <Text mb={2}>คำอธิบาย</Text>
-                <Textarea ref={descriptionRef} rows={4} resize="none" />
+                <Textarea
+                  isDisabled={isReviewSubmitting || isReviewLoading}
+                  ref={descriptionRef}
+                  rows={4}
+                  resize="none"
+                />
                 <Flex mt={4} wrap="wrap" gap={2}>
                   {hashtags.map((hashtag) => (
                     <Button
+                      isDisabled={isReviewSubmitting || isReviewLoading}
                       py={0.5}
                       px={1.5}
                       key={hashtag.id}
@@ -220,17 +233,21 @@ export const Company = () => {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  color="white"
-                  _hover={{
-                    color: "white",
-                  }}
-                  variant="ghost"
-                  mr={3}
+                  isDisabled={isReviewSubmitting || isReviewLoading}
+                  mr={2}
+                  variant="outline"
+                  colorScheme="red"
                   onClick={onClose}
                 >
                   ยกเลิก
                 </Button>
-                <Button onClick={handleReviewClick}>ส่งรีวิว</Button>
+                <Button
+                  isDisabled={isReviewLoading}
+                  isLoading={isReviewSubmitting}
+                  onClick={handleReviewClick}
+                >
+                  ยืนยัน
+                </Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
@@ -345,6 +362,7 @@ export const Company = () => {
                 {authInfo.user?.username === review.reviewerUsername && (
                   <Box>
                     <IconButton
+                      isDisabled={isReviewDeleting}
                       onClick={() => handleEditReviewClick(review.id)}
                       aria-label="edit"
                       icon={<Icon icon="lucide:pen" />}
@@ -358,6 +376,7 @@ export const Company = () => {
                       onClick={() => {
                         handleDeleteReviewClick(review.id);
                       }}
+                      isLoading={isReviewDeleting}
                       aria-label="delete"
                       icon={<Icon icon="lucide:trash" />}
                       variant="ghost"

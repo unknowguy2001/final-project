@@ -18,17 +18,21 @@ export const ForumForm = () => {
     setDesciption,
     handleActionClick,
     mode,
+    handleCancelClick,
+    isForumLoading,
+    isActionLoading,
   } = useFunctions();
 
   return (
     <Container as="main" paddingY={8} maxWidth="6xl">
-      <Heading as="h1" mb={4} fontSize="3xl">
+      <Heading as="h1" mb={4} fontSize="2xl">
         {mode === "new" ? "สร้างกระทู้" : "แก้ไขกระทู้"}
       </Heading>
       <FormControl mb={4}>
         <FormLabel>หัวข้อ</FormLabel>
         <Input
-          value={title}
+          isDisabled={isActionLoading}
+          value={isForumLoading ? "กำลังโหลด..." : title}
           onChange={handleTitleChange}
           placeholder="หัวข้อ"
         />
@@ -37,11 +41,21 @@ export const ForumForm = () => {
         <FormLabel>รายละเอียด</FormLabel>
         <Editor
           placeholder="รายละเอียด"
-          data={description}
+          data={isForumLoading ? "กำลังโหลด..." : description}
           setData={setDesciption}
         />
       </FormControl>
-      <Button onClick={handleActionClick}>บันทึก</Button>
+      <Button
+        isDisabled={isActionLoading}
+        variant="outline"
+        colorScheme="red"
+        onClick={handleCancelClick}
+      >
+        ยกเลิก
+      </Button>
+      <Button isLoading={isActionLoading} ml={2} onClick={handleActionClick}>
+        ยืนยัน
+      </Button>
     </Container>
   );
 };

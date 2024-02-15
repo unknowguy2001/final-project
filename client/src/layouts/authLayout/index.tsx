@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
 import { Box, Flex, Image } from "@chakra-ui/react";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 
 import { Unauthenticated } from "../../components/unauthenticated";
 
@@ -24,6 +24,7 @@ export const AuthLayout = () => {
           <Box pos="absolute" inset={0} bg="rgba(0, 0, 0, 0.25)" />
         </Box>
       </Flex>
+      <ScrollRestoration />
     </Unauthenticated>
   );
 };

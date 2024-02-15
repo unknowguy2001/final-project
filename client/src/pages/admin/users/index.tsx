@@ -13,6 +13,7 @@ import {
   Th,
   Td,
   TableContainer,
+  Heading,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
@@ -39,9 +40,9 @@ export const AdminUsers = () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box as="h2" fontSize="3xl" fontWeight="bold">
+          <Heading as="h2" fontSize="2xl">
             ผู้ใช้งานทั้งหมด
-          </Box>
+          </Heading>
           <SkeletonText noOfLines={1} isLoaded={!isLoading}>
             แสดง {users.length} รายการ จากทั้งหมด {count} รายการ
           </SkeletonText>
@@ -71,7 +72,15 @@ export const AdminUsers = () => {
           </Button>
         </Flex>
       </Box>
-      <TableContainer mb={4}>
+      <TableContainer
+        mb={4}
+        border="1px solid"
+        borderColor="brand.100"
+        _dark={{
+          borderColor: "gray.600",
+        }}
+        rounded="lg"
+      >
         <Table>
           <Thead>
             <Tr>

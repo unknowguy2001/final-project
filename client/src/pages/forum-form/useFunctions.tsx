@@ -13,6 +13,8 @@ export const useFunctions = () => {
   const [title, setTitle] = useState("");
   const [description, setDesciption] = useState("");
   const { forumId } = useParams<{ forumId: string }>();
+  const [isForumLoading, setIsForumLoading] = useState(false);
+  const [isActionLoading, setIsActionLoading] = useState(false);
 
   const mode = location.pathname.includes("new") ? "new" : "edit";
   const isNewMode = mode === "new";
@@ -22,21 +24,32 @@ export const useFunctions = () => {
   };
 
   const handleActionClick = async () => {
-    const forumData = {
-      title,
-      description,
-    };
-    if (isNewMode) {
-      const response = await create<ForumData, CreateForumResponse>(
-        "forums",
-        forumData
-      );
-      navigate(`/forums/${response.data.forumId}`);
-    } else {
-      if (!forumId) return;
-      await update<ForumData>("forums", forumId, forumData);
-      navigate(`/forums/${forumId}`);
+    try {
+      setIsActionLoading(true);
+      const forumData = {
+        title,
+        description,
+      };
+      if (isNewMode) {
+        const response = await create<ForumData, CreateForumResponse>(
+          "forums",
+          forumData,
+        );
+        navigate(`/forums/${response.data.forumId}`);
+      } else {
+        if (!forumId) return;
+        await update<ForumData>("forums", forumId, forumData);
+        navigate(`/forums/${forumId}`);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsActionLoading(false);
     }
+  };
+
+  const handleCancelClick = () => {
+    navigate("/forums");
   };
 
   useEffect(() => {
@@ -45,14 +58,17 @@ export const useFunctions = () => {
     const abortGetForumController = new AbortController();
 
     const handleGetForum = async () => {
+      setIsForumLoading(true);
       const response = await getForum(forumId, {
         signal: abortGetForumController.signal,
       });
+      // If the user is not the creator of the forum, redirect to the forum page
       if (response.data.item.createdByUsername !== authInfo.user?.username) {
         return navigate(`/forums/${forumId}`);
       }
       setTitle(response.data.item.title);
       setDesciption(response.data.item.description);
+      setIsForumLoading(false);
     };
 
     handleGetForum();
@@ -67,5 +83,8 @@ export const useFunctions = () => {
     setDesciption,
     handleActionClick,
     mode,
+    handleCancelClick,
+    isForumLoading,
+    isActionLoading,
   };
 };

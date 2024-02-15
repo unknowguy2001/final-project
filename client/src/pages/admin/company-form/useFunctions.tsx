@@ -28,7 +28,7 @@ export const useFunctions = () => {
   const isNewMode = mode === "new";
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setCompanyData((prev) => ({
@@ -47,6 +47,10 @@ export const useFunctions = () => {
     navigate("/admin/companies");
   };
 
+  const handleCancelClick = () => {
+    navigate("/admin/companies");
+  };
+
   const handleGetCompany = useCallback(
     async (signal?: AbortSignal) => {
       if (!companyId) return;
@@ -56,7 +60,7 @@ export const useFunctions = () => {
       });
       setCompanyData(response.data.item);
     },
-    [companyId]
+    [companyId],
   );
 
   useEffect(() => {
@@ -72,5 +76,6 @@ export const useFunctions = () => {
     handleChange,
     handleActionClick,
     isNewMode,
+    handleCancelClick,
   };
 };

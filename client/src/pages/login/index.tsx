@@ -39,7 +39,7 @@ export const Login = () => {
         gap={4}
       >
         <FormControl>
-          <FormLabel>ชื่อผู้ใช้งาน</FormLabel>
+          <FormLabel>รหัสนักศึกษา</FormLabel>
           <Input
             onChange={handleInputChange}
             value={loginRequest.username}

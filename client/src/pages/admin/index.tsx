@@ -55,7 +55,7 @@ export const Admin = () => {
   return (
     <>
       <Container as="main" paddingY={8} maxWidth="6xl">
-        <Heading as="h1" fontSize="3xl">
+        <Heading as="h1" fontSize="2xl">
           หน้าแอดมิน
         </Heading>
         <Flex alignItems="center" gap={4} mt={4}>

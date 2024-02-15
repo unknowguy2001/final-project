@@ -25,6 +25,9 @@ export const useFunctions = () => {
     number | null
   >(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isReviewSubmitting, setIsReviewSubmitting] = useState(false);
+  const [isReviewDeleting, setIsReviewDeleting] = useState(false);
+  const [isReviewLoading, setIsReviewLoading] = useState(false);
 
   const averageRating = company?.averageRating || 0;
   const formattedAverageRating = averageRating.toFixed(1);
@@ -61,7 +64,7 @@ export const useFunctions = () => {
     if (selectedRatingFilter) {
       return (
         company?.reviews.filter(
-          (review) => review.rating === selectedRatingFilter
+          (review) => review.rating === selectedRatingFilter,
         ) || []
       );
     }
@@ -79,26 +82,31 @@ export const useFunctions = () => {
 
     if (!companyId) return;
 
+    setIsReviewSubmitting(true);
+
     if (!edittingReviewId) {
       await create<ReviewData>(`companies/${companyId}/reviews`, reviewData);
     } else {
       await update<ReviewData>(
         `companies/${companyId}/reviews`,
         edittingReviewId.toString(),
-        reviewData
+        reviewData,
       );
     }
 
     onClose();
     setRating(0);
     await handleGetCompany();
+    setIsReviewSubmitting(false);
   };
 
   const handleDeleteReviewClick = async (reviewId: number) => {
     if (!companyId) return;
 
+    setIsReviewDeleting(true);
     await remove(`companies/${companyId}/reviews`, reviewId);
     await handleGetCompany();
+    setIsReviewDeleting(false);
   };
 
   const handleEditReviewClick = async (reviewId: number) => {
@@ -106,18 +114,21 @@ export const useFunctions = () => {
 
     if (!companyId) return;
 
+    setIsReviewLoading(true);
+    setEdittingReviewId(reviewId);
     const response = await get<GetReviewResponse>(
-      `companies/${companyId}/reviews/${reviewId}`
+      `companies/${companyId}/reviews/${reviewId}`,
     );
 
     const review = response.data.item;
     setRating(review.rating);
 
-    if (!descriptionRef.current) return;
-    descriptionRef.current.value = review.review;
+    if (descriptionRef.current) {
+      descriptionRef.current.value = review.review;
+    }
 
-    setEdittingReviewId(reviewId);
     setSelectedHashtags(review.hashtags);
+    setIsReviewLoading(false);
   };
 
   const handleHashtagClick = (hashtagId: number) => {
@@ -153,7 +164,7 @@ export const useFunctions = () => {
 
       setIsLoading(false);
     },
-    [companyId]
+    [companyId],
   );
 
   const handleGetHashtags = useCallback(async (signal?: AbortSignal) => {
@@ -179,6 +190,8 @@ export const useFunctions = () => {
     return () => abortController.abort();
   }, [companyId, handleGetCompany]);
 
+  const isEditting = edittingReviewId !== null;
+
   return {
     company,
     canReview,
@@ -202,5 +215,9 @@ export const useFunctions = () => {
     isRatingFilterSelected,
     generateGoogleMapsUrl,
     isLoading,
+    isReviewSubmitting,
+    isReviewDeleting,
+    isReviewLoading,
+    isEditting,
   };
 };

@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Container,
   FormControl,
@@ -13,13 +14,19 @@ import { useFunctions } from "./useFunctions";
 import { UserData } from "../../../interfaces/user";
 
 export const AdminUserForm = () => {
-  const { userData, roles, handleChange, handleActionClick, isNewMode } =
-    useFunctions();
+  const {
+    userData,
+    roles,
+    handleChange,
+    handleActionClick,
+    isNewMode,
+    handleCancelClick,
+  } = useFunctions();
 
   return (
     <Container as="main" paddingY={8} maxWidth="6xl">
       <Stack spacing={4}>
-        <Heading as="h1" fontSize="3xl">
+        <Heading as="h1" fontSize="2xl">
           {isNewMode ? "เพิ่มผู้ใช้ใหม่" : "แก้ไขผู้ใช้"}
         </Heading>
         <FormControl>
@@ -66,9 +73,14 @@ export const AdminUserForm = () => {
           </Select>
         </FormControl>
       </Stack>
-      <Button onClick={handleActionClick} mt={4}>
-        {isNewMode ? "เพิ่มผู้ใช้" : "บันทึก"}
-      </Button>
+      <Box mt={4}>
+        <Button variant="outline" colorScheme="red" onClick={handleCancelClick}>
+          ยกเลิก
+        </Button>
+        <Button ml={2} onClick={handleActionClick}>
+          ยืนยัน
+        </Button>
+      </Box>
     </Container>
   );
 };
