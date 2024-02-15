@@ -16,7 +16,7 @@ export interface UserData {
   username: string;
   fullname: string;
   password: string;
-  roleId: number | null;
+  roleId: number | "";
 }
 
 export interface GetUserResponse {
@@ -26,5 +26,5 @@ export interface GetUserResponse {
 export interface UpdateUserData {
   username: string;
   fullname: string;
-  roleId: number | null;
+  roleId: number | "";
 }

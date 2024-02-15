@@ -21,13 +21,13 @@ export const useFunctions = () => {
         username: "",
         password: "",
         fullname: "",
-        roleId: null,
+        roleId: "",
       };
     }
     return {
       username: "",
       fullname: "",
-      roleId: null,
+      roleId: "",
     };
   });
 
