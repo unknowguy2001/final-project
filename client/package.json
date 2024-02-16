@@ -29,6 +29,7 @@
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.18.0",
     "react-scroll-parallax": "^3.4.5",
+    "react-scroll-up": "^1.4.0",
     "react-spinners": "^0.13.8",
     "sonner": "^1.2.3"
   },
