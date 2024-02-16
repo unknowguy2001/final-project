@@ -133,7 +133,13 @@ module.exports.getCompanyById = async (req, res) => {
   const reviewByReviewer = await prisma.review.findFirst({
     where: { reviewerUsername: req.user.username },
   });
-  const canReview = !reviewByReviewer;
+  const user = await prisma.user.findUnique({
+    where: { username: req.user.username },
+  });
+  const adminRole = await prisma.role.findFirst({
+    where: { name: "ผู้ดูแลระบบ" },
+  });
+  const canReview = !reviewByReviewer && user.roleId !== adminRole.id;
 
   res.status(200).json({
     item: company,
