@@ -39,7 +39,13 @@ export const theme = extendTheme(
           ghost: {
             color: "black",
             _hover: {
-              color: "brand.700",
+              color: "black",
+            },
+            _dark: {
+              color: "white",
+              _hover: {
+                color: "white",
+              },
             },
           },
           outline: {

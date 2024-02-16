@@ -17,7 +17,12 @@ export const MainLayout = () => {
       <Outlet />
       <Footer />
       <ScrollRestoration />
-      <ScrollToTop showUnder={500}>
+      <ScrollToTop
+        style={{
+          zIndex: 997,
+        }}
+        showUnder={500}
+      >
         <IconButton
           aria-label="Scroll to top"
           icon={<Icon fontSize={24} icon="lucide:arrow-up" />}

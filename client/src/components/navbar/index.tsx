@@ -56,10 +56,79 @@ export const Navbar = () => {
     switchConfirmPasswordType,
     isConfirmNewPasswordInvalid,
     isChangingPassword,
+    isMenuesOpen,
+    toggleMenues,
+    onMenuesClose,
   } = useFunctions();
 
   return (
     <>
+      <Flex
+        display={["flex", "flex", "none"]}
+        position="fixed"
+        top="73px"
+        flexDirection="column"
+        p={4}
+        transform={isMenuesOpen ? "translateX(0)" : "translateX(-100%)"}
+        transition="transform 0.3s"
+        right={0}
+        left={0}
+        gap={2}
+        backgroundColor="whiteAlpha.900"
+        backdropFilter="blur(1rem)"
+        _dark={{
+          backgroundColor: "gray.800",
+          borderColor: "whiteAlpha.200",
+        }}
+        zIndex={999}
+        borderBottomRadius="md"
+        borderBottom="1px solid"
+        borderColor="blackAlpha.200"
+      >
+        {menues.map((menu) => (
+          <Button
+            onClick={onMenuesClose}
+            key={menu.url}
+            _activeLink={{
+              color: "brand.700",
+              backgroundColor: "brand.50 !important",
+            }}
+            _dark={{
+              color: "white",
+              _hover: {
+                backgroundColor: "whiteAlpha.200",
+              },
+              _activeLink: {
+                backgroundColor: "whiteAlpha.200 !important",
+              },
+              _active: {
+                backgroundColor: "whiteAlpha.100",
+              },
+            }}
+            fontWeight={400}
+            leftIcon={<Icon fontSize={14} icon={menu.icon} />}
+            variant="ghost"
+            as={NavLink}
+            to={menu.url}
+          >
+            {menu.label}
+          </Button>
+        ))}
+      </Flex>
+      <Box
+        display={["flex", "flex", "none"]}
+        position="fixed"
+        backgroundColor="blackAlpha.600"
+        onClick={onMenuesClose}
+        zIndex={998}
+        left={0}
+        right={0}
+        top={0}
+        bottom={0}
+        opacity={isMenuesOpen ? 1 : 0}
+        transition="opacity 0.3s"
+        pointerEvents={isMenuesOpen ? "auto" : "none"}
+      />
       <Box
         as="nav"
         position="sticky"
@@ -67,7 +136,7 @@ export const Navbar = () => {
         borderBottom="1px solid"
         borderColor="blackAlpha.200"
         backgroundColor="whiteAlpha.900"
-        backdropFilter="blur(0.75rem)"
+        backdropFilter="blur(1rem)"
         _dark={{
           backgroundColor: "gray.800",
           borderColor: "whiteAlpha.200",
@@ -79,11 +148,25 @@ export const Navbar = () => {
           maxWidth="6xl"
           display="flex"
           alignItems="center"
+          width="100%"
           justifyContent="space-between"
         >
-          <Flex gap={2}>
+          <IconButton
+            onClick={toggleMenues}
+            aria-label="เมนู"
+            icon={
+              <Icon
+                fontSize={24}
+                icon={isMenuesOpen ? "lucide:x" : "lucide:menu"}
+              />
+            }
+            variant="ghost"
+            display={["flex", "flex", "none"]}
+          />
+          <Flex gap={2} display={["none", "none", "flex"]}>
             {menues.map((menu) => (
               <Button
+                onClick={onMenuesClose}
                 key={menu.url}
                 _activeLink={{
                   color: "brand.700",

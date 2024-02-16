@@ -32,7 +32,7 @@ export const Home = () => {
             จังหวัดแนะนำ
           </Heading>
         </Flex>
-        <SimpleGrid mb={8} columns={6} gap={2}>
+        <SimpleGrid mb={8} columns={[2, 4, 6]} gap={2}>
           {isProvincesLoading
             ? Array(12)
                 .fill(0)
@@ -70,7 +70,7 @@ export const Home = () => {
               ดูบริษัททั้งหมด
             </Link>
           </Flex>
-          <SimpleGrid columns={3} gap={4}>
+          <SimpleGrid columns={[1, 2, 3]} gap={4}>
             {isLoading
               ? Array(6)
                   .fill(0)

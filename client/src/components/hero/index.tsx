@@ -40,7 +40,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * 0.25,
                 ease: "none",
               },
-              "<",
+              "<"
             )
             .to(
               "#hero2",
@@ -48,7 +48,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * 0.3,
                 ease: "none",
               },
-              "<",
+              "<"
             )
             .to(
               "#hero3",
@@ -56,7 +56,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * 0.125,
                 ease: "none",
               },
-              "<",
+              "<"
             )
             .to(
               "#hero4",
@@ -64,7 +64,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * 0.25,
                 ease: "none",
               },
-              "<",
+              "<"
             )
             .to(
               "#hero5",
@@ -72,7 +72,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * 0.125,
                 ease: "none",
               },
-              "<",
+              "<"
             )
             .to(
               "#hero6",
@@ -80,7 +80,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * -0.075,
                 ease: "none",
               },
-              "<",
+              "<"
             );
         },
       });
@@ -93,7 +93,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<",
+          "<"
         )
         .from(
           "#hero2",
@@ -103,7 +103,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<",
+          "<"
         )
         .from(
           "#hero3",
@@ -113,7 +113,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<",
+          "<"
         )
         .from(
           "#hero4",
@@ -123,7 +123,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<",
+          "<"
         )
         .from(
           "#hero5",
@@ -133,7 +133,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<",
+          "<"
         )
         .from(
           "#hero6",
@@ -143,7 +143,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<",
+          "<"
         )
         .from(
           "#hero-content",
@@ -153,10 +153,10 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<",
+          "<"
         );
     },
-    { scope: container },
+    { scope: container }
   );
   const { queryRef, handleSearchSubmit } = useFunctions();
 
@@ -174,6 +174,7 @@ export const Hero = () => {
       borderBottom="1px solid"
       borderColor="blackAlpha.200"
       py={250}
+      overflow="hidden"
     >
       <Container
         maxWidth="6xl"
@@ -181,7 +182,12 @@ export const Hero = () => {
         display="flex"
         justifyContent="center"
       >
-        <Flex id="hero-content" flexDirection="column" alignItems="center">
+        <Flex
+          id="hero-content"
+          zIndex={12}
+          flexDirection="column"
+          alignItems="center"
+        >
           <Heading mb={2} textAlign="center" fontSize={56} as="h1" zIndex={500}>
             <Text
               display="inline-block"
@@ -243,12 +249,9 @@ export const Hero = () => {
           top="-50%"
           position="absolute"
           width={300}
-          height={200}
+          aspectRatio={4 / 2.5}
           src="/hero/1.jpg"
           boxShadow="base"
-          onLoad={() => {
-            console.log("hi");
-          }}
         />
         <Image
           id="hero2"
@@ -257,8 +260,8 @@ export const Hero = () => {
           left="-5%"
           top="20%"
           position="absolute"
-          width={241}
-          height={145}
+          width={250}
+          aspectRatio={4 / 2.5}
           src="/hero/2.jpg"
           boxShadow="base"
         />
@@ -269,8 +272,8 @@ export const Hero = () => {
           left="-10%"
           top="100%"
           position="absolute"
-          width={228}
-          height={148}
+          width={250}
+          aspectRatio={4 / 2.5}
           src="/hero/3.jpg"
           boxShadow="base"
         />
@@ -281,8 +284,8 @@ export const Hero = () => {
           right="-15%"
           top="-75%"
           position="absolute"
-          width={283}
-          height={189}
+          width={300}
+          aspectRatio={4 / 2.5}
           src="/hero/4.jpg"
           boxShadow="base"
         />
@@ -293,8 +296,8 @@ export const Hero = () => {
           right="-5%"
           top="-10%"
           position="absolute"
-          width={243}
-          height={162}
+          width={250}
+          aspectRatio={4 / 2.5}
           src="/hero/5.jpg"
           boxShadow="base"
         />
@@ -305,8 +308,8 @@ export const Hero = () => {
           right="-15%"
           top="75%"
           position="absolute"
-          width={299}
-          height={199}
+          width={300}
+          aspectRatio={4 / 2.5}
           src="/hero/6.jpg"
           boxShadow="base"
         />

@@ -14,10 +14,10 @@ const useFunctions = () => {
       newPassword: "",
     });
   const [passwordType, setPasswordType] = useState<"text" | "password">(
-    "password",
+    "password"
   );
   const [newPasswordType, setNewPasswordType] = useState<"text" | "password">(
-    "password",
+    "password"
   );
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
   const [confirmNewPasswordType, setConfirmNewPasswordType] = useState<
@@ -25,13 +25,26 @@ const useFunctions = () => {
   >("password");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isMenuesOpen,
+    onOpen: onMenuesOpen,
+    onClose: onMenuesClose,
+  } = useDisclosure();
 
   const { authInfo, setAuthInfo } = useAuth();
+
+  const toggleMenues = () => {
+    if (isMenuesOpen) {
+      onMenuesClose();
+    } else {
+      onMenuesOpen();
+    }
+  };
 
   const isNewPasswordMoreThan8Characters =
     changePasswordData.newPassword.length >= 8;
   const isNewPasswordHas1UpperCase = /[A-Z]/.test(
-    changePasswordData.newPassword,
+    changePasswordData.newPassword
   );
   const isNewPasswordHas1Number = /\d/.test(changePasswordData.newPassword);
   const isNewPasswordHas1SpecialCharacter =
@@ -68,7 +81,7 @@ const useFunctions = () => {
 
   const switchConfirmPasswordType = () => {
     setConfirmNewPasswordType((prev) =>
-      prev === "password" ? "text" : "password",
+      prev === "password" ? "text" : "password"
     );
   };
 
@@ -131,6 +144,9 @@ const useFunctions = () => {
     switchConfirmPasswordType,
     isConfirmNewPasswordInvalid,
     isChangingPassword,
+    isMenuesOpen,
+    toggleMenues,
+    onMenuesClose,
   };
 };
 
