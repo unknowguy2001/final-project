@@ -15,3 +15,7 @@ export const getProvinces = async (config: AxiosRequestConfig) => {
     config
   );
 };
+
+export const getGoogleFormUrl = async () => {
+  return await get<{ url: string }>(`${RESOURCES.COMMON}/google-form-url`);
+};

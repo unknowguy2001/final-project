@@ -1,9 +1,16 @@
 import { useEffect, useRef } from "react";
 import { Link as ReactRouterDomLink } from "react-router-dom";
 import { Box, Container, Flex, Image, Link } from "@chakra-ui/react";
+import { getGoogleFormUrl } from "../../services/commonService";
 
 export const Footer = () => {
   const footerRef = useRef<HTMLDivElement>(null);
+
+  const handleGoogleFormClick = () => {
+    getGoogleFormUrl().then((response) => {
+      window.open(response.data.url, "_blank");
+    });
+  };
 
   useEffect(() => {
     const footerHeight = footerRef.current?.offsetHeight;
@@ -38,7 +45,7 @@ export const Footer = () => {
             <Link to="/forums" as={ReactRouterDomLink}>
               กระทู้
             </Link>
-            <Link>แบบสอบถาม</Link>
+            <Link onClick={handleGoogleFormClick}>แบบสอบถาม</Link>
           </Flex>
         </Flex>
       </Container>

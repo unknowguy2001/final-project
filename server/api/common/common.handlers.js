@@ -33,3 +33,23 @@ module.exports.provinces = async (req, res) => {
     ).slice(0, 10),
   });
 };
+
+module.exports.getGoogleFormUrl = async (req, res) => {
+  const urls = {
+    1: "https://forms.gle/PKyTAbL6zxx2jiPs5", // ผู้ใช้งานที่มีประสบการณ์
+    2: "https://forms.gle/tLKZDn6MuTzm9baCA", // ผู้ดูแลระบบ
+    3: "https://forms.gle/ebWEoJfpLb4gyx6f8", // ผู้ใช้งานที่ไม่มีประสบการณ์
+  };
+  const user = await prisma.user.findFirst({
+    where: {
+      username: req.user.username,
+    },
+    select: {
+      roleId: true,
+    },
+  });
+  const url = urls[user.roleId];
+  res.status(200).json({
+    url,
+  });
+};
