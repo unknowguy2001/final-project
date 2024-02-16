@@ -25,7 +25,7 @@ import { Icon } from "@iconify/react";
 import { Link, NavLink } from "react-router-dom";
 
 import { UserProfile } from "../user-profile";
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import { PasswordChecklist } from "../password-checklist";
 import { PasswordVisibilityToggleButton } from "../password-visibility-toggle-button";
 

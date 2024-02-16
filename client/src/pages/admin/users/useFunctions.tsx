@@ -4,7 +4,7 @@ import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { User } from "../../../interfaces/user";
 import { deleteUser, searchUsers } from "../../../services/usersService";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const [count, setCount] = useState(0);
   const [searchParams] = useSearchParams();
   const [users, setUsers] = useState<User[]>([]);
@@ -50,7 +50,7 @@ export const useFunctions = () => {
         setIsLoading(false);
       }
     },
-    [searchParams, searchQuery]
+    [searchParams, searchQuery],
   );
 
   useEffect(() => {
@@ -71,3 +71,5 @@ export const useFunctions = () => {
     handleDeleteUserClick,
   };
 };
+
+export default useFunctions;

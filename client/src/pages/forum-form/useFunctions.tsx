@@ -6,7 +6,7 @@ import { getForum } from "../../services/forumsService";
 import { create, update } from "../../services/baseService";
 import { CreateForumResponse, ForumData } from "../../interfaces/forum";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const { authInfo } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -88,3 +88,5 @@ export const useFunctions = () => {
     isActionLoading,
   };
 };
+
+export default useFunctions;

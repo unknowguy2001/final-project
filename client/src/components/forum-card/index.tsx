@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 
 import { UserProfile } from "../user-profile";
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import { Forum } from "../../interfaces/forum";
 import { formatDistanceToNow } from "../../utils/dateUtils";
 

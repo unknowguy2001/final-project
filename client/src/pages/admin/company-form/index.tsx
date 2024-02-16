@@ -9,7 +9,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 
 export const AdminCompanyForm = () => {
   const {

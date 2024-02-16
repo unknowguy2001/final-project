@@ -5,10 +5,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { Company, GetCompanyResponse } from "../../interfaces/company";
 import { GetReviewResponse, ReviewData } from "../../interfaces/review";
-import { GetHashtagsResponse, Hashtag } from "../../interfaces/hashtag";
+import { Hashtag } from "../../interfaces/hashtag";
 import { create, get, remove, update } from "../../services/baseService";
+import { getHashtags } from "../../services/commonService";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const [edittingReviewId, setEdittingReviewId] = useState<number | null>(null);
   const { authInfo } = useAuth();
   const { companyId } = useParams<{
@@ -35,21 +36,23 @@ export const useFunctions = () => {
   const generateGoogleMapsUrl = (company: Company | undefined): string => {
     if (!company) return "";
 
+    const { address, road, village, district, province, zipcode, name } =
+      company;
+
     const addressComponents = [
-      company.address,
-      company.road,
-      company.village,
-      company.district,
-      company.province,
-      company.zipcode,
-      company.name,
+      address,
+      road,
+      village,
+      district,
+      province,
+      zipcode,
     ]
-      .map((value) => value?.trim())
-      .filter(Boolean);
+      .filter((value) => value)
+      .map((value) => encodeURIComponent(value.trim()));
 
-    const formattedAddress = addressComponents.join("+");
+    const formattedAddress = `${addressComponents.join("+")}|${encodeURIComponent(name.trim())}`;
 
-    return `https://www.google.com/maps/search/${encodeURI(formattedAddress)}`;
+    return `https://www.google.com/maps/search/${formattedAddress}`;
   };
 
   const isRatingFilterSelected = (rating: number) => {
@@ -150,6 +153,11 @@ export const useFunctions = () => {
     setSelectedHashtags([]);
   };
 
+  const handleGetHashtags = useCallback(async (signal: AbortSignal) => {
+    const response = await getHashtags({ signal });
+    setHashtags(response.data.items);
+  }, []);
+
   const handleGetCompany = useCallback(
     async (signal?: AbortSignal) => {
       if (!companyId) return;
@@ -166,13 +174,6 @@ export const useFunctions = () => {
     },
     [companyId],
   );
-
-  const handleGetHashtags = useCallback(async (signal?: AbortSignal) => {
-    const response = await get<GetHashtagsResponse>("common/hashtags", {
-      signal,
-    });
-    setHashtags(response.data.items);
-  }, []);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -221,3 +222,5 @@ export const useFunctions = () => {
     isEditting,
   };
 };
+
+export default useFunctions;

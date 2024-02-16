@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 import { Hero } from "../../components/hero";
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import CompanyCard from "../../components/company-card";
 
 export const Home = () => {

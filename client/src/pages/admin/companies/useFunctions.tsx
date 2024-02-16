@@ -7,7 +7,7 @@ import {
 } from "../../../services/companiesService";
 import { Company } from "../../../interfaces/company";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const [count, setCount] = useState(0);
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -53,7 +53,7 @@ export const useFunctions = () => {
         setIsLoading(false);
       }
     },
-    [searchParams, searchQuery]
+    [searchParams, searchQuery],
   );
 
   useEffect(() => {
@@ -74,3 +74,5 @@ export const useFunctions = () => {
     handleDeleteCompanyClick,
   };
 };
+
+export default useFunctions;

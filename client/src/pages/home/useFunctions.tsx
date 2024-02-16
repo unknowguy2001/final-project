@@ -5,7 +5,7 @@ import { Company } from "../../interfaces/company";
 import { getProvinces } from "../../services/commonService";
 import { getTopPopularCompanies } from "../../services/companiesService";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const [topPopularCompanies, setTopPopularCompanies] = useState<Company[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -55,3 +55,5 @@ export const useFunctions = () => {
     topPopularCompaniesRef,
   };
 };
+
+export default useFunctions;

@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { LoginData } from "../../interfaces/auth";
 import { login } from "../../services/authService";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const { setAuthInfo } = useAuth();
   const [loginData, setLoginData] = useState<LoginData>({
     username: "",
@@ -12,7 +12,7 @@ export const useFunctions = () => {
   });
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [passwordType, setPasswordType] = useState<"text" | "password">(
-    "password"
+    "password",
   );
 
   const switchPasswordType = () => {
@@ -48,3 +48,5 @@ export const useFunctions = () => {
     handleInputChange,
   };
 };
+
+export default useFunctions;

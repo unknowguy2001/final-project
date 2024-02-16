@@ -12,7 +12,7 @@ import {
 import { Icon } from "@iconify/react";
 import { Rating } from "@smastrom/react-rating";
 
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import { Company } from "../../interfaces/company";
 
 interface CompanyCardProps {

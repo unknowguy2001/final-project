@@ -5,7 +5,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { RegisterData } from "../../interfaces/auth";
 import { register } from "../../services/authService";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const { setAuthInfo } = useAuth();
   const [registerData, setRegisterData] = useState<RegisterData>({
     username: "",
@@ -16,7 +16,7 @@ export const useFunctions = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [passwordType, setPasswordType] = useState<"text" | "password">(
-    "password"
+    "password",
   );
   const [confirmPasswordType, setConfirmPasswordType] = useState<
     "text" | "password"
@@ -34,7 +34,7 @@ export const useFunctions = () => {
 
   const switchConfirmPasswordType = () => {
     setConfirmPasswordType((prev) =>
-      prev === "password" ? "text" : "password"
+      prev === "password" ? "text" : "password",
     );
   };
 
@@ -84,3 +84,5 @@ export const useFunctions = () => {
     isConfirmPasswordInvalid,
   };
 };
+
+export default useFunctions;

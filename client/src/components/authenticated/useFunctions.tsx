@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/useAuth";
 
-export const useFunctions = (shouldBeAdmin: boolean) => {
+const useFunctions = (shouldBeAdmin: boolean) => {
   const navigate = useNavigate();
   const { isFetchingAuthInfo, authInfo } = useAuth();
 
@@ -23,3 +23,5 @@ export const useFunctions = (shouldBeAdmin: boolean) => {
     authInfo,
   };
 };
+
+export default useFunctions;

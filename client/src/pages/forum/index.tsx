@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import { Reply } from "../../components/reply";
 import { Editor } from "../../components/editor";
 import { Pagination } from "../../components/pagination";

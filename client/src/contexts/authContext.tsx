@@ -21,13 +21,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const controller = new AbortController();
 
     const handleGetAuthInfo = async () => {
-      try {
-        const response = await getAuthInfo({ signal: controller.signal });
-        setAuthInfo(response.data);
-        setIsFetchingAuthInfo(false);
-      } catch (error) {
-        //
-      }
+      const response = await getAuthInfo({ signal: controller.signal });
+      setAuthInfo(response.data);
+      setIsFetchingAuthInfo(false);
     };
 
     handleGetAuthInfo();

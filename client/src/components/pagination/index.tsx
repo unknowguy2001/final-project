@@ -1,6 +1,6 @@
 import { Button, Flex, Select, Text } from "@chakra-ui/react";
 
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 
 interface PaginationProps {
   count: number;

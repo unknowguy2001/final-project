@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/useAuth";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const navigate = useNavigate();
   const { isFetchingAuthInfo, authInfo } = useAuth();
 
@@ -18,3 +18,5 @@ export const useFunctions = () => {
     authInfo,
   };
 };
+
+export default useFunctions;

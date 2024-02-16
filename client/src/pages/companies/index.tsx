@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import { Pagination } from "../../components/pagination";
 import { CompanyGrid } from "../../components/company-grid";
 import { CompanyTable } from "../../components/company-table";

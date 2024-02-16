@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const queryRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -18,3 +18,5 @@ export const useFunctions = () => {
     handleSearchSubmit,
   };
 };
+
+export default useFunctions;

@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Link as ReactRouterDomLink } from "react-router-dom";
 
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import { PasswordChecklist } from "../../components/password-checklist";
 import { PasswordVisibilityToggleButton } from "../../components/password-visibility-toggle-button";
 

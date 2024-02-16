@@ -28,7 +28,7 @@ import { Rating } from "@smastrom/react-rating";
 import { Link as ReactRouterDomLink } from "react-router-dom";
 import { ParallaxBanner } from "react-scroll-parallax";
 
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import { RatingSummary } from "../../interfaces/company";
 import { formatDistanceToNow } from "../../utils/dateUtils";
 import { UserProfile } from "../../components/user-profile";

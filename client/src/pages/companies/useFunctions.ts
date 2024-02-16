@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { get } from "../../services/baseService";
 import { Company, SearchCompaniesResponse } from "../../interfaces/company";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -12,7 +12,7 @@ export const useFunctions = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [displayMode, setDisplayMode] = useState<"grid" | "list">(
-    (localStorage.getItem("displayMode") as "grid" | "list") || "grid"
+    (localStorage.getItem("displayMode") as "grid" | "list") || "grid",
   );
 
   const isDisplayMode = (_displayMode: "grid" | "list") => {
@@ -91,3 +91,5 @@ export const useFunctions = () => {
     setDisplayMode,
   };
 };
+
+export default useFunctions;

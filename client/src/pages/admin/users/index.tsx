@@ -18,7 +18,7 @@ import {
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import { Pagination } from "../../../components/pagination";
 
 export const AdminUsers = () => {

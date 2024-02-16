@@ -6,7 +6,7 @@ import { ChangePasswordData } from "../../interfaces/auth";
 import { changePassword } from "../../services/authService";
 import { toast } from "sonner";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [changePasswordData, setChangePasswordData] =
     useState<ChangePasswordData>({
@@ -133,3 +133,5 @@ export const useFunctions = () => {
     isChangingPassword,
   };
 };
+
+export default useFunctions;

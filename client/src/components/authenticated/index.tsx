@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 import { Loader } from "../loader";
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 
 interface AuthenticatedProps {
   children: ReactNode;

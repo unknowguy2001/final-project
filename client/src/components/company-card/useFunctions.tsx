@@ -7,7 +7,7 @@ interface UseFunctionsProps {
   company: Company;
 }
 
-export const useFunctions = ({ company }: UseFunctionsProps) => {
+const useFunctions = ({ company }: UseFunctionsProps) => {
   const navigate = useNavigate();
   const cardRef = useRef<HTMLDivElement>(null);
   const floatingCircleRef = useRef<HTMLDivElement>(null);
@@ -56,3 +56,5 @@ export const useFunctions = ({ company }: UseFunctionsProps) => {
     handleMouseLeave,
   };
 };
+
+export default useFunctions;

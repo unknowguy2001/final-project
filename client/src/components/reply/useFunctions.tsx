@@ -15,10 +15,7 @@ interface UseFunctionsProps {
   handleSearchReplies: () => void;
 }
 
-export const useFunctions = ({
-  reply,
-  handleSearchReplies,
-}: UseFunctionsProps) => {
+const useFunctions = ({ reply, handleSearchReplies }: UseFunctionsProps) => {
   const { authInfo } = useAuth();
   const [edittingReplyId, setEdittingReplyId] = useState<number | null>(null);
   const [edittingComment, setEdittingComment] = useState<string>("");
@@ -145,3 +142,5 @@ export const useFunctions = ({
     deletingReplyId,
   };
 };
+
+export default useFunctions;

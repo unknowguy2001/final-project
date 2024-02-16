@@ -8,7 +8,7 @@ import {
 } from "../../../services/companiesService";
 import { CompanyData } from "../../../interfaces/company";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const navigate = useNavigate();
   const { companyId } = useParams<{
     companyId: string;
@@ -79,3 +79,5 @@ export const useFunctions = () => {
     handleCancelClick,
   };
 };
+
+export default useFunctions;

@@ -9,7 +9,7 @@ import { deleteForum, getForum } from "../../services/forumsService";
 import { createReply, searchReplies } from "../../services/repliesService";
 import { useDisclosure } from "@chakra-ui/react";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const { authInfo } = useAuth();
   const navigate = useNavigate();
   const [comment, setComment] = useState<string>("");
@@ -134,3 +134,5 @@ export const useFunctions = () => {
     isFirstLoad,
   };
 };
+
+export default useFunctions;

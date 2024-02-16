@@ -5,7 +5,7 @@ const DEFAULT_PER_PAGE = 12;
 interface UseFunctionsProps {
   count: number;
 }
-export const useFunctions = ({ count }: UseFunctionsProps) => {
+const useFunctions = ({ count }: UseFunctionsProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = parseInt(searchParams.get("page")!) || 1;
@@ -65,3 +65,5 @@ export const useFunctions = ({ count }: UseFunctionsProps) => {
     perPage,
   };
 };
+
+export default useFunctions;

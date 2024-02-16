@@ -19,7 +19,7 @@ import {
 import { Icon } from "@iconify/react";
 
 import { UserProfile } from "../user-profile";
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import { Reply as IReply } from "../../interfaces/reply";
 import { formatDistanceToNow } from "../../utils/dateUtils";
 

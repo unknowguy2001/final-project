@@ -10,7 +10,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import { UserData } from "../../../interfaces/user";
 
 export const AdminUserForm = () => {

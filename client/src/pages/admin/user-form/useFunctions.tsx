@@ -6,7 +6,7 @@ import { getRoles } from "../../../services/commonService";
 import { UpdateUserData, UserData } from "../../../interfaces/user";
 import { addUser, getUser, updateUser } from "../../../services/usersService";
 
-export const useFunctions = () => {
+const useFunctions = () => {
   const location = useLocation();
   const mode = location.pathname.includes("new") ? "new" : "edit";
   const isNewMode = mode === "new";
@@ -107,3 +107,5 @@ export const useFunctions = () => {
     handleCancelClick,
   };
 };
+
+export default useFunctions;

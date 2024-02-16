@@ -11,7 +11,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { useFunctions } from "./useFunctions";
+import useFunctions from "./useFunctions";
 import { ForumCard } from "../../components/forum-card";
 import { Pagination } from "../../components/pagination";
 import { SearchNotFound } from "../../components/search-not-found";
