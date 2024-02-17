@@ -1,8 +1,20 @@
 const { prisma } = require("../../utils/prisma");
+const { connectRedis } = require("../../utils/redis");
 
 const { DEFAULT_PER_PAGE } = require("../../constants/pagination");
 
-module.exports.getTopPopular = async (req, res) => {
+const getTopPopular = async (req, res) => {
+  const redis = await connectRedis();
+  const cacheKey = "top-popular-companies";
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    redis.disconnect();
+    return res.status(200).json({
+      items: JSON.parse(cachedData),
+    });
+  }
+
   const popularCompanies = await prisma.company.findMany({
     take: 6,
     orderBy: {
@@ -22,12 +34,16 @@ module.exports.getTopPopular = async (req, res) => {
       };
     })
   );
+
+  await redis.set(cacheKey, JSON.stringify(popularCompaniesWithReviewCount));
+  redis.disconnect();
+
   res.status(200).json({
     items: popularCompaniesWithReviewCount,
   });
 };
 
-module.exports.getCompanyById = async (req, res) => {
+const getCompanyById = async (req, res) => {
   const { id } = req.params;
 
   const companyId = Number(id);
@@ -147,7 +163,7 @@ module.exports.getCompanyById = async (req, res) => {
   });
 };
 
-module.exports.addCompany = async (req, res) => {
+const createCompany = async (req, res) => {
   const {
     name,
     address,
@@ -204,7 +220,7 @@ module.exports.addCompany = async (req, res) => {
   return res.status(201).json({ message: "Added company!" });
 };
 
-module.exports.searchCompanies = async (req, res) => {
+const searchCompanies = async (req, res) => {
   const searchQuery = req.query.searchQuery || "";
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const perPage = Math.max(
@@ -260,7 +276,7 @@ module.exports.searchCompanies = async (req, res) => {
   res.status(200).json({ items: companiesWithReviewCount, count });
 };
 
-module.exports.updateCompany = async (req, res) => {
+const updateCompany = async (req, res) => {
   const {
     name,
     address,
@@ -319,7 +335,7 @@ module.exports.updateCompany = async (req, res) => {
   res.status(200).json({ message: "Updated compnay!" });
 };
 
-module.exports.deleteCompany = async (req, res) => {
+const deleteCompany = async (req, res) => {
   if (isNaN(Number(req.params.id))) {
     return res.status(400).json({ message: "ID is empty or incorrect ID!" });
   }
@@ -333,4 +349,13 @@ module.exports.deleteCompany = async (req, res) => {
   }
 
   res.status(200).json({ message: "Deleted company!" });
+};
+
+module.exports = {
+  getTopPopular,
+  getCompanyById,
+  createCompany,
+  searchCompanies,
+  updateCompany,
+  deleteCompany,
 };

@@ -1,4 +1,4 @@
-module.exports.requireCompanyId = async (req, res, next) => {
+const requireCompanyId = async (req, res, next) => {
   const { companyId } = req.params;
 
   const parsedCompanyId = parseInt(companyId);
@@ -13,4 +13,8 @@ module.exports.requireCompanyId = async (req, res, next) => {
   req.parsedCompanyId = parsedCompanyId;
 
   next();
+};
+
+module.exports = {
+  requireCompanyId,
 };

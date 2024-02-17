@@ -47,12 +47,11 @@ services:
     ports:
       - "5432:5432"
 
-  adminer:
-    image: adminer
-    container_name: adminer
-    restart: always
+  redis:
+    image: redis
+    container_name: redis
     ports:
-      - 8080:8080
+      - 6379:6379
 
 volumes:
   caddy_data:

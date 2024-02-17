@@ -1,6 +1,6 @@
 const { prisma } = require("../utils/prisma");
 
-module.exports.checkNeverReview = async (req, res, next) => {
+const checkNeverReview = async (req, res, next) => {
   const { companyId } = req.params;
 
   const parsedCompanyId = parseInt(companyId);
@@ -23,4 +23,8 @@ module.exports.checkNeverReview = async (req, res, next) => {
   }
 
   next();
+};
+
+module.exports = {
+  checkNeverReview,
 };

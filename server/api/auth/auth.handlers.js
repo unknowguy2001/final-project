@@ -3,7 +3,7 @@ const argon2 = require("argon2");
 const { prisma } = require("../../utils/prisma");
 const { verifyToken, generateToken } = require("../../utils/token");
 
-module.exports.login = async (req, res) => {
+const login = async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -56,7 +56,7 @@ module.exports.login = async (req, res) => {
   }
 };
 
-module.exports.register = async (req, res) => {
+const register = async (req, res) => {
   const { username, password, firstName, lastName } = req.body;
 
   try {
@@ -133,7 +133,7 @@ module.exports.register = async (req, res) => {
   }
 };
 
-module.exports.refresh = async (req, res) => {
+const refresh = async (req, res) => {
   try {
     const refreshToken = req.body.refreshToken;
 
@@ -164,7 +164,7 @@ module.exports.refresh = async (req, res) => {
   }
 };
 
-module.exports.getAuthInfo = async (req, res) => {
+const getAuthInfo = async (req, res) => {
   try {
     const accessToken = req.headers.authorization.split(" ")[1];
 
@@ -213,7 +213,7 @@ module.exports.getAuthInfo = async (req, res) => {
   }
 };
 
-module.exports.changePassword = async (req, res) => {
+const changePassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
   try {
@@ -272,4 +272,12 @@ module.exports.changePassword = async (req, res) => {
       message: error.message || "Change password failed",
     });
   }
+};
+
+module.exports = {
+  login,
+  register,
+  refresh,
+  getAuthInfo,
+  changePassword,
 };

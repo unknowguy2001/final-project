@@ -12,11 +12,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
-  adminer:
-    image: adminer
-    restart: always
+  redis:
+    image: redis
+    container_name: redis
     ports:
-      - 8080:8080
+      - 6379:6379
 
 volumes:
   postgres_data:

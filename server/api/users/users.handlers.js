@@ -3,7 +3,7 @@ const argon2 = require("argon2");
 const { prisma } = require("../../utils/prisma");
 const { DEFAULT_PER_PAGE } = require("../../constants/pagination");
 
-module.exports.searchUsers = async (req, res) => {
+const searchUsers = async (req, res) => {
   const searchQuery = req.query.searchQuery || "";
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const perPage = Math.max(
@@ -48,7 +48,7 @@ module.exports.searchUsers = async (req, res) => {
   res.status(200).json({ items: users, count });
 };
 
-module.exports.addUser = async (req, res) => {
+const createUser = async (req, res) => {
   try {
     const { username, fullname, password, roleId } = req.body;
     const hashedPassword = await argon2.hash(password);
@@ -70,18 +70,11 @@ module.exports.addUser = async (req, res) => {
   }
 };
 
-module.exports.deleteUser = async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
-    const userId = req.params.userId;
-    if (!userId) {
-      return res.status(400).json({
-        message: "Missing userId",
-      });
-    }
-    const parsedUserId = parseInt(userId);
     await prisma.user.delete({
       where: {
-        id: parsedUserId,
+        id: req.userId,
       },
     });
     res.status(200).json({
@@ -94,18 +87,11 @@ module.exports.deleteUser = async (req, res) => {
   }
 };
 
-module.exports.getUser = async (req, res) => {
+const getUser = async (req, res) => {
   try {
-    const userId = req.params.userId;
-    if (!userId) {
-      return res.status(400).json({
-        message: "Missing userId",
-      });
-    }
-    const parsedUserId = parseInt(userId);
-    const user = await prisma.user.findUnique({
+    await prisma.user.findUnique({
       where: {
-        id: parsedUserId,
+        id: req.userId,
       },
       select: {
         id: true,
@@ -119,11 +105,6 @@ module.exports.getUser = async (req, res) => {
         },
       },
     });
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
     res.status(200).json({
       item: user,
     });
@@ -134,25 +115,17 @@ module.exports.getUser = async (req, res) => {
   }
 };
 
-module.exports.updateUser = async (req, res) => {
+const updateUser = async (req, res) => {
   try {
-    const userId = req.params.userId;
-    if (!userId) {
-      return res.status(400).json({
-        message: "Missing userId",
-      });
-    }
-    const parsedUserId = parseInt(userId);
     const { username, fullname, roleId } = req.body;
-    const parsedRoleId = parseInt(roleId);
     await prisma.user.update({
       where: {
-        id: parsedUserId,
+        id: req.userId,
       },
       data: {
         username,
         fullname,
-        roleId: parsedRoleId,
+        roleId: parseInt(roleId),
       },
     });
     res.status(200).json({
@@ -163,4 +136,12 @@ module.exports.updateUser = async (req, res) => {
       message: "Something went wrong",
     });
   }
+};
+
+module.exports = {
+  searchUsers,
+  createUser,
+  deleteUser,
+  getUser,
+  updateUser,
 };

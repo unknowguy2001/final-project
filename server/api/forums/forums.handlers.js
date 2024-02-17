@@ -2,7 +2,7 @@ const { prisma } = require("../../utils/prisma");
 
 const { DEFAULT_PER_PAGE } = require("../../constants/pagination");
 
-module.exports.searchForums = async (req, res) => {
+const searchForums = async (req, res) => {
   try {
     const page = Math.max(parseInt(req.query.page) || 1, 1);
     const perPage = Math.max(
@@ -38,7 +38,7 @@ module.exports.searchForums = async (req, res) => {
   }
 };
 
-module.exports.getForumById = async (req, res) => {
+const getForumById = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -62,7 +62,7 @@ module.exports.getForumById = async (req, res) => {
   }
 };
 
-module.exports.createForum = async (req, res) => {
+const createForum = async (req, res) => {
   try {
     const { title, description } = req.body;
     const isValid = title && description;
@@ -92,7 +92,7 @@ module.exports.createForum = async (req, res) => {
   }
 };
 
-module.exports.deleteForum = async (req, res) => {
+const deleteForum = async (req, res) => {
   try {
     const { id } = req.params;
     const parsedForumId = Number(id);
@@ -115,7 +115,7 @@ module.exports.deleteForum = async (req, res) => {
   }
 };
 
-module.exports.updateForum = async (req, res) => {
+const updateForum = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description } = req.body;
@@ -141,4 +141,12 @@ module.exports.updateForum = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: `Error: ${error.message}` });
   }
+};
+
+module.exports = {
+  searchForums,
+  getForumById,
+  createForum,
+  deleteForum,
+  updateForum,
 };

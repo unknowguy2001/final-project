@@ -1,6 +1,6 @@
 const { prisma } = require("../utils/prisma");
 
-module.exports.authorization = (roleId) => {
+const authorization = (roleId) => {
   return async (req, res, next) => {
     try {
       const user = await getUserByUsername(req.user.username);
@@ -27,4 +27,8 @@ const getUserByUsername = async (username) => {
       username: username,
     },
   });
+};
+
+module.exports = {
+  authorization,
 };

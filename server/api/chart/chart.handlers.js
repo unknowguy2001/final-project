@@ -1,6 +1,6 @@
 const { prisma } = require("../../utils/prisma");
 
-module.exports.hashtags = async (req, res) => {
+const hashtags = async (req, res) => {
   const hashtags = await prisma.hashtag.findMany({});
   const data = [];
   const colors = ["#FF6633", "#FFB399", "#FF33FF", "#FFFF99", "#00B3E6"];
@@ -19,7 +19,7 @@ module.exports.hashtags = async (req, res) => {
   res.json(data);
 };
 
-module.exports.roles = async (req, res) => {
+const roles = async (req, res) => {
   const roles = await prisma.role.findMany({
     orderBy: {
       sequence: "asc",
@@ -40,4 +40,9 @@ module.exports.roles = async (req, res) => {
     });
   }
   res.json(data);
+};
+
+module.exports = {
+  hashtags,
+  roles,
 };
