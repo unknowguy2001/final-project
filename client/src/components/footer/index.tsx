@@ -12,13 +12,23 @@ export const Footer = () => {
     });
   };
 
-  useEffect(() => {
+  const calculatePaddingBottom = () => {
     const footerHeight = footerRef.current?.offsetHeight;
     document.body.style.paddingBottom = `${footerHeight || 0}px`;
+  };
+
+  useEffect(() => {
+    calculatePaddingBottom();
 
     return () => {
-      document.body.style.paddingBottom = "0";
+      document.body.style.paddingBottom = "0px";
     };
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", calculatePaddingBottom);
+
+    return () => document.removeEventListener("resize", calculatePaddingBottom);
   }, []);
 
   return (
