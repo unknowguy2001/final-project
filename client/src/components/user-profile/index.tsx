@@ -18,7 +18,7 @@ export const UserProfile = ({
     avatarSize = 48;
   }
   return (
-    <Flex gap={2} align="center">
+    <Flex flexWrap="wrap" gap={2} align="center">
       <Box
         dangerouslySetInnerHTML={{
           __html: avatar(fullname, {

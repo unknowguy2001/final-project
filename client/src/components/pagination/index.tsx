@@ -23,22 +23,29 @@ export const Pagination = ({ count }: PaginationProps) => {
   return (
     <>
       {totalPages > 1 && (
-        <Flex zIndex={1} justifyContent="space-between" alignItems="center">
+        <Flex
+          zIndex={1}
+          gap={[4, 4, 8]}
+          flexWrap="wrap"
+          justifyContent={["center", "center", "center", "space-between"]}
+          alignItems="center"
+        >
           <Flex gap={4} alignItems="center">
             <Text>แสดง</Text>
             <Select
+              size={["sm", "md"]}
               value={perPage}
               onChange={handlePerPageChange}
-              width="150px"
             >
               <option value="12">12</option>
               <option value="24">24</option>
               <option value="36">36</option>
             </Select>
-            <Text width="100%">รายการต่อหน้า</Text>
+            <Text whiteSpace="nowrap">รายการต่อหน้า</Text>
           </Flex>
           <Flex gap={4} alignItems="center">
             <Button
+              size={["sm", "md"]}
               variant="outline"
               onClick={handleFirstClick}
               isDisabled={isFirstPage}
@@ -46,6 +53,7 @@ export const Pagination = ({ count }: PaginationProps) => {
               แรกสุด
             </Button>
             <Button
+              size={["sm", "md"]}
               variant="outline"
               onClick={handlePreviousClick}
               isDisabled={isFirstPage}
@@ -56,6 +64,7 @@ export const Pagination = ({ count }: PaginationProps) => {
               {page} / {totalPages}
             </Text>
             <Button
+              size={["sm", "md"]}
               variant="outline"
               onClick={handleNextClick}
               isDisabled={isFinalPage}
@@ -63,6 +72,7 @@ export const Pagination = ({ count }: PaginationProps) => {
               ถัดไป
             </Button>
             <Button
+              size={["sm", "md"]}
               variant="outline"
               onClick={handleLastClick}
               isDisabled={isFinalPage}
