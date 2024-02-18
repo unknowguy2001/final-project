@@ -8,9 +8,9 @@ services:
     cap_add:
       - NET_ADMIN
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+      - 80:80
+      - 443:443
+      - 443:443/udp
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
@@ -21,7 +21,7 @@ services:
     build:
       context: ./client
     ports:
-      - "5173:5173"
+      - 5173:5173
     depends_on:
       - server
 
@@ -30,9 +30,19 @@ services:
     build:
       context: ./server
     ports:
-      - "3000:3000"
+      - 3000:3000
+    environment:
+      PORT: ${SERVER_PORT}
+      JWT_ACCESS_TOKEN_SECRET: ${JWT_ACCESS_TOKEN_SECRET}
+      JWT_REFRESH_TOKEN_SECRET: ${JWT_REFRESH_TOKEN_SECRET}
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+
     depends_on:
       - postgres
+      - redis
 
   postgres:
     image: postgres:latest
@@ -45,11 +55,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - 5432:5432
 
   redis:
     image: redis
     container_name: redis
+    restart: always
     ports:
       - 6379:6379
 
