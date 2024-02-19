@@ -13,7 +13,7 @@ export const AuthLayout = () => {
             <Outlet />
           </Flex>
         </Flex>
-        <Box pos="relative" flex={1}>
+        <Box pos="relative" flex={[0, 0, 0, 1]}>
           <Image
             src="/science-and-technology-building.jpg"
             objectFit="cover"
