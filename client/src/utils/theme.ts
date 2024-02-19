@@ -44,16 +44,7 @@ export const theme = extendTheme(
             _dark: {
               color: "white",
               _hover: {
-                color: "white",
-              },
-            },
-          },
-          outline: {
-            _dark: {
-              color: "white",
-              borderColor: "brand.500",
-              _hover: {
-                bg: "gray.700",
+                backgroundColor: "gray.700",
               },
             },
           },
@@ -89,5 +80,5 @@ export const theme = extendTheme(
       },
     },
   },
-  withDefaultColorScheme({ colorScheme: "brand" })
+  withDefaultColorScheme({ colorScheme: "brand" }),
 );

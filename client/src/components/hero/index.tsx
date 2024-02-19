@@ -40,7 +40,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * 0.25,
                 ease: "none",
               },
-              "<"
+              "<",
             )
             .to(
               "#hero2",
@@ -48,7 +48,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * 0.3,
                 ease: "none",
               },
-              "<"
+              "<",
             )
             .to(
               "#hero3",
@@ -56,7 +56,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * 0.125,
                 ease: "none",
               },
-              "<"
+              "<",
             )
             .to(
               "#hero4",
@@ -64,7 +64,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * 0.25,
                 ease: "none",
               },
-              "<"
+              "<",
             )
             .to(
               "#hero5",
@@ -72,7 +72,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * 0.125,
                 ease: "none",
               },
-              "<"
+              "<",
             )
             .to(
               "#hero6",
@@ -80,7 +80,7 @@ export const Hero = () => {
                 y: container.current!.offsetHeight * -0.075,
                 ease: "none",
               },
-              "<"
+              "<",
             );
         },
       });
@@ -93,7 +93,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<"
+          "<",
         )
         .from(
           "#hero2",
@@ -103,7 +103,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<"
+          "<",
         )
         .from(
           "#hero3",
@@ -113,7 +113,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<"
+          "<",
         )
         .from(
           "#hero4",
@@ -123,7 +123,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<"
+          "<",
         )
         .from(
           "#hero5",
@@ -133,7 +133,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<"
+          "<",
         )
         .from(
           "#hero6",
@@ -143,7 +143,7 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<"
+          "<",
         )
         .from(
           "#hero-content",
@@ -153,10 +153,10 @@ export const Hero = () => {
             duration: 1,
             ease: "power1.inOut",
           },
-          "<"
+          "<",
         );
     },
-    { scope: container }
+    { scope: container },
   );
   const { queryRef, handleSearchSubmit } = useFunctions();
 
@@ -164,7 +164,7 @@ export const Hero = () => {
     <Box
       id="hero"
       ref={container}
-      backgroundImage="radial-gradient(#fffef3 10%, #fdfaff 10%, #fdf9ff 90%, #fffef3 90%);"
+      backgroundImage="radial-gradient(#fffbcb 10%, #fdfaff 10%, #fdf9ff 90%, #fffbcb 90%)"
       _dark={{
         backgroundImage:
           "radial-gradient(#1A202C 10%, #2D3748 10%, #2D3748 90%, #1A202C 90%)",

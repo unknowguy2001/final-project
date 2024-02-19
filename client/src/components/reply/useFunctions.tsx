@@ -108,13 +108,13 @@ const useFunctions = ({ reply, handleSearchReplies }: UseFunctionsProps) => {
       setIsCommentUpdating(true);
       const data = { description: edittingComment };
       await updateReply(reply.forumId, edittingReplyId, data);
-    } catch (error) {
-      console.error(error);
-    } finally {
       setEdittingComment("");
       setEdittingReplyId(null);
       handleSearchReplies();
       onClose();
+    } catch (error) {
+      console.error(error);
+    } finally {
       setIsCommentUpdating(false);
     }
   };

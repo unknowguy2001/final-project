@@ -68,7 +68,7 @@ export const Company = () => {
       <ParallaxBanner
         layers={[
           {
-            image: "/company-high.jpeg",
+            image: "/company-high.jpg",
             speed: 10,
           },
         ]}

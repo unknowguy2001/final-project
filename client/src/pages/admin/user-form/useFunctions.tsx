@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { Role } from "../../../interfaces/role";
@@ -41,7 +41,8 @@ const useFunctions = () => {
     }));
   };
 
-  const handleActionClick = async () => {
+  const handleActionClick = async (e: FormEvent) => {
+    e.preventDefault();
     if (isNewMode) {
       await addUser(userData as UserData);
     } else {

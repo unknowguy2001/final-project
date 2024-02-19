@@ -6,6 +6,8 @@ const checkUserId = (req, res, next) => {
     });
   }
   req.userId = parseInt(userId);
+
+  next();
 };
 
 module.exports = {

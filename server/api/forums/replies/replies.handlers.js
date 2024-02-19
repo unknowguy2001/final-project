@@ -8,7 +8,7 @@ const searchReplies = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const perPage = Math.max(
     parseInt(req.query.perPage) || DEFAULT_PER_PAGE,
-    DEFAULT_PER_PAGE
+    DEFAULT_PER_PAGE,
   );
   const options = {
     take: perPage,
@@ -49,18 +49,18 @@ const createReply = async (req, res) => {
     const replyId = Number(req.query.replyId);
 
     if (!description) {
-      return res.status(400).json({ message: "Fields are must not be empty!" });
+      return res.status(400).json({ message: "กรุณากรอกข้อมูลให้ครบถ้วน" });
     }
 
     if (isNaN(parsedForumId)) {
-      return res.status(400).json({ message: "Id must be a number" });
+      return res.status(400).json({ message: "Id ควรเป็นตัวเลข" });
     }
 
     const words = thaiCut.cut(description);
 
     for (let i = 0; i < words.length; i++) {
       if (badWords.includes(words[i].toLowerCase())) {
-        return res.status(400).json({ message: "Bad words are not allowed!" });
+        return res.status(400).json({ message: "มีคำหยาบในข้อความ" });
       }
     }
 
@@ -75,10 +75,10 @@ const createReply = async (req, res) => {
     });
 
     if (!reply) {
-      return res.status(400).json({ message: "Can't reply forum!" });
+      return res.status(400).json({ message: "ไม่สามารถตอบกระทู้ได้" });
     }
 
-    res.status(200).json({ message: "Replyed forum!" });
+    res.status(200).json({ message: "ตอบกระทู้สำเร็จ!" });
   } catch (error) {
     res.status(500).json({ message: `Error : ${error.message}` });
   }
@@ -90,6 +90,15 @@ const updateReply = async (req, res) => {
     const parsedReplyId = Number(id);
     const parsedForumId = Number(forumId);
 
+    const description = req.body.description;
+    const words = thaiCut.cut(description);
+
+    for (let i = 0; i < words.length; i++) {
+      if (badWords.includes(words[i].toLowerCase())) {
+        return res.status(400).json({ message: "มีคำหยาบในข้อความ" });
+      }
+    }
+
     await prisma.reply.update({
       where: {
         id: parsedReplyId,
@@ -97,11 +106,11 @@ const updateReply = async (req, res) => {
         createdByUsername: req.user.username,
       },
       data: {
-        description: req.body.description,
+        description,
       },
     });
 
-    res.status(200).json({ message: "Updated reply!" });
+    res.status(200).json({ message: "อัพเดทข้อความสำเร็จ!" });
   } catch (error) {
     res.status(500).json({ message: `Error : ${error.message}` });
   }
@@ -113,7 +122,7 @@ const deleteReply = async (req, res) => {
     const replyId = Number(id);
 
     if (isNaN(replyId) && isNaN(Number(forumId))) {
-      return res.status(400).json({ message: "Id must be a number" });
+      return res.status(400).json({ message: "Id ควรเป็นตัวเลข" });
     }
 
     const replyInfo = await prisma.reply.findUnique({
@@ -123,17 +132,17 @@ const deleteReply = async (req, res) => {
     if (!replyInfo) {
       return res
         .status(400)
-        .json({ message: "This reply doesn't really exist." });
+        .json({ message: "ไม่พบข้อมูลของ reply ที่ต้องการลบ" });
     }
 
     if (req.user.username != replyInfo.createdByUsername) {
-      return res.status(400).json({ message: "This is not your reply!" });
+      return res.status(400).json({ message: "ไม่สามารถลบ reply ของผู้อื่น" });
     }
 
     const reply = await prisma.reply.delete({ where: { id: replyId } });
 
     if (!reply) {
-      return res.status(400).json({ message: "Can't delete reply forum!" });
+      return res.status(400).json({ message: "ไม่สามารถลบ reply ได้" });
     }
 
     const childReplies = await prisma.reply.deleteMany({
@@ -141,10 +150,12 @@ const deleteReply = async (req, res) => {
     });
 
     if (!childReplies) {
-      return res.status(400).json({ message: "Can't delete child replies!" });
+      return res
+        .status(400)
+        .json({ message: "ไม่สามารถลบ reply ลูกของ reply ได้" });
     }
 
-    res.status(200).json({ message: "Deleted reply!" });
+    res.status(200).json({ message: "ลบ reply สำเร็จ!" });
   } catch (error) {
     res.status(500).json({ message: `Error: ${error.message}` });
   }

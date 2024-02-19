@@ -163,75 +163,71 @@ export const Reply = ({ reply, handleSearchReplies }: ReplyProps) => {
         <Box overflow="hidden">
           <Stack pt={4} gap={4}>
             {reply.childReplies.map((childReply) => (
-              <Box
-                key={childReply.id}
-                backgroundColor="gray.50"
-                position="relative"
-                borderRadius="md"
-                border="1px solid"
-                borderColor="gray.200"
-                padding="20px"
-                ml={8}
-              >
-                <Flex
-                  justifyContent="space-between"
-                  gap={4}
-                  alignItems="center"
-                >
-                  <Flex gap={4} align="center">
-                    <UserProfile
-                      fullname={childReply?.createdByName}
-                      verticalInfo
-                      rightNode={
-                        <Text fontSize="sm" color="gray.500">
-                          {formatDistanceToNow(childReply?.createdAt)}
-                        </Text>
-                      }
-                    />
-                    {authInfo.user?.username ===
-                      childReply.createdByUsername && (
-                      <Flex>
-                        <IconButton
-                          isDisabled={
-                            isCommentDeleting &&
-                            deletingReplyId === childReply.id
-                          }
-                          onClick={() => handleEditReplyClick(childReply)}
-                          aria-label="edit"
-                          icon={<Icon icon="lucide:pen" />}
-                          variant="ghost"
-                          size="sm"
-                        />
-                        <IconButton
-                          isLoading={
-                            isCommentDeleting &&
-                            deletingReplyId === childReply.id
-                          }
-                          onClick={() =>
-                            handleDeleteReplyClick(reply.forumId, childReply.id)
-                          }
-                          aria-label="delete"
-                          icon={<Icon icon="lucide:trash" />}
-                          variant="ghost"
-                          size="sm"
-                        />
-                      </Flex>
-                    )}
-                  </Flex>
-                  <Button
-                    isDisabled={
-                      isCommentDeleting && deletingReplyId === childReply.id
-                    }
-                    onClick={handleReplyClick}
-                    leftIcon={<Icon icon="lucide:reply" />}
-                    size="sm"
-                    variant="link"
+              <Card ml={8} key={childReply.id} variant="outline">
+                <CardBody>
+                  <Flex
+                    justifyContent="space-between"
+                    gap={4}
+                    alignItems="center"
                   >
-                    ตอบกลับ
-                  </Button>
-                </Flex>
-                <Text mt={3}>{childReply.description}</Text>
-              </Box>
+                    <Flex gap={4} align="center">
+                      <UserProfile
+                        fullname={childReply?.createdByName}
+                        verticalInfo
+                        rightNode={
+                          <Text fontSize="sm" color="gray.500">
+                            {formatDistanceToNow(childReply?.createdAt)}
+                          </Text>
+                        }
+                      />
+                      {authInfo.user?.username ===
+                        childReply.createdByUsername && (
+                        <Flex>
+                          <IconButton
+                            isDisabled={
+                              isCommentDeleting &&
+                              deletingReplyId === childReply.id
+                            }
+                            onClick={() => handleEditReplyClick(childReply)}
+                            aria-label="edit"
+                            icon={<Icon icon="lucide:pen" />}
+                            variant="ghost"
+                            size="sm"
+                          />
+                          <IconButton
+                            isLoading={
+                              isCommentDeleting &&
+                              deletingReplyId === childReply.id
+                            }
+                            onClick={() =>
+                              handleDeleteReplyClick(
+                                reply.forumId,
+                                childReply.id,
+                              )
+                            }
+                            aria-label="delete"
+                            icon={<Icon icon="lucide:trash" />}
+                            variant="ghost"
+                            size="sm"
+                          />
+                        </Flex>
+                      )}
+                    </Flex>
+                    <Button
+                      isDisabled={
+                        isCommentDeleting && deletingReplyId === childReply.id
+                      }
+                      onClick={handleReplyClick}
+                      leftIcon={<Icon icon="lucide:reply" />}
+                      size="sm"
+                      variant="link"
+                    >
+                      ตอบกลับ
+                    </Button>
+                  </Flex>
+                  <Text mt={3}>{childReply.description}</Text>
+                </CardBody>
+              </Card>
             ))}
           </Stack>
         </Box>

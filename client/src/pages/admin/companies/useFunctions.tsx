@@ -9,7 +9,7 @@ import { Company } from "../../../interfaces/company";
 
 const useFunctions = () => {
   const [count, setCount] = useState(0);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -63,6 +63,15 @@ const useFunctions = () => {
 
     return () => abortController.abort();
   }, [searchQuery, searchParams, handleSearchCompanies]);
+
+  useEffect(() => {
+    if (count === 0) return;
+    const page = parseInt(searchParams.get("page")!) || 1;
+    const perPage = parseInt(searchParams.get("perPage")!) || 12;
+    if (page < 1 || page > Math.ceil(count / perPage)) {
+      setSearchParams({ page: "1" });
+    }
+  }, [count, searchParams, setSearchParams]);
 
   return {
     companies,

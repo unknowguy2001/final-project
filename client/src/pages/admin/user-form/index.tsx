@@ -24,7 +24,12 @@ export const AdminUserForm = () => {
   } = useFunctions();
 
   return (
-    <Container as="main" paddingY={8} maxWidth="6xl">
+    <Container
+      as="form"
+      onSubmit={handleActionClick}
+      paddingY={8}
+      maxWidth="6xl"
+    >
       <Stack spacing={4}>
         <Heading as="h1" fontSize="2xl">
           {isNewMode ? "เพิ่มผู้ใช้ใหม่" : "แก้ไขผู้ใช้"}
@@ -32,6 +37,7 @@ export const AdminUserForm = () => {
         <FormControl>
           <FormLabel>ชื่อผู้ใช้</FormLabel>
           <Input
+            required
             name="username"
             value={userData.username}
             onChange={handleChange}
@@ -42,6 +48,7 @@ export const AdminUserForm = () => {
           <FormControl>
             <FormLabel>Password</FormLabel>
             <Input
+              required
               name="password"
               value={(userData as UserData).password}
               onChange={handleChange}
@@ -52,6 +59,7 @@ export const AdminUserForm = () => {
         <FormControl>
           <FormLabel>ชื่อจริง</FormLabel>
           <Input
+            required
             name="fullname"
             value={userData.fullname}
             onChange={handleChange}
@@ -61,6 +69,7 @@ export const AdminUserForm = () => {
         <FormControl>
           <FormLabel>ตำแหน่ง</FormLabel>
           <Select
+            required
             name="roleId"
             value={userData.roleId!}
             onChange={handleChange}
@@ -77,7 +86,7 @@ export const AdminUserForm = () => {
         <Button variant="outline" colorScheme="red" onClick={handleCancelClick}>
           ยกเลิก
         </Button>
-        <Button ml={2} onClick={handleActionClick}>
+        <Button ml={2} type="submit">
           ยืนยัน
         </Button>
       </Box>

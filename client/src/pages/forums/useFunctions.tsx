@@ -46,6 +46,15 @@ const useFunctions = () => {
     return () => abortController.abort();
   }, [searchQuery, searchParams, setSearchParams]);
 
+  useEffect(() => {
+    if (count === 0) return;
+    const page = parseInt(searchParams.get("page")!) || 1;
+    const perPage = parseInt(searchParams.get("perPage")!) || 12;
+    if (page < 1 || page > Math.ceil(count / perPage)) {
+      setSearchParams({ page: "1" });
+    }
+  }, [count, searchParams, setSearchParams]);
+
   return {
     forums,
     handleSubmit,

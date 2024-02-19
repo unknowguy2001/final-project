@@ -7,7 +7,7 @@ const createReview = async (req, res) => {
   // Check if rating is provided
   if (!rating) {
     return res.status(400).json({
-      message: "rating is required",
+      message: "กรุณาให้คะแนน",
     });
   }
 
@@ -31,7 +31,7 @@ const createReview = async (req, res) => {
   // Check if review is created
   if (!createdReview) {
     return res.status(400).json({
-      message: "Can't create review",
+      message: "ไม่สามารถสร้างรีวิวได้",
     });
   }
 
@@ -59,7 +59,7 @@ const createReview = async (req, res) => {
   });
 
   res.status(201).json({
-    message: "Created review",
+    message: "สร้างรีวิวสำเร็จ",
   });
 };
 
@@ -77,7 +77,7 @@ const deleteReview = async (req, res) => {
   // Check if review exists
   if (!review) {
     return res.status(404).json({
-      message: "Review not found",
+      message: "ไม่พบรีวิว",
     });
   }
 
@@ -119,7 +119,7 @@ const deleteReview = async (req, res) => {
 
   // Send response
   res.status(200).json({
-    message: "Deleted review",
+    message: "ลบรีวิวสำเร็จ",
   });
 };
 
@@ -131,7 +131,7 @@ const updateReview = async (req, res) => {
   // Check if rating is provided
   if (!rating) {
     return res.status(400).json({
-      message: "rating is required",
+      message: "กรุณาให้คะแนน",
     });
   }
 
@@ -156,7 +156,7 @@ const updateReview = async (req, res) => {
   // Check if review is updated
   if (!updatedReview) {
     return res.status(400).json({
-      message: "Can't update review",
+      message: "ไม่สามารถอัปเดตรีวิวได้",
     });
   }
 
@@ -183,7 +183,7 @@ const updateReview = async (req, res) => {
     },
   });
 
-  res.status(200).json({ message: "Updated review!" });
+  res.status(200).json({ message: "อัปเดตรีวิวสำเร็จ" });
 };
 
 const getReview = async (req, res) => {
@@ -199,12 +199,12 @@ const getReview = async (req, res) => {
 
   if (!review) {
     return res.status(400).json({
-      message: "Can't get this review",
+      message: "ไม่พบรีวิว",
     });
   }
 
   review.hashtags = review.hashtags.map(
-    (reviewHashtag) => reviewHashtag.hashtagId
+    (reviewHashtag) => reviewHashtag.hashtagId,
   );
 
   res.status(200).json({ item: review });

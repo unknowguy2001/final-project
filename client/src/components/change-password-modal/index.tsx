@@ -37,10 +37,10 @@ export const ChangePasswordModal = ({ logout }: ChangePasswordModalProps) => {
       newPassword: "",
     });
   const [passwordType, setPasswordType] = useState<"text" | "password">(
-    "password"
+    "password",
   );
   const [newPasswordType, setNewPasswordType] = useState<"text" | "password">(
-    "password"
+    "password",
   );
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
   const [confirmNewPasswordType, setConfirmNewPasswordType] = useState<
@@ -51,7 +51,7 @@ export const ChangePasswordModal = ({ logout }: ChangePasswordModalProps) => {
   const isNewPasswordMoreThan8Characters =
     changePasswordData.newPassword.length >= 8;
   const isNewPasswordHas1UpperCase = /[A-Z]/.test(
-    changePasswordData.newPassword
+    changePasswordData.newPassword,
   );
   const isNewPasswordHas1Number = /\d/.test(changePasswordData.newPassword);
   const isNewPasswordHas1SpecialCharacter =
@@ -67,7 +67,7 @@ export const ChangePasswordModal = ({ logout }: ChangePasswordModalProps) => {
 
   const switchConfirmPasswordType = () => {
     setConfirmNewPasswordType((prev) =>
-      prev === "password" ? "text" : "password"
+      prev === "password" ? "text" : "password",
     );
   };
 
@@ -82,15 +82,18 @@ export const ChangePasswordModal = ({ logout }: ChangePasswordModalProps) => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (changePasswordData.newPassword !== confirmNewPassword) {
-      return toast.error("รหัสผ่านไม่ตรงกัน");
+    try {
+      e.preventDefault();
+      if (changePasswordData.newPassword !== confirmNewPassword) {
+        return toast.error("รหัสผ่านไม่ตรงกัน");
+      }
+      setIsChangingPassword(true);
+      await changePassword(changePasswordData);
+      handleCloseClick();
+      logout();
+    } finally {
+      setIsChangingPassword(false);
     }
-    setIsChangingPassword(true);
-    await changePassword(changePasswordData);
-    setIsChangingPassword(false);
-    handleCloseClick();
-    logout();
   };
 
   const isConfirmNewPasswordInvalid =

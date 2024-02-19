@@ -7,7 +7,7 @@ const searchForums = async (req, res) => {
     const page = Math.max(parseInt(req.query.page) || 1, 1);
     const perPage = Math.max(
       parseInt(req.query.perPage) || DEFAULT_PER_PAGE,
-      DEFAULT_PER_PAGE
+      DEFAULT_PER_PAGE,
     );
     const searchQuery = req.query.searchQuery || "";
     const options = {
@@ -45,7 +45,7 @@ const getForumById = async (req, res) => {
     const parsedId = parseInt(id);
 
     if (isNaN(parsedId)) {
-      return res.status(400).json({ message: "id must be a number" });
+      return res.status(400).json({ message: "Id ควรเป็นตัวเลข" });
     }
 
     const forum = await prisma.forum.findUnique({
@@ -65,12 +65,11 @@ const getForumById = async (req, res) => {
 const createForum = async (req, res) => {
   try {
     const { title, description } = req.body;
+
     const isValid = title && description;
 
     if (!isValid) {
-      return res
-        .status(400)
-        .json({ message: "Title and description required" });
+      return res.status(400).json({ message: "กรุณากรอกหัวข้อและรายละเอียด" });
     }
 
     const forum = await prisma.forum.create({
@@ -83,10 +82,10 @@ const createForum = async (req, res) => {
     });
 
     if (!forum) {
-      return res.status(400).json({ message: "Can't create forum!" });
+      return res.status(400).json({ message: "ไม่สามารถสร้าง Forum ได้" });
     }
 
-    res.status(201).json({ message: "Created forum!", forumId: forum.id });
+    res.status(201).json({ message: "สร้าง Forum สำเร็จ", forumId: forum.id });
   } catch (error) {
     res.status(500).json({ message: `Error: ${error.message}` });
   }
@@ -98,7 +97,7 @@ const deleteForum = async (req, res) => {
     const parsedForumId = Number(id);
 
     if (isNaN(parsedForumId)) {
-      return res.status(400).json({ message: "Id must be a number" });
+      return res.status(400).json({ message: "Id ควรเป็นตัวเลข" });
     }
 
     const forum = await prisma.forum.delete({
@@ -106,10 +105,10 @@ const deleteForum = async (req, res) => {
     });
 
     if (!forum) {
-      return res.status(400).json({ message: "Can't delete forum!" });
+      return res.status(400).json({ message: "ไม่สามารถลบ Forum ได้" });
     }
 
-    res.status(200).json({ message: "Deleted forum!" });
+    res.status(200).json({ message: "ลบ Forum สำเร็จ" });
   } catch (error) {
     res.status(500).json({ message: `Error : ${error.message}` });
   }
@@ -119,10 +118,17 @@ const updateForum = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description } = req.body;
+
+    const isValid = title && description;
+
+    if (!isValid) {
+      return res.status(400).json({ message: "กรุณากรอกหัวข้อและรายละเอียด" });
+    }
+
     const forumId = Number(id);
 
     if (isNaN(forumId)) {
-      return res.status(400).json({ message: "Id must be a number" });
+      return res.status(400).json({ message: "Id ควรเป็นตัวเลข" });
     }
 
     const forum = await prisma.forum.update({
@@ -134,10 +140,10 @@ const updateForum = async (req, res) => {
     });
 
     if (!forum) {
-      return res.status(400).json({ message: "Can't update forum!" });
+      return res.status(400).json({ message: "ไม่สามารถอัพเดท Forum ได้" });
     }
 
-    res.status(200).json({ message: "Updated forum!" });
+    res.status(200).json({ message: "อัพเดท Forum สำเร็จ" });
   } catch (error) {
     res.status(500).json({ message: `Error: ${error.message}` });
   }

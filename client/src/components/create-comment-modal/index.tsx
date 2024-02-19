@@ -40,16 +40,23 @@ export const CreateCommentModal = ({
       await createReply(forumId, { description: comment });
       setComment("");
       searchReplies();
-      setIsSubmittingComment(false);
       onClose();
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsSubmittingComment(false);
     }
   };
 
   return (
     <>
-      <Button onClick={onOpen} variant="outline">
+      <Button
+        onClick={() => {
+          onOpen();
+          setComment("");
+        }}
+        variant="outline"
+      >
         สร้างความคิดเห็น
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>

@@ -9,6 +9,22 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+html[data-theme="dark"] .ql-picker-label {
+  color: white;
+}
+
+html[data-theme="dark"] .ql-stroke {
+  stroke: white;
+}
+
+html[data-theme="dark"] .ql-fill {
+  fill: white;
+}
+
+html[data-theme="dark"] .ql-blank::before {
+  color: var(--chakra-colors-gray-500);
+}
+
 .ql-editor[contenteditable="false"] {
   padding: 0;
 }

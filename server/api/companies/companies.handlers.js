@@ -32,7 +32,7 @@ const getTopPopular = async (req, res) => {
         ...company,
         reviewCount,
       };
-    })
+    }),
   );
 
   await redis.set(cacheKey, JSON.stringify(popularCompaniesWithReviewCount));
@@ -50,7 +50,7 @@ const getCompanyById = async (req, res) => {
 
   if (isNaN(companyId)) {
     return res.status(400).json({
-      error: "id must be a number",
+      message: "Id ควรเป็นตัวเลข",
     });
   }
 
@@ -102,7 +102,7 @@ const getCompanyById = async (req, res) => {
   company.reviews.forEach((review) => {
     review.hashtags.forEach(({ hashtag }) => {
       const index = company.hashtagSummary.findIndex(
-        (item) => item.id === hashtag.id
+        (item) => item.id === hashtag.id,
       );
       if (index !== -1) {
         company.hashtagSummary[index].count += 1;
@@ -128,7 +128,7 @@ const getCompanyById = async (req, res) => {
 
   const totalStar = Object.values(company.ratingSummary).reduce(
     (acc, cur) => acc + cur,
-    0
+    0,
   );
 
   company.ratingSummary = Object.entries(company.ratingSummary).reduce(
@@ -142,7 +142,7 @@ const getCompanyById = async (req, res) => {
         },
       };
     },
-    {}
+    {},
   );
 
   // Check if the user can review the company
@@ -174,19 +174,11 @@ const createCompany = async (req, res) => {
     zipcode,
     telephone,
   } = req.body;
-  const isNotValid =
-    !name ||
-    !address ||
-    !road ||
-    !village ||
-    !district ||
-    !province ||
-    !zipcode ||
-    !telephone;
+  const isNotValid = !name;
 
   //check data is not empty
   if (isNotValid) {
-    return res.status(400).json({ message: "Please fill empty value" });
+    return res.status(400).json({ message: "กรุณากรอกชื่อบริษัท" });
   }
 
   const newCompany = {
@@ -214,10 +206,10 @@ const createCompany = async (req, res) => {
   });
 
   if (!result) {
-    return res.status(409).json({ message: "Can't add company" });
+    return res.status(409).json({ message: "เกิดข้อผิดพลาด" });
   }
 
-  return res.status(201).json({ message: "Added company!" });
+  return res.status(201).json({ message: "เพิ่มข้อมูลสำเร็จ" });
 };
 
 const searchCompanies = async (req, res) => {
@@ -225,7 +217,7 @@ const searchCompanies = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const perPage = Math.max(
     parseInt(req.query.perPage) || DEFAULT_PER_PAGE,
-    DEFAULT_PER_PAGE
+    DEFAULT_PER_PAGE,
   );
   const options = {
     take: perPage,
@@ -270,7 +262,7 @@ const searchCompanies = async (req, res) => {
         ...company,
         reviewCount,
       };
-    })
+    }),
   );
 
   res.status(200).json({ items: companiesWithReviewCount, count });
@@ -287,18 +279,10 @@ const updateCompany = async (req, res) => {
     zipcode,
     telephone,
   } = req.body;
-  const isNotValid =
-    !name ||
-    !address ||
-    !road ||
-    !village ||
-    !district ||
-    !province ||
-    !zipcode ||
-    !telephone;
+  const isNotValid = !name;
 
   if (!req.params.id || isNotValid) {
-    return res.status(400).json({ message: "ID or fields is empty!" });
+    return res.status(400).json({ message: "กรุณากรอกชื่อบริษัท" });
   }
 
   const updatedCompany = {
@@ -329,15 +313,15 @@ const updateCompany = async (req, res) => {
   });
 
   if (!result) {
-    return res.status(400).json({ message: "Can't update!" });
+    return res.status(400).json({ message: "ไม่สามารถแก้ไขข้อมูลได้" });
   }
 
-  res.status(200).json({ message: "Updated compnay!" });
+  res.status(200).json({ message: "แก้ไขข้อมูลสำเร็จ" });
 };
 
 const deleteCompany = async (req, res) => {
   if (isNaN(Number(req.params.id))) {
-    return res.status(400).json({ message: "ID is empty or incorrect ID!" });
+    return res.status(400).json({ message: "Id ไม่ถูกต้อง" });
   }
 
   const result = await prisma.company.delete({
@@ -345,10 +329,10 @@ const deleteCompany = async (req, res) => {
   });
 
   if (!result) {
-    return res.status(400).json({ message: "Can't delete company!" });
+    return res.status(400).json({ message: "ไม่สามารถลบข้อมูลได้" });
   }
 
-  res.status(200).json({ message: "Deleted company!" });
+  res.status(200).json({ message: "ลบข้อมูลสำเร็จ" });
 };
 
 module.exports = {

@@ -8,7 +8,7 @@ const searchUsers = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const perPage = Math.max(
     parseInt(req.query.perPage) || DEFAULT_PER_PAGE,
-    DEFAULT_PER_PAGE
+    DEFAULT_PER_PAGE,
   );
   const options = {
     take: perPage,
@@ -61,11 +61,11 @@ const createUser = async (req, res) => {
       },
     });
     res.status(201).json({
-      message: "User created successfully",
+      message: "สร้างผู้ใช้สำเร็จ",
     });
   } catch (error) {
     res.status(500).json({
-      message: "Something went wrong",
+      message: "เกิดข้อผิดพลาด",
     });
   }
 };
@@ -78,18 +78,18 @@ const deleteUser = async (req, res) => {
       },
     });
     res.status(200).json({
-      message: "User deleted successfully",
+      message: "ลบผู้ใช้สำเร็จ",
     });
   } catch (error) {
     res.status(500).json({
-      message: "Something went wrong",
+      message: "เกิดข้อผิดพลาด",
     });
   }
 };
 
 const getUser = async (req, res) => {
   try {
-    await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         id: req.userId,
       },
@@ -110,7 +110,7 @@ const getUser = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: "Something went wrong",
+      message: "เกิดข้อผิดพลาด",
     });
   }
 };
@@ -129,11 +129,11 @@ const updateUser = async (req, res) => {
       },
     });
     res.status(200).json({
-      message: "User updated successfully",
+      message: "อัพเดทข้อมูลสำเร็จ",
     });
   } catch (error) {
     res.status(500).json({
-      message: "Something went wrong",
+      message: "เกิดข้อผิดพลาด",
     });
   }
 };

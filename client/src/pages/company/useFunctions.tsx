@@ -92,18 +92,21 @@ const useFunctions = () => {
 
     if (!companyId) return;
 
-    setIsReviewSubmitting(true);
+    try {
+      setIsReviewSubmitting(true);
 
-    if (!edittingReviewId) {
-      await createReview(companyId, reviewData);
-    } else {
-      await updateReview(companyId, edittingReviewId, reviewData);
+      if (!edittingReviewId) {
+        await createReview(companyId, reviewData);
+      } else {
+        await updateReview(companyId, edittingReviewId, reviewData);
+      }
+
+      onClose();
+      setRating(0);
+      await handleGetCompany();
+    } finally {
+      setIsReviewSubmitting(false);
     }
-
-    onClose();
-    setRating(0);
-    await handleGetCompany();
-    setIsReviewSubmitting(false);
   };
 
   const handleDeleteReviewClick = async (reviewId: number) => {

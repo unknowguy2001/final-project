@@ -8,7 +8,7 @@ const login = async (req, res) => {
 
   try {
     if (!username || !password) {
-      throw new Error("Username and password are required");
+      throw new Error("รหัสนักศึกษากับรหัสผ่านไม่สามารถเป็นค่าว่างได้");
     }
 
     const user = await prisma.user.findUnique({
@@ -18,11 +18,11 @@ const login = async (req, res) => {
     });
 
     if (!user) {
-      throw new Error("Invalid username or password");
+      throw new Error("รหัสนักศึกษาหรือรหัสผ่านไม่ถูกต้อง");
     }
 
     if (!user || !(await argon2.verify(user.password, password))) {
-      throw new Error("Invalid username or password");
+      throw new Error("รหัสนักศึกษาหรือรหัสผ่านไม่ถูกต้อง");
     }
 
     const payload = { username, fullname: user.fullname };
@@ -33,7 +33,7 @@ const login = async (req, res) => {
 
     // Send user info to client
     res.status(200).json({
-      message: "Login successful",
+      message: "เข้าสู่ระบบสำเร็จ",
       authInfo: {
         isAuthenticated: true,
         user: payload,
@@ -46,7 +46,7 @@ const login = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      message: error.message || "Login failed",
+      message: error.message || "เข้าสู่ระบบไม่สำเร็จ",
       authInfo: {
         isAuthenticated: false,
         user: null,
@@ -61,29 +61,29 @@ const register = async (req, res) => {
 
   try {
     if (!/^\d{12}-\d{1}$/.test(username)) {
-      throw new Error("Invalid username, please use your student ID");
+      throw new Error("รหัสนักศึกษาไม่ถูกต้อง");
     }
 
     if (!username || !password || !firstName || !lastName) {
       throw new Error(
-        "Username, password, first name and last name are required"
+        "รหัสนักศึกษา, รหัสผ่าน, ชื่อ, หรือนามสกุลไม่สามารถเป็นค่าว่างได้",
       );
     }
 
     if (password.length < 8) {
-      throw new Error("Password must be at least 8 characters");
+      throw new Error("รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร");
     }
 
     if (!/[A-Z]/.test(password)) {
-      throw new Error("Password must not contain uppercase letters");
+      throw new Error("รหัสผ่านต้องมีตัวอักษรพิมพ์ใหญ่อย่างน้อย 1 ตัว");
     }
 
     if (!/\d/.test(password)) {
-      throw new Error("Password must contain at least 1 number");
+      throw new Error("รหัสผ่านต้องมีตัวเลขอย่างน้อย 1 ตัว");
     }
 
     if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(password)) {
-      throw new Error("Password must contain at least 1 special character");
+      throw new Error("รหัสผ่านต้องมีอักษรพิเศษอย่างน้อย 1 ตัว");
     }
 
     const hashedPassword = await argon2.hash(password);
@@ -110,7 +110,7 @@ const register = async (req, res) => {
 
     // Send user info to client
     res.status(200).json({
-      message: "Register successful",
+      message: "สมัครสมาชิกสำเร็จ",
       authInfo: {
         isAuthenticated: true,
         user: payload,
@@ -123,7 +123,7 @@ const register = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      message: error.message || "Register failed",
+      message: error.message || "สมัครสมาชิกไม่สำเร็จ",
       authInfo: {
         isAuthenticated: false,
         user: null,
@@ -138,13 +138,13 @@ const refresh = async (req, res) => {
     const refreshToken = req.body.refreshToken;
 
     if (!refreshToken) {
-      throw new Error("Refresh token not found");
+      throw new Error("ไม่พบ refresh token");
     }
 
     const payload = verifyToken(refreshToken, "refresh");
 
     if (!payload) {
-      throw new Error("Invalid refresh token");
+      throw new Error("refresh token ไม่ถูกต้อง");
     }
 
     const newPayload = {
@@ -218,23 +218,23 @@ const changePassword = async (req, res) => {
 
   try {
     if (!oldPassword || !newPassword) {
-      throw new Error("Old password and new password are required");
+      throw new Error("รหัสผ่านเก่าหรือรหัสผ่านใหม่ไม่สามารถเป็นค่าว่างได้");
     }
 
     if (newPassword.length < 8) {
-      throw new Error("Password must be at least 8 characters");
+      throw new Error("รหัสผ่านใหม่ต้องมีอย่างน้อย 8 ตัวอักษร");
     }
 
     if (!/[A-Z]/.test(newPassword)) {
-      throw new Error("Password must not contain uppercase letters");
+      throw new Error("รหัสผ่านใหม่ต้องมีตัวอักษรพิมพ์ใหญ่อย่างน้อย 1 ตัว");
     }
 
     if (!/\d/.test(newPassword)) {
-      throw new Error("Password must contain at least 1 number");
+      throw new Error("รหัสผ่านใหม่ต้องมีตัวเลขอย่างน้อย 1 ตัว");
     }
 
     if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(newPassword)) {
-      throw new Error("Password must contain at least 1 special character");
+      throw new Error("รหัสผ่านใหม่ต้องมีอักษรพิเศษอย่างน้อย 1 ตัว");
     }
 
     const username = req.user.username;
@@ -246,11 +246,11 @@ const changePassword = async (req, res) => {
     });
 
     if (!foundUser) {
-      throw new Error("Invalid username");
+      throw new Error("ไม่พบผู้ใช้");
     }
 
     if (!(await argon2.verify(foundUser.password, oldPassword))) {
-      throw new Error("Invalid old password");
+      throw new Error("รหัสผ่านเก่าไม่ถูกต้อง");
     }
 
     const hashedPassword = await argon2.hash(newPassword);
@@ -265,11 +265,11 @@ const changePassword = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "Change password successful",
+      message: "เปลี่ยนรหัสผ่านสำเร็จ",
     });
   } catch (error) {
     res.status(400).json({
-      message: error.message || "Change password failed",
+      message: error.message || "เปลี่ยนรหัสผ่านไม่สำเร็จ",
     });
   }
 };
