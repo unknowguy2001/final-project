@@ -1,21 +1,22 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link as ReactRouterDomLink } from "react-router-dom";
 import { Box, Container, Flex, Image, Link } from "@chakra-ui/react";
 import { getGoogleFormUrl } from "../../services/commonService";
 
 export const Footer = () => {
+  const [googleFormUrl, setGoogleFormUrl] = useState("");
   const footerRef = useRef<HTMLDivElement>(null);
-
-  const handleGoogleFormClick = () => {
-    getGoogleFormUrl().then((response) => {
-      window.open(response.data.url, "_blank");
-    });
-  };
 
   const calculatePaddingBottom = () => {
     const footerHeight = footerRef.current?.offsetHeight;
     document.body.style.paddingBottom = `${footerHeight || 0}px`;
   };
+
+  useEffect(() => {
+    getGoogleFormUrl().then((response) => {
+      setGoogleFormUrl(response.data.url);
+    });
+  }, []);
 
   useEffect(() => {
     calculatePaddingBottom();
@@ -61,7 +62,11 @@ export const Footer = () => {
             <Link to="/forums" as={ReactRouterDomLink}>
               กระทู้
             </Link>
-            <Link onClick={handleGoogleFormClick}>แบบสอบถาม</Link>
+            {googleFormUrl && (
+              <Link target="_blank" href={googleFormUrl}>
+                แบบสอบถาม
+              </Link>
+            )}
           </Flex>
         </Flex>
       </Container>
