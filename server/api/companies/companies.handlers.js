@@ -181,7 +181,14 @@ const createCompany = async (req, res) => {
     return res.status(400).json({ message: "กรุณากรอกชื่อบริษัท" });
   }
 
+  const latestCompany = await prisma.company.findFirst({
+    orderBy: {
+      id: "desc",
+    },
+  });
+
   const newCompany = {
+    id: latestCompany.id + 1,
     name,
     address,
     road,
@@ -194,6 +201,7 @@ const createCompany = async (req, res) => {
 
   const result = await prisma.company.create({
     data: {
+      id: newCompany.id,
       name: newCompany.name,
       address: newCompany.address,
       road: newCompany.road,
