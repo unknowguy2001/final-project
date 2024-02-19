@@ -7,7 +7,6 @@ import {
   getForum,
   updateForum,
 } from "../../services/forumsService";
-import { CreateForumResponse, ForumData } from "../../interfaces/forum";
 
 const useFunctions = () => {
   const { authInfo } = useAuth();
