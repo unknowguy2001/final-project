@@ -1,23 +1,14 @@
 import {
   Box,
-  Button,
   Card,
   CardBody,
   Container,
   Flex,
   Heading,
   IconButton,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Skeleton,
   Stack,
   Text,
-  Textarea,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 
@@ -27,23 +18,17 @@ import { Editor } from "../../components/editor";
 import { Pagination } from "../../components/pagination";
 import { formatDistanceToNow } from "../../utils/dateUtils";
 import { UserProfile } from "../../components/user-profile";
+import { CreateCommentModal } from "../../components/create-comment-modal";
 
 export const Forum = () => {
   const {
     authInfo,
     forum,
     replies,
-    handleCommentSubmit,
-    comment,
-    handleCommentChange,
     count,
-    handleSearchReplies,
+    searchReplies,
     handleDeleteForumClick,
     handleEditForumClick,
-    isCommentSubmitting,
-    isOpen,
-    handleCloseClick,
-    handleCreateCommentClick,
     isRepliesLoading,
     isForumLoading,
     isForumDeleting,
@@ -136,41 +121,7 @@ export const Forum = () => {
           <Heading as="h2" fontSize="2xl">
             ความคิดเห็น
           </Heading>
-          <Button onClick={handleCreateCommentClick} variant="outline">
-            สร้างความคิดเห็น
-          </Button>
-          <Modal isOpen={isOpen} onClose={handleCloseClick}>
-            <ModalOverlay />
-            <ModalContent onSubmit={handleCommentSubmit} as="form">
-              <ModalHeader>สร้างความคิดเห็น</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <Textarea
-                  isDisabled={isCommentSubmitting}
-                  value={comment}
-                  onChange={handleCommentChange}
-                  required
-                  resize="none"
-                  placeholder="ความคิดเห็น"
-                  rows={5}
-                />
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  isDisabled={isCommentSubmitting}
-                  onClick={handleCloseClick}
-                  mr={2}
-                  variant="outline"
-                  colorScheme="red"
-                >
-                  ยกเลิก
-                </Button>
-                <Button isLoading={isCommentSubmitting} type="submit">
-                  ยืนยัน
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
+          <CreateCommentModal searchReplies={searchReplies} />
         </Flex>
         {!isRepliesLoading && replies.length === 0 && (
           <Card variant="outline">
@@ -192,19 +143,12 @@ export const Forum = () => {
             : replies.map((reply) => (
                 <Reply
                   key={reply.id}
-                  handleSearchReplies={handleSearchReplies}
+                  handleSearchReplies={searchReplies}
                   reply={reply}
                 />
               ))}
         </Stack>
-        <Box
-          _empty={{
-            mt: 0,
-          }}
-          mt={4}
-        >
-          <Pagination count={count} />
-        </Box>
+        <Pagination count={count} />
       </Container>
     </>
   );

@@ -88,9 +88,7 @@ export const Companies = () => {
       ) : (
         <CompanyTable companies={companies} isLoading={isLoading} />
       )}
-      <Box mt={4}>
-        <Pagination count={count} />
-      </Box>
+      <Pagination count={count} />
     </Container>
   );
 };

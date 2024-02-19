@@ -7,55 +7,22 @@ import {
   MenuItem,
   Button,
   Box,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
   IconButton,
-  FormErrorMessage,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { Link, NavLink } from "react-router-dom";
 
 import { UserProfile } from "../user-profile";
 import useFunctions from "./useFunctions";
-import { PasswordChecklist } from "../password-checklist";
-import { PasswordVisibilityToggleButton } from "../password-visibility-toggle-button";
+import { ChangePasswordModal } from "../change-password-modal";
 
 export const Navbar = () => {
   const {
     menues,
     authInfo,
-    handleLogoutClick,
-    changePasswordData,
-    handleChange,
-    isNewPasswordMoreThan8Characters,
-    isNewPasswordHas1UpperCase,
-    isNewPasswordHas1Number,
-    isNewPasswordHas1SpecialCharacter,
-    passwordType,
-    switchPasswordType,
-    newPasswordType,
-    switchNewPasswordType,
-    handleCloseClick,
-    onOpen,
-    isOpen,
-    handleSubmit,
+    logout,
     colorMode,
     toggleColorMode,
-    confirmNewPassword,
-    setConfirmNewPassword,
-    confirmNewPasswordType,
-    switchConfirmPasswordType,
-    isConfirmNewPasswordInvalid,
-    isChangingPassword,
     isMenuesOpen,
     toggleMenues,
     onMenuesClose,
@@ -236,12 +203,7 @@ export const Navbar = () => {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem
-                  onClick={onOpen}
-                  icon={<Icon fontSize={16} icon="lucide:lock" />}
-                >
-                  เปลี่ยนรหัสผ่าน
-                </MenuItem>
+                <ChangePasswordModal logout={logout} />
                 {authInfo.isAdmin && (
                   <MenuItem
                     as={Link}
@@ -252,7 +214,7 @@ export const Navbar = () => {
                   </MenuItem>
                 )}
                 <MenuItem
-                  onClick={handleLogoutClick}
+                  onClick={logout}
                   icon={<Icon fontSize={16} icon="lucide:log-out" />}
                 >
                   ออกจากระบบ
@@ -262,96 +224,6 @@ export const Navbar = () => {
           </Flex>
         </Container>
       </Box>
-      <Modal isOpen={isOpen} onClose={handleCloseClick}>
-        <ModalOverlay />
-        <ModalContent onSubmit={handleSubmit} as="form">
-          <ModalHeader>เปลี่ยนรหัสผ่าน</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Stack spacing={4}>
-              <FormControl>
-                <FormLabel>รหัสผ่านเก่า</FormLabel>
-                <Box position="relative">
-                  <Input
-                    name="oldPassword"
-                    value={changePasswordData.oldPassword}
-                    onChange={handleChange}
-                    placeholder="********"
-                    required
-                    type={passwordType}
-                  />
-                  <PasswordVisibilityToggleButton
-                    passwordType={passwordType}
-                    switchPasswordType={switchPasswordType}
-                  />
-                </Box>
-              </FormControl>
-              <Box>
-                <FormControl>
-                  <FormLabel>รหัสผ่านใหม่</FormLabel>
-                  <Box position="relative">
-                    <Input
-                      name="newPassword"
-                      value={changePasswordData.newPassword}
-                      onChange={handleChange}
-                      placeholder="********"
-                      required
-                      type={newPasswordType}
-                    />
-                    <PasswordVisibilityToggleButton
-                      passwordType={newPasswordType}
-                      switchPasswordType={switchNewPasswordType}
-                    />
-                  </Box>
-                </FormControl>
-                <PasswordChecklist
-                  isPasswordMoreThan8Characters={
-                    isNewPasswordMoreThan8Characters
-                  }
-                  isPasswordHas1UpperCase={isNewPasswordHas1UpperCase}
-                  isPasswordHas1Number={isNewPasswordHas1Number}
-                  isPasswordHas1SpecialCharacter={
-                    isNewPasswordHas1SpecialCharacter
-                  }
-                />
-              </Box>
-              <FormControl isInvalid={isConfirmNewPasswordInvalid}>
-                <FormLabel>ยืนยันรหัสผ่านใหม่</FormLabel>
-                <Box position="relative">
-                  <Input
-                    pos="relative"
-                    onChange={(e) => setConfirmNewPassword(e.target.value)}
-                    value={confirmNewPassword}
-                    required
-                    type={confirmNewPasswordType}
-                    placeholder="********"
-                  />
-                  <PasswordVisibilityToggleButton
-                    passwordType={confirmNewPasswordType}
-                    switchPasswordType={switchConfirmPasswordType}
-                  />
-                </Box>
-                {isConfirmNewPasswordInvalid && (
-                  <FormErrorMessage>รหัสผ่านไม่ตรงกัน</FormErrorMessage>
-                )}
-              </FormControl>
-            </Stack>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              onClick={handleCloseClick}
-              mr={2}
-              variant="outline"
-              colorScheme="red"
-            >
-              ยกเลิก
-            </Button>
-            <Button isLoading={isChangingPassword} type="submit">
-              บันทึก
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </>
   );
 };

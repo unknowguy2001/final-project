@@ -1,4 +1,4 @@
-import { Button, Flex, Select, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Select, Text } from "@chakra-ui/react";
 
 import useFunctions from "./useFunctions";
 
@@ -21,7 +21,12 @@ export const Pagination = ({ count }: PaginationProps) => {
   } = useFunctions({ count });
 
   return (
-    <>
+    <Box
+      _empty={{
+        mt: 0,
+      }}
+      mt={4}
+    >
       {totalPages > 1 && (
         <Flex
           zIndex={1}
@@ -82,6 +87,6 @@ export const Pagination = ({ count }: PaginationProps) => {
           </Flex>
         </Flex>
       )}
-    </>
+    </Box>
   );
 };

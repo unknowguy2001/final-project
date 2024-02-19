@@ -5,34 +5,29 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { Forum } from "../../interfaces/forum";
 import { Reply } from "../../interfaces/reply";
+import * as repliesService from "../../services/repliesService";
 import { deleteForum, getForum } from "../../services/forumsService";
-import { createReply, searchReplies } from "../../services/repliesService";
-import { useDisclosure } from "@chakra-ui/react";
 
 const useFunctions = () => {
   const { authInfo } = useAuth();
   const navigate = useNavigate();
-  const [comment, setComment] = useState<string>("");
   const { forumId } = useParams<{ forumId: string }>();
   const [forum, setForum] = useState<Forum | null>(null);
   const [replies, setReplies] = useState<Reply[]>([]);
   const [count, setCount] = useState<number>(0);
   const [searchParams] = useSearchParams();
-  const [isCommentSubmitting, setIsCommentSubmitting] =
-    useState<boolean>(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isRepliesLoading, setIsRepliesLoading] = useState<boolean>(false);
   const [isForumLoading, setIsForumLoading] = useState<boolean>(false);
   const [isForumDeleting, setIsForumDeleting] = useState<boolean>(false);
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
 
-  const handleSearchReplies = useCallback(
+  const searchReplies = useCallback(
     async (config: AxiosRequestConfig = {}) => {
       if (!forumId) return;
       setIsRepliesLoading(true);
       const page = searchParams.get("page")!;
       const perPage = searchParams.get("perPage")!;
-      const response = await searchReplies(forumId, {
+      const response = await repliesService.searchReplies(forumId, {
         ...config,
         params: { page, perPage },
       });
@@ -41,27 +36,8 @@ const useFunctions = () => {
       setIsRepliesLoading(false);
       setIsFirstLoad(false);
     },
-    [forumId, searchParams],
+    [forumId, searchParams]
   );
-
-  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(e.target.value);
-  };
-
-  const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    try {
-      e.preventDefault();
-      setIsCommentSubmitting(true);
-      if (!forumId) return;
-      await createReply(forumId, { description: comment });
-      setComment("");
-      handleSearchReplies();
-      setIsCommentSubmitting(false);
-      onClose();
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleDeleteForumClick = async (forumId: number) => {
     if (!forumId) return;
@@ -81,14 +57,6 @@ const useFunctions = () => {
     navigate(`/forums/${forumId}/edit`);
   };
 
-  const handleCloseClick = () => {
-    onClose();
-  };
-
-  const handleCreateCommentClick = () => {
-    onOpen();
-  };
-
   useEffect(() => {
     if (!forumId) return;
 
@@ -105,29 +73,24 @@ const useFunctions = () => {
     };
 
     handleGetForum();
-    handleSearchReplies({ signal: abortSearchRepliesController.signal });
+    searchReplies({
+      signal: abortSearchRepliesController.signal,
+    });
 
     return () => {
       abortGetForumController.abort();
       abortSearchRepliesController.abort();
     };
-  }, [forumId, handleSearchReplies]);
+  }, [forumId, searchReplies]);
 
   return {
     authInfo,
     forum,
     replies,
-    handleCommentSubmit,
-    comment,
-    handleCommentChange,
     count,
-    handleSearchReplies,
+    searchReplies,
     handleDeleteForumClick,
     handleEditForumClick,
-    isCommentSubmitting,
-    isOpen,
-    handleCloseClick,
-    handleCreateCommentClick,
     isRepliesLoading,
     isForumLoading,
     isForumDeleting,
