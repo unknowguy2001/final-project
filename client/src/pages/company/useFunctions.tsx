@@ -3,11 +3,18 @@ import { useDisclosure } from "@chakra-ui/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useAuth } from "../../hooks/useAuth";
-import { Company, GetCompanyResponse } from "../../interfaces/company";
-import { GetReviewResponse, ReviewData } from "../../interfaces/review";
+import { Company } from "../../interfaces/company";
+import { ReviewData } from "../../interfaces/review";
 import { Hashtag } from "../../interfaces/hashtag";
-import { create, get, remove, update } from "../../services/baseService";
+
 import { getHashtags } from "../../services/commonService";
+import { getCompany } from "../../services/companiesService";
+import {
+  createReview,
+  deleteReview,
+  getReview,
+  updateReview,
+} from "../../services/reviewsService";
 
 const useFunctions = () => {
   const [edittingReviewId, setEdittingReviewId] = useState<number | null>(null);
@@ -88,13 +95,9 @@ const useFunctions = () => {
     setIsReviewSubmitting(true);
 
     if (!edittingReviewId) {
-      await create<ReviewData>(`companies/${companyId}/reviews`, reviewData);
+      await createReview(companyId, reviewData);
     } else {
-      await update<ReviewData>(
-        `companies/${companyId}/reviews`,
-        edittingReviewId.toString(),
-        reviewData,
-      );
+      await updateReview(companyId, edittingReviewId, reviewData);
     }
 
     onClose();
@@ -107,7 +110,7 @@ const useFunctions = () => {
     if (!companyId) return;
 
     setIsReviewDeleting(true);
-    await remove(`companies/${companyId}/reviews`, reviewId);
+    await deleteReview(companyId, reviewId);
     await handleGetCompany();
     setIsReviewDeleting(false);
   };
@@ -119,10 +122,7 @@ const useFunctions = () => {
 
     setIsReviewLoading(true);
     setEdittingReviewId(reviewId);
-    const response = await get<GetReviewResponse>(
-      `companies/${companyId}/reviews/${reviewId}`,
-    );
-
+    const response = await getReview(companyId, reviewId);
     const review = response.data.item;
     setRating(review.rating);
 
@@ -164,9 +164,7 @@ const useFunctions = () => {
 
       setIsLoading(true);
 
-      const response = await get<GetCompanyResponse>(`companies/${companyId}`, {
-        signal,
-      });
+      const response = await getCompany(companyId, { signal });
       setCompany(response.data.item);
       setCanReview(response.data.canReview);
 

@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { useAuth } from "../../hooks/useAuth";
-import { getForum } from "../../services/forumsService";
-import { create, update } from "../../services/baseService";
+import {
+  createForum,
+  getForum,
+  updateForum,
+} from "../../services/forumsService";
 import { CreateForumResponse, ForumData } from "../../interfaces/forum";
 
 const useFunctions = () => {
@@ -31,14 +34,11 @@ const useFunctions = () => {
         description,
       };
       if (isNewMode) {
-        const response = await create<ForumData, CreateForumResponse>(
-          "forums",
-          forumData,
-        );
+        const response = await createForum(forumData);
         navigate(`/forums/${response.data.forumId}`);
       } else {
         if (!forumId) return;
-        await update<ForumData>("forums", forumId, forumData);
+        await updateForum(forumId, forumData);
         navigate(`/forums/${forumId}`);
       }
     } catch (error) {

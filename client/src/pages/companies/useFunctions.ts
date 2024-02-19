@@ -1,8 +1,8 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { get } from "../../services/baseService";
-import { Company, SearchCompaniesResponse } from "../../interfaces/company";
+import { Company } from "../../interfaces/company";
+import { searchCompanies } from "../../services/companiesService";
 
 const useFunctions = () => {
   const [count, setCount] = useState(0);
@@ -49,7 +49,7 @@ const useFunctions = () => {
       const page = searchParams.get("page")!;
       const perPage = searchParams.get("perPage")!;
       setIsLoading(true);
-      const response = await get<SearchCompaniesResponse>("companies", {
+      const response = await searchCompanies({
         signal: abortController.signal,
         params: {
           searchQuery,
