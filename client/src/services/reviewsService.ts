@@ -7,7 +7,7 @@ export const createReview = async (
   reviewData: ReviewData,
 ) => {
   return await axiosInstance.post<ReviewData>(
-    `${RESOURCES.COMPANIES}/${companyId}/${RESOURCES.REVIEWS}`,
+    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}`,
     reviewData,
   );
 };
@@ -18,19 +18,19 @@ export const updateReview = async (
   reviewData: ReviewData,
 ) => {
   return await axiosInstance.patch(
-    `${RESOURCES.COMPANIES}/${companyId}/${RESOURCES.REVIEWS}/${edittingReviewId}`,
+    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}/${edittingReviewId}`,
     reviewData,
   );
 };
 
 export const deleteReview = async (companyId: string, reviewId: number) => {
   return await axiosInstance.delete(
-    `${RESOURCES.COMPANIES}/${companyId}/${RESOURCES.REVIEWS}/${reviewId}`,
+    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}/${reviewId}`,
   );
 };
 
 export const getReview = async (companyId: string, reviewId: number) => {
   return await axiosInstance.get(
-    `${RESOURCES.COMPANIES}/${companyId}/${RESOURCES.REVIEWS}/${reviewId}`,
+    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}/${reviewId}`,
   );
 };

@@ -28,7 +28,7 @@ export const createReply = async (
 
 export const deleteReply = async (forumId: number, replyId: number) => {
   return await axiosInstance.delete(
-    `${RESOURCES.FORUMS}/${forumId}/${RESOURCES.REPLIES}/${replyId}`,
+    `${RESOURCES.FORUMS}/${forumId}${RESOURCES.REPLIES}/${replyId}`,
   );
 };
 
@@ -38,7 +38,7 @@ export const updateReply = async (
   data: ReplyData,
 ) => {
   return await axiosInstance.patch(
-    `${RESOURCES.FORUMS}/${forumId}/${RESOURCES.REPLIES}/${replyId}`,
+    `${RESOURCES.FORUMS}/${forumId}${RESOURCES.REPLIES}/${replyId}`,
     data,
   );
 };
