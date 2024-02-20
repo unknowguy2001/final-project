@@ -9,44 +9,38 @@ import {
 import { RESOURCES } from "../constants/api";
 import { axiosInstance } from "../utils/axiosInstance";
 
-export const searchCompanies = async (config: AxiosRequestConfig) => {
-  return await axiosInstance.get<SearchCompaniesResponse>(
+export const searchCompanies = (config: AxiosRequestConfig) => {
+  return axiosInstance.get<SearchCompaniesResponse>(
     RESOURCES.COMPANIES,
-    config,
+    config
   );
 };
 
-export const getCompany = async (
-  companyId: string,
-  config: AxiosRequestConfig,
-) => {
-  return await axiosInstance.get<GetCompanyResponse>(
+export const getCompany = (companyId: number, config: AxiosRequestConfig) => {
+  return axiosInstance.get<GetCompanyResponse>(
     `${RESOURCES.COMPANIES}/${companyId}`,
-    config,
+    config
   );
 };
 
-export const getTopPopularCompanies = async (config: AxiosRequestConfig) => {
-  return await axiosInstance.get<GetTopPopularCompaniesResponse>(
+export const getTopPopularCompanies = (config: AxiosRequestConfig) => {
+  return axiosInstance.get<GetTopPopularCompaniesResponse>(
     `${RESOURCES.COMPANIES}/top-popular`,
-    config,
+    config
   );
 };
 
-export const addCompany = async (companyData: CompanyData) => {
-  return await axiosInstance.post(RESOURCES.COMPANIES, companyData);
+export const addCompany = (companyData: CompanyData) => {
+  return axiosInstance.post(RESOURCES.COMPANIES, companyData);
 };
 
-export const deleteCompany = async (companyId: number) => {
-  return await axiosInstance.delete(`${RESOURCES.COMPANIES}/${companyId}`);
+export const deleteCompany = (companyId: number) => {
+  return axiosInstance.delete(`${RESOURCES.COMPANIES}/${companyId}`);
 };
 
-export const updateCompany = async (
-  companyId: string,
-  companyData: CompanyData,
-) => {
-  return await axiosInstance.patch(
+export const updateCompany = (companyId: number, companyData: CompanyData) => {
+  return axiosInstance.patch(
     `${RESOURCES.COMPANIES}/${companyId}`,
-    companyData,
+    companyData
   );
 };

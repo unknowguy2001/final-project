@@ -2,106 +2,83 @@ import {
   Box,
   Button,
   Container,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
   Input,
   Stack,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 import useFunctions from "./useFunctions";
 
 export const AdminCompanyForm = () => {
-  const {
-    companyData,
-    handleChange,
-    handleActionClick,
-    isNewMode,
-    handleCancelClick,
-  } = useFunctions();
+  const { isNewMode, register, handleSubmit, onSubmit, formState } =
+    useFunctions();
 
   return (
-    <Container as="main" paddingY={8} maxWidth="6xl">
+    <Container
+      as="form"
+      onSubmit={handleSubmit(onSubmit)}
+      paddingY={8}
+      maxWidth="6xl"
+    >
       <Stack spacing={4}>
         <Heading as="h1" fontSize="2xl">
           {isNewMode ? "เพิ่มบริษัทใหม่" : "แก้ไขบริษัท"}
         </Heading>
-        <FormControl>
-          <FormLabel>ชื่อบริษัท</FormLabel>
+        <FormControl isInvalid={!!formState.errors.name}>
+          <FormLabel htmlFor="name">
+            ชื่อบริษัท{" "}
+            <Box display="inline" color="red">
+              *
+            </Box>
+          </FormLabel>
           <Input
-            name="name"
-            value={companyData.name}
-            onChange={handleChange}
+            id="name"
             placeholder="ชื่อบริษัท"
+            {...register("name", {
+              required: true,
+            })}
           />
         </FormControl>
         <FormControl>
-          <FormLabel>ที่อยู่</FormLabel>
-          <Input
-            name="address"
-            value={companyData.address}
-            onChange={handleChange}
-            placeholder="ที่อยู่"
-          />
+          <FormLabel htmlFor="address">ที่อยู่</FormLabel>
+          <Input id="address" placeholder="ที่อยู่" {...register("address")} />
         </FormControl>
         <FormControl>
-          <Input
-            name="road"
-            value={companyData.road}
-            onChange={handleChange}
-            placeholder="ถนน"
-          />
+          <FormLabel htmlFor="road">ที่อยู่</FormLabel>
+          <Input id="road" placeholder="ถนน" {...register("road")} />
         </FormControl>
         <FormControl>
-          <Input
-            name="village"
-            value={companyData.village}
-            onChange={handleChange}
-            placeholder="แขวง/ตำบล"
-          />
+          <Input placeholder="แขวง/ตำบล" {...register("village")} />
         </FormControl>
         <FormControl>
-          <Input
-            name="district"
-            value={companyData.district}
-            onChange={handleChange}
-            placeholder="เขต/อำเภอ"
-          />
+          <Input placeholder="เขต/อำเภอ" {...register("district")} />
         </FormControl>
         <FormControl>
-          <Input
-            name="province"
-            value={companyData.province}
-            onChange={handleChange}
-            placeholder="จังหวัด"
-          />
+          <Input placeholder="จังหวัด" {...register("province")} />
         </FormControl>
         <FormControl>
-          <Input
-            name="zipcode"
-            value={companyData.zipcode}
-            onChange={handleChange}
-            placeholder="รหัสไปรษณีย์"
-          />
+          <Input placeholder="รหัสไปรษณีย์" {...register("zipcode")} />
         </FormControl>
         <FormControl>
           <FormLabel>เบอร์โทรศัพท์</FormLabel>
-          <Input
-            value={companyData.telephone}
-            name="telephone"
-            onChange={handleChange}
-            placeholder="เบอร์โทรศัพท์"
-          />
+          <Input placeholder="เบอร์โทรศัพท์" {...register("telephone")} />
         </FormControl>
       </Stack>
-      <Box mt={4}>
-        <Button variant="outline" colorScheme="red" onClick={handleCancelClick}>
+      <Flex gap={2} mt={4}>
+        <Button
+          to="/admin/companies"
+          as={Link}
+          variant="outline"
+          colorScheme="red"
+        >
           ยกเลิก
         </Button>
-        <Button ml={2} onClick={handleActionClick}>
-          ยืนยัน
-        </Button>
-      </Box>
+        <Button type="submit">ยืนยัน</Button>
+      </Flex>
     </Container>
   );
 };

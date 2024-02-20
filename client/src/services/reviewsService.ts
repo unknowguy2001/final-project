@@ -2,35 +2,32 @@ import { RESOURCES } from "../constants/api";
 import { ReviewData } from "../interfaces/review";
 import { axiosInstance } from "../utils/axiosInstance";
 
-export const createReview = async (
+export const createReview = (companyId: string, reviewData: ReviewData) => {
+  return axiosInstance.post<ReviewData>(
+    `${RESOURCES.COMPANIES}/${companyId}/${RESOURCES.REVIEWS}`,
+    reviewData
+  );
+};
+
+export const updateReview = (
   companyId: string,
-  reviewData: ReviewData,
+  reviewId: number,
+  reviewData: ReviewData
 ) => {
-  return await axiosInstance.post<ReviewData>(
-    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}`,
-    reviewData,
+  return axiosInstance.patch(
+    `${RESOURCES.COMPANIES}/${companyId}/${RESOURCES.REVIEWS}/${reviewId}`,
+    reviewData
   );
 };
 
-export const updateReview = async (
-  companyId: string,
-  edittingReviewId: number,
-  reviewData: ReviewData,
-) => {
-  return await axiosInstance.patch(
-    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}/${edittingReviewId}`,
-    reviewData,
+export const deleteReview = (companyId: string, reviewId: number) => {
+  return axiosInstance.delete(
+    `${RESOURCES.COMPANIES}/${companyId}/${RESOURCES.REVIEWS}/${reviewId}`
   );
 };
 
-export const deleteReview = async (companyId: string, reviewId: number) => {
-  return await axiosInstance.delete(
-    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}/${reviewId}`,
-  );
-};
-
-export const getReview = async (companyId: string, reviewId: number) => {
-  return await axiosInstance.get(
-    `${RESOURCES.COMPANIES}/${companyId}${RESOURCES.REVIEWS}/${reviewId}`,
+export const getReview = (companyId: string, reviewId: number) => {
+  return axiosInstance.get(
+    `${RESOURCES.COMPANIES}/${companyId}/${RESOURCES.REVIEWS}/${reviewId}`
   );
 };

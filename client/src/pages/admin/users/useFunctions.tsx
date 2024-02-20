@@ -27,7 +27,7 @@ const useFunctions = () => {
 
   const handleDeleteUserClick = async (userId: number) => {
     await deleteUser(userId);
-    await handleSearchUsers();
+    handleSearchUsers();
   };
 
   const handleSearchUsers = useCallback(
@@ -50,7 +50,7 @@ const useFunctions = () => {
         setIsLoading(false);
       }
     },
-    [searchParams, searchQuery],
+    [searchParams, searchQuery]
   );
 
   useEffect(() => {
