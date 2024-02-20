@@ -36,7 +36,7 @@ const useFunctions = ({ reply, handleSearchReplies }: UseFunctionsProps) => {
   };
 
   const handleEdittingCommentChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setEdittingComment(e.target.value);
   };
@@ -57,15 +57,16 @@ const useFunctions = ({ reply, handleSearchReplies }: UseFunctionsProps) => {
           params: {
             replyId: reply.id,
           },
-        },
+        }
       );
       setComment("");
       handleSearchReplies();
       setShowChildReplies(true);
       setShowCommentForm(false);
-      setIsCommentSubmitting(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsCommentSubmitting(false);
     }
   };
 

@@ -40,3 +40,7 @@ html[data-theme="dark"] [aria-valuenow] {
 .ql-container {
   font-size: inherit !important;
 }
+
+#react-select-3-listbox {
+  z-index: 9999;
+}

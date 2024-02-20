@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.get("/", (req, res) => res.json("Hello World!"));
 router.use("/api/v1/auth", authRoutes);
-router.use("/api/v1/common", authentication, commonRoutes);
+router.use("/api/v1/common", commonRoutes);
 router.use("/api/v1/users", authentication, authorization(2), usersRoutes);
 router.use("/api/v1/forums", authentication, forumsRoutes);
 router.use("/api/v1/forums", authentication, repliesRoutes);

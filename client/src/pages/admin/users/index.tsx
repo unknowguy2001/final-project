@@ -85,6 +85,7 @@ export const AdminUsers = () => {
           <Thead>
             <Tr>
               <Th>แก้ไข/ลบ</Th>
+              <Th>บริษัทที่เคยเข้ารับการฝึกสหกิจฯ</Th>
               <Th>ชื่อผู้ใช้ (Username)</Th>
               <Th>ชื่อจริง</Th>
               <Th>ตำแหน่ง</Th>
@@ -112,6 +113,7 @@ export const AdminUsers = () => {
                     />
                   </Flex>
                 </Td>
+                <Td>{user.trainedCompany?.name || "-"}</Td>
                 <Td>{user.username}</Td>
                 <Td>{user.fullname}</Td>
                 <Td>{user.role.name}</Td>

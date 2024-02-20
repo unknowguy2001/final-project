@@ -9,26 +9,33 @@ import { GetProvincesResponse } from "../interfaces/province";
 export const getRoles = async (config: AxiosRequestConfig) => {
   return await axiosInstance.get<GetRolesResponse>(
     `${RESOURCES.COMMON}/roles`,
-    config,
+    config
   );
 };
 
 export const getProvinces = async (config: AxiosRequestConfig) => {
   return await axiosInstance.get<GetProvincesResponse>(
     `${RESOURCES.COMMON}/provinces`,
-    config,
+    config
   );
 };
 
 export const getGoogleFormUrl = async () => {
   return await axiosInstance.get<{ url: string }>(
-    `${RESOURCES.COMMON}/google-form-url`,
+    `${RESOURCES.COMMON}/google-form-url`
   );
 };
 
 export const getHashtags = async (config: AxiosRequestConfig) => {
   return await axiosInstance.get<GetHashtagsResponse>(
     `${RESOURCES.COMMON}/hashtags`,
-    config,
+    config
+  );
+};
+
+export const getCompanyNames = async (config: AxiosRequestConfig) => {
+  return await axiosInstance.get<{ items: { id: number; name: string }[] }>(
+    `${RESOURCES.COMMON}/company-names`,
+    config
   );
 };

@@ -1,22 +1,38 @@
 import { toast } from "sonner";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import {
+  ChangeEvent,
+  SyntheticEvent,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { useAuth } from "../../hooks/useAuth";
 import { RegisterData } from "../../interfaces/auth";
 import { register } from "../../services/authService";
+import { OptionBase } from "chakra-react-select";
+import { getCompanyNames } from "../../services/commonService";
+
+export interface CompanyNameOption extends OptionBase {
+  label: string;
+  value: number;
+}
 
 const useFunctions = () => {
+  const [selectedCompany, setSelectedCompany] = useState<CompanyNameOption>();
+  const [companyNames, setCompanyNames] = useState<CompanyNameOption[]>([]);
   const { setAuthInfo } = useAuth();
   const [registerData, setRegisterData] = useState<RegisterData>({
     username: "",
     password: "",
+    trainedCompanyId: null,
     firstName: "",
     lastName: "",
   });
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [passwordType, setPasswordType] = useState<"text" | "password">(
-    "password",
+    "password"
   );
   const [confirmPasswordType, setConfirmPasswordType] = useState<
     "text" | "password"
@@ -34,7 +50,7 @@ const useFunctions = () => {
 
   const switchConfirmPasswordType = () => {
     setConfirmPasswordType((prev) =>
-      prev === "password" ? "text" : "password",
+      prev === "password" ? "text" : "password"
     );
   };
 
@@ -45,6 +61,9 @@ const useFunctions = () => {
         return toast.error("รหัสผ่านไม่ตรงกัน");
       }
       setIsAuthenticating(true);
+      if (selectedCompany) {
+        registerData.trainedCompanyId = selectedCompany!.value;
+      }
       const response = await register(registerData);
       setAuthInfo(response.data.authInfo);
       if (response.data.tokens) {
@@ -66,6 +85,34 @@ const useFunctions = () => {
     confirmPassword.length > 0 &&
     confirmPassword !== registerData.password;
 
+  useEffect(() => {
+    const abortController = new AbortController();
+    getCompanyNames({
+      signal: abortController.signal,
+    }).then((res) => {
+      setCompanyNames(
+        res.data.items.map(
+          (item) =>
+            ({
+              value: item.id,
+              label: item.name,
+            }) as unknown as CompanyNameOption
+        )
+      );
+    });
+    return () => abortController.abort();
+  }, []);
+
+  const isTrained = useMemo(() => {
+    const entryYear = parseInt(registerData.username.slice(2, 4));
+    const currentYear = parseInt(
+      (new Date().getFullYear() + 543).toString().slice(2, 4)
+    );
+    const totalYear = Math.abs(entryYear - currentYear);
+
+    return totalYear >= 4;
+  }, [registerData.username]);
+
   return {
     isAuthenticating,
     registerData,
@@ -82,6 +129,10 @@ const useFunctions = () => {
     confirmPasswordType,
     switchConfirmPasswordType,
     isConfirmPasswordInvalid,
+    isTrained,
+    selectedCompany,
+    setSelectedCompany,
+    companyNames,
   };
 };
 

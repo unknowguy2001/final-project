@@ -8,12 +8,14 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  password String
-  fullname String
-  roleId   Int
-  role     Role   @relation(fields: [roleId], references: [id])
+  id               Int      @id @default(autoincrement())
+  username         String   @unique
+  password         String
+  fullname         String
+  roleId           Int
+  role             Role     @relation(fields: [roleId], references: [id])
+  trainedCompanyId Int?
+  trainedCompany   Company? @relation(fields: [trainedCompanyId], references: [id])
 }
 
 model Role {
@@ -35,6 +37,7 @@ model Company {
   telephone     String
   reviews       Review[]
   averageRating Float    @default(0)
+  User          User[]
 }
 
 model Review {

@@ -8,7 +8,7 @@ const searchUsers = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const perPage = Math.max(
     parseInt(req.query.perPage) || DEFAULT_PER_PAGE,
-    DEFAULT_PER_PAGE,
+    DEFAULT_PER_PAGE
   );
   const options = {
     take: perPage,
@@ -23,6 +23,11 @@ const searchUsers = async (req, res) => {
           name: true,
         },
       },
+      trainedCompany: {
+        select: {
+          name: true,
+        },
+      },
     },
   };
   const countOptions = {};
@@ -30,12 +35,22 @@ const searchUsers = async (req, res) => {
   if (searchQuery) {
     const columns = ["username", "fullname"];
     options.where = {
-      OR: columns.map((column) => ({
-        [column]: {
-          contains: searchQuery,
-          mode: "insensitive",
+      OR: [
+        ...columns.map((column) => ({
+          [column]: {
+            contains: searchQuery,
+            mode: "insensitive",
+          },
+        })),
+        {
+          trainedCompany: {
+            name: {
+              contains: searchQuery,
+              mode: "insensitive",
+            },
+          },
         },
-      })),
+      ],
     };
     countOptions.where = options.where;
   }
@@ -50,7 +65,7 @@ const searchUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const { username, fullname, password, roleId } = req.body;
+    const { username, fullname, password, roleId, trainedCompanyId } = req.body;
     const hashedPassword = await argon2.hash(password);
     await prisma.user.create({
       data: {
@@ -58,6 +73,7 @@ const createUser = async (req, res) => {
         fullname,
         password: hashedPassword,
         roleId: parseInt(roleId),
+        trainedCompanyId: trainedCompanyId ? parseInt(trainedCompanyId) : null,
       },
     });
     res.status(201).json({
@@ -103,6 +119,7 @@ const getUser = async (req, res) => {
             name: true,
           },
         },
+        trainedCompany: true,
       },
     });
     res.status(200).json({
@@ -117,7 +134,7 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { username, fullname, roleId } = req.body;
+    const { username, fullname, roleId, trainedCompanyId } = req.body;
     await prisma.user.update({
       where: {
         id: req.userId,
@@ -126,6 +143,7 @@ const updateUser = async (req, res) => {
         username,
         fullname,
         roleId: parseInt(roleId),
+        trainedCompanyId: trainedCompanyId ? parseInt(trainedCompanyId) : null,
       },
     });
     res.status(200).json({

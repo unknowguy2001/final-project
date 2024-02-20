@@ -10,9 +10,10 @@ import {
   Link,
   FormErrorMessage,
 } from "@chakra-ui/react";
+import { Select, SingleValue } from "chakra-react-select";
 import { Link as ReactRouterDomLink } from "react-router-dom";
 
-import useFunctions from "./useFunctions";
+import useFunctions, { CompanyNameOption } from "./useFunctions";
 import { PasswordChecklist } from "../../components/password-checklist";
 import { PasswordVisibilityToggleButton } from "../../components/password-visibility-toggle-button";
 
@@ -33,6 +34,10 @@ export const Register = () => {
     confirmPasswordType,
     switchConfirmPasswordType,
     isConfirmPasswordInvalid,
+    companyNames,
+    isTrained,
+    selectedCompany,
+    setSelectedCompany,
   } = useFunctions();
 
   return (
@@ -83,6 +88,24 @@ export const Register = () => {
             placeholder="056xxxxxxxxx-x"
           />
         </FormControl>
+        {registerData.username.length === 14 && isTrained && (
+          <FormControl>
+            <FormLabel>บริษัทที่เคยเข้ารับการฝึกสหกิจฯ</FormLabel>
+            <Select
+              isClearable
+              required
+              isMulti={false}
+              name="companyNames"
+              placeholder="เลือกบริษัท"
+              options={companyNames}
+              closeMenuOnSelect={true}
+              value={selectedCompany}
+              onChange={(e: SingleValue<CompanyNameOption>) => {
+                setSelectedCompany(e!);
+              }}
+            />
+          </FormControl>
+        )}
         <FormControl>
           <FormLabel>รหัสผ่าน</FormLabel>
           <Box position="relative">

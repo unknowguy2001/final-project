@@ -74,9 +74,25 @@ const getGoogleFormUrl = async (req, res) => {
   });
 };
 
+const companyNames = async (req, res) => {
+  const companies = await prisma.company.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+    orderBy: {
+      name: "asc",
+    },
+  });
+  res.status(200).json({
+    items: companies,
+  });
+};
+
 module.exports = {
   roles,
   hashtags,
   provinces,
   getGoogleFormUrl,
+  companyNames,
 };

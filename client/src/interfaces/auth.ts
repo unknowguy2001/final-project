@@ -8,6 +8,7 @@ export interface LoginData {
 export interface RegisterData {
   username: string;
   password: string;
+  trainedCompanyId: number | null;
   firstName: string;
   lastName: string;
 }

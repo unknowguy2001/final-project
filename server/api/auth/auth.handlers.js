@@ -57,7 +57,8 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { username, password, firstName, lastName } = req.body;
+  const { username, password, trainedCompanyId, firstName, lastName } =
+    req.body;
 
   try {
     if (!/^\d{12}-\d{1}$/.test(username)) {
@@ -66,7 +67,7 @@ const register = async (req, res) => {
 
     if (!username || !password || !firstName || !lastName) {
       throw new Error(
-        "รหัสนักศึกษา, รหัสผ่าน, ชื่อ, หรือนามสกุลไม่สามารถเป็นค่าว่างได้",
+        "รหัสนักศึกษา, รหัสผ่าน, ชื่อ, หรือนามสกุลไม่สามารถเป็นค่าว่างได้"
       );
     }
 
@@ -86,6 +87,16 @@ const register = async (req, res) => {
       throw new Error("รหัสผ่านต้องมีอักษรพิเศษอย่างน้อย 1 ตัว");
     }
 
+    const foundUser = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    if (foundUser) {
+      throw new Error("รหัสนักศึกษานี้มีการสมัครสมาชิกแล้ว");
+    }
+
     const hashedPassword = await argon2.hash(password);
 
     const entryYear = parseInt(username.slice(2, 4));
@@ -101,6 +112,7 @@ const register = async (req, res) => {
         password: hashedPassword,
         fullname: `${firstName} ${lastName}`,
         roleId: totalYear >= 4 ? EXPERIENCE_ROLE_ID : INEXPERIENCE_ROLE_ID,
+        trainedCompanyId: trainedCompanyId ? parseInt(trainedCompanyId) : null,
       },
     });
 

@@ -32,7 +32,7 @@ const getTopPopular = async (req, res) => {
         ...company,
         reviewCount,
       };
-    }),
+    })
   );
 
   await redis.set(cacheKey, JSON.stringify(popularCompaniesWithReviewCount));
@@ -102,7 +102,7 @@ const getCompanyById = async (req, res) => {
   company.reviews.forEach((review) => {
     review.hashtags.forEach(({ hashtag }) => {
       const index = company.hashtagSummary.findIndex(
-        (item) => item.id === hashtag.id,
+        (item) => item.id === hashtag.id
       );
       if (index !== -1) {
         company.hashtagSummary[index].count += 1;
@@ -128,7 +128,7 @@ const getCompanyById = async (req, res) => {
 
   const totalStar = Object.values(company.ratingSummary).reduce(
     (acc, cur) => acc + cur,
-    0,
+    0
   );
 
   company.ratingSummary = Object.entries(company.ratingSummary).reduce(
@@ -142,7 +142,7 @@ const getCompanyById = async (req, res) => {
         },
       };
     },
-    {},
+    {}
   );
 
   // Check if the user can review the company
@@ -152,10 +152,13 @@ const getCompanyById = async (req, res) => {
   const user = await prisma.user.findUnique({
     where: { username: req.user.username },
   });
-  const adminRole = await prisma.role.findFirst({
-    where: { name: "ผู้ดูแลระบบ" },
-  });
-  const canReview = !reviewByReviewer && user.roleId !== adminRole.id;
+
+  const EXPERIENCE_ROLE_ID = 1;
+
+  const canReview =
+    user.trainedCompanyId === company.id &&
+    !reviewByReviewer &&
+    user.roleId === EXPERIENCE_ROLE_ID;
 
   res.status(200).json({
     item: company,
@@ -225,7 +228,7 @@ const searchCompanies = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const perPage = Math.max(
     parseInt(req.query.perPage) || DEFAULT_PER_PAGE,
-    DEFAULT_PER_PAGE,
+    DEFAULT_PER_PAGE
   );
   const options = {
     take: perPage,
@@ -270,7 +273,7 @@ const searchCompanies = async (req, res) => {
         ...company,
         reviewCount,
       };
-    }),
+    })
   );
 
   res.status(200).json({ items: companiesWithReviewCount, count });

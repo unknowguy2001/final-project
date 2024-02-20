@@ -13,15 +13,15 @@ export const AuthLayout = () => {
             <Outlet />
           </Flex>
         </Flex>
-        <Box pos="relative" flex={[0, 0, 0, 1]}>
+        <Box flex={[0, 0, 0, 1]}>
           <Image
             src="/science-and-technology-building.jpg"
             objectFit="cover"
             objectPosition="center"
-            height="100%"
+            height="full"
+            w="full"
             alt=""
           />
-          <Box pos="absolute" inset={0} bg="rgba(0, 0, 0, 0.25)" />
         </Box>
       </Flex>
       <ScrollRestoration />

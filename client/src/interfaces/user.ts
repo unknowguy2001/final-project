@@ -5,6 +5,10 @@ export interface User {
   username: string;
   fullname: string;
   role: Role;
+  trainedCompany: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface SearchUsersResponse {
@@ -17,6 +21,7 @@ export interface UserData {
   fullname: string;
   password: string;
   roleId: number | "";
+  trainedCompanyId?: number | null;
 }
 
 export interface GetUserResponse {
@@ -27,4 +32,5 @@ export interface UpdateUserData {
   username: string;
   fullname: string;
   roleId: number | "";
+  trainedCompanyId?: number | null;
 }
