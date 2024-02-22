@@ -11,22 +11,17 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-import useFunctions from "./useFunctions";
+import { useFunctions } from "./useFunctions";
 
 export const AdminCompanyForm = () => {
-  const { isNewMode, register, handleSubmit, onSubmit, formState } =
+  const { isMode, register, handleSubmit, onSubmit, formState } =
     useFunctions();
 
   return (
-    <Container
-      as="form"
-      onSubmit={handleSubmit(onSubmit)}
-      paddingY={8}
-      maxWidth="6xl"
-    >
-      <Stack spacing={4}>
+    <Container paddingY={8} maxWidth="6xl">
+      <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing={4}>
         <Heading as="h1" fontSize="2xl">
-          {isNewMode ? "เพิ่มบริษัทใหม่" : "แก้ไขบริษัท"}
+          {isMode("new") ? "เพิ่มบริษัทใหม่" : "แก้ไขบริษัท"}
         </Heading>
         <FormControl isInvalid={!!formState.errors.name}>
           <FormLabel htmlFor="name">
@@ -67,18 +62,18 @@ export const AdminCompanyForm = () => {
           <FormLabel>เบอร์โทรศัพท์</FormLabel>
           <Input placeholder="เบอร์โทรศัพท์" {...register("telephone")} />
         </FormControl>
+        <Flex gap={2}>
+          <Button
+            to="/admin/companies"
+            as={Link}
+            variant="outline"
+            colorScheme="red"
+          >
+            ยกเลิก
+          </Button>
+          <Button type="submit">ยืนยัน</Button>
+        </Flex>
       </Stack>
-      <Flex gap={2} mt={4}>
-        <Button
-          to="/admin/companies"
-          as={Link}
-          variant="outline"
-          colorScheme="red"
-        >
-          ยกเลิก
-        </Button>
-        <Button type="submit">ยืนยัน</Button>
-      </Flex>
     </Container>
   );
 };

@@ -20,9 +20,10 @@ export const getProvinces = async (config: AxiosRequestConfig) => {
   );
 };
 
-export const getGoogleFormUrl = async () => {
+export const getGoogleFormUrl = async (config: AxiosRequestConfig) => {
   return await axiosInstance.get<{ url: string }>(
-    `${RESOURCES.COMMON}/google-form-url`
+    `${RESOURCES.COMMON}/google-form-url`,
+    config
   );
 };
 

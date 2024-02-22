@@ -6,7 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CompanyData } from "../../../interfaces/company";
 import * as companiesService from "../../../services/companiesService";
 
-const useFunctions = () => {
+export const useFunctions = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { companyId } = useParams();
@@ -15,16 +15,21 @@ const useFunctions = () => {
     useForm<CompanyData>();
 
   const parsedCompanyId = companyId ? parseInt(companyId) : null;
-  const mode = location.pathname.includes("new") ? "new" : "edit";
-  const isNewMode = mode === "new";
+
+  const isMode = useCallback(
+    (mode: "new" | "edit") => location.pathname.includes(mode),
+    [location.pathname]
+  );
 
   const getCompany = useCallback(
     async (config: AxiosRequestConfig) => {
-      if (!parsedCompanyId) return;
       const response = await companiesService.getCompany(
-        parsedCompanyId,
+        parsedCompanyId!,
         config
       );
+
+      if (!response.data.item) return navigate("/admin/companies");
+
       const {
         name,
         address,
@@ -44,21 +49,11 @@ const useFunctions = () => {
       setValue("zipcode", zipcode);
       setValue("telephone", telephone);
     },
-    [parsedCompanyId, setValue]
+    [parsedCompanyId, setValue, navigate]
   );
 
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    getCompany({
-      signal: abortController.signal,
-    });
-
-    return () => abortController.abort();
-  }, [getCompany]);
-
   const onSubmit = async (companyData: CompanyData) => {
-    if (isNewMode) {
+    if (isMode("new")) {
       await companiesService.addCompany(companyData);
     } else {
       if (!parsedCompanyId) return;
@@ -67,13 +62,23 @@ const useFunctions = () => {
     navigate("/admin/companies");
   };
 
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    if (isMode("edit")) {
+      getCompany({
+        signal: abortController.signal,
+      });
+    }
+
+    return () => abortController.abort();
+  }, [getCompany, isMode]);
+
   return {
-    isNewMode,
+    isMode,
     register,
     handleSubmit,
     onSubmit,
     formState,
   };
 };
-
-export default useFunctions;

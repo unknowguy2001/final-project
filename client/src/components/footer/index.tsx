@@ -1,21 +1,32 @@
+import { AxiosRequestConfig } from "axios";
 import { useEffect, useRef, useState } from "react";
 import { Link as ReactRouterDomLink } from "react-router-dom";
 import { Box, Container, Flex, Image, Link } from "@chakra-ui/react";
-import { getGoogleFormUrl } from "../../services/commonService";
+
+import * as commonService from "../../services/commonService";
 
 export const Footer = () => {
-  const [googleFormUrl, setGoogleFormUrl] = useState("");
   const footerRef = useRef<HTMLDivElement>(null);
+  const [googleFormUrl, setGoogleFormUrl] = useState("");
 
   const calculatePaddingBottom = () => {
     const footerHeight = footerRef.current?.offsetHeight;
     document.body.style.paddingBottom = `${footerHeight || 0}px`;
   };
 
+  const getGoogleFormUrl = async (config: AxiosRequestConfig) => {
+    const response = await commonService.getGoogleFormUrl(config);
+    setGoogleFormUrl(response.data.url);
+  };
+
   useEffect(() => {
-    getGoogleFormUrl().then((response) => {
-      setGoogleFormUrl(response.data.url);
+    const abortController = new AbortController();
+
+    getGoogleFormUrl({
+      signal: abortController.signal,
     });
+
+    return () => abortController.abort();
   }, []);
 
   useEffect(() => {
@@ -39,7 +50,7 @@ export const Footer = () => {
       bottom={0}
       width="100%"
       bgColor="gray.800"
-      _dark={{ bgColor: "#2D3748" }}
+      _dark={{ bgColor: "gray.700" }}
       color="white"
       as="footer"
       zIndex={997}
@@ -62,11 +73,9 @@ export const Footer = () => {
             <Link to="/forums" as={ReactRouterDomLink}>
               กระทู้
             </Link>
-            {googleFormUrl && (
-              <Link target="_blank" href={googleFormUrl}>
-                แบบสอบถาม
-              </Link>
-            )}
+            <Link target="_blank" href={googleFormUrl}>
+              แบบสอบถาม
+            </Link>
           </Flex>
         </Flex>
       </Container>
