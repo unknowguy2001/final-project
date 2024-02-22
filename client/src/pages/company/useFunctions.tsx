@@ -74,7 +74,7 @@ const useFunctions = () => {
     if (selectedRatingFilter) {
       return (
         company?.reviews.filter(
-          (review) => review.rating === selectedRatingFilter,
+          (review) => review.rating === selectedRatingFilter
         ) || []
       );
     }
@@ -167,13 +167,13 @@ const useFunctions = () => {
 
       setIsLoading(true);
 
-      const response = await getCompany(companyId, { signal });
+      const response = await getCompany(parseInt(companyId), { signal });
       setCompany(response.data.item);
       setCanReview(response.data.canReview);
 
       setIsLoading(false);
     },
-    [companyId],
+    [companyId]
   );
 
   useEffect(() => {
